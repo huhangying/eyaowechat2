@@ -12,6 +12,9 @@ export class ChatComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+  
+  test() {
     weui.alert('ddd');
   }
 
