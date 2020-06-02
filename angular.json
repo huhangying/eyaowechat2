@@ -53,6 +53,7 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/weui/dist/style/weui.min.css",
               "src/styles.scss"
             ],
             "scripts": []

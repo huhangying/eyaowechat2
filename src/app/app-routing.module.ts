@@ -46,7 +46,7 @@ const routes: Routes = [
     component: EntryComponent,
   },
   { path: '', redirectTo: 'entry', pathMatch: 'full' },
-  { path: '**', redirectTo: 'chat' },
+  { path: '**', redirectTo: 'entry' },
 ];
 
 @NgModule({
