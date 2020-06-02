@@ -21,9 +21,7 @@ export class ApiInterceptor implements HttpInterceptor {
                 // 'Content-Type': 'application/json; encoding=utf-8',
                 // 'Accept': '*/*'
                 'Access-Control-Allow-Origin': '*',
-                // 'Access-Control-Allow-Credentials': 'true',
                 'Access-Control-Request-Headers': 'dnt, accept-language, origin'
-                // 'Sec-Fetch-Mode': 'no-cors'
             }
         });
 

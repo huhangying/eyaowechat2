@@ -20,31 +20,19 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    this.wx.authorize(encodeURI(window.location.href)).pipe(
-      tap(result => {
-        console.log(result);
-        return true;        
+    // auth to get openid (with code and state)
+    const { code } = next.queryParams;
+    if (!code) return true;
+    return this.wx.getToken(code).pipe(
+      map(token => {
+        if (token) {
+          this.appStore.updateToken(token);
+          return true;
+        }
+        return false;
       })
+    );
 
-    ).subscribe();
-    console.log(state);
-    console.log(next);
-    console.log( encodeURI(window.location.href));
-    //encodeURI
-    return true;
-    
-    // if (this.appStore.token) {
-    //   return true;
-    // }
-    // return this.weixin.getToken().pipe(
-    //   map(token => {
-    //     if (token) {
-    //       this.appStore.updateToken(token);
-    //       return true;
-    //     }
-    //     return false;
-    //   })
-    // );
   }
-  
+
 }

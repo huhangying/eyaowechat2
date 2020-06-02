@@ -29,12 +29,13 @@ export class WeixinService {
     );
   }
 
-  getToken() {
-    return this.http.get<Token>(environment.weixinUrl + 'token', {
+  getToken(code: string) {
+    return this.http.get<Token>(environment.weixinUrl + 'sns/oauth2/access_token', {
       params: {
         appid: environment.appid,
         secret: environment.secret,
-        grant_type: 'client_credential'
+        code: code,
+        grant_type: 'authorization_code'
       },
       // observe: 'response'
     }).pipe(
@@ -46,6 +47,6 @@ export class WeixinService {
   get accessToken() { return this.accessToken; }
 
   createMenu(data) {
-    return this.http.post(environment.weixinUrl + 'menu/create?access_token=' + this.accessToken, data);
+    return this.http.post(environment.weixinUrl + 'cgi-bin/menu/create?access_token=' + this.accessToken, data);
   }
 }
