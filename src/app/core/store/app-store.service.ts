@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AppState } from './app-state.model';
 import { Store } from './store';
 import * as store2 from 'store2';
+import { Token } from 'src/app/models/token.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,14 @@ export class AppStoreService extends Store<AppState> {
   }
 
   // selectors
-  get accessToken() { return this.state?.accessToken || store2.get('accessToken') || '33_TIPx0vmoALhYJ21L77M3aK-Png92cUluL9jt3VeXfoHVKWkL4DyZOWCCKNpwR7i1oD_FrGwJGGqg6U40d9J65Ol9r6BzU7W9UgrRz96JUlEt2SUfC3JdopXWFJ-4oLeRqEMya8z-_VO-r7MUVTYbACAIGL'; }
+  get token() { return this.state?.token || store2.get('token'); }
 
-  updateAccessToken(accessToken: string) {
+  updateToken(token: Token) {
     this.setState({
       ...this.state,
-      accessToken,
+      token,
     });
-    store2.set('accessToken', accessToken);
+    store2.set('token', token);
   }
 
   reset() {

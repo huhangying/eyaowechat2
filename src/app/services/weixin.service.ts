@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Token } from '../models/token.model';
-import { tap, map } from 'rxjs/operators';
-import { ApiService } from '../core/services/api.service';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,6 @@ export class WeixinService {
 
   constructor(
     private http: HttpClient,
-    private api: ApiService,
   ) {
     // this.getAccessToken();
   }
@@ -22,7 +20,16 @@ export class WeixinService {
     // this.api.
   }
 
-  getAccessToken() {
+  authorize(redirectUrl: string, ) {
+    return this.http.get<Token>(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${environment.appid}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=101#wechat_redirect`).pipe(
+      tap((result) => {
+        console.log(result);        
+      }),
+      // map((result) => result.body?.access_token)
+    );
+  }
+
+  getToken() {
     return this.http.get<Token>(environment.weixinUrl + 'token', {
       params: {
         appid: environment.appid,
@@ -31,7 +38,7 @@ export class WeixinService {
       },
       // observe: 'response'
     }).pipe(
-      map((result) => result?.access_token)
+      // map((result) => result?.access_token)
       // map((result) => result.body?.access_token)
     );
   }

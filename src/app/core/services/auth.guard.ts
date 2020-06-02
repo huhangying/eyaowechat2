@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     // private router: Router,
-    private weixin: WeixinService,
+    private wx: WeixinService,
     private appStore: AppStoreService
   ) {
   }
@@ -20,18 +20,31 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    
-    if (this.appStore.accessToken) {
-      return true;
-    }
-    return this.weixin.getAccessToken().pipe(
-      map(access_token => {
-        if (access_token) {
-          this.appStore.updateAccessToken(access_token);
-        }
-        return !!access_token;
+    this.wx.authorize(encodeURI(window.location.href)).pipe(
+      tap(result => {
+        console.log(result);
+        return true;        
       })
-    );
+
+    ).subscribe();
+    console.log(state);
+    console.log(next);
+    console.log( encodeURI(window.location.href));
+    //encodeURI
+    return true;
+    
+    // if (this.appStore.token) {
+    //   return true;
+    // }
+    // return this.weixin.getToken().pipe(
+    //   map(token => {
+    //     if (token) {
+    //       this.appStore.updateToken(token);
+    //       return true;
+    //     }
+    //     return false;
+    //   })
+    // );
   }
   
 }
