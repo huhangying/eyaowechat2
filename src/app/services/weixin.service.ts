@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Token } from '../models/token.model';
 import { map, tap } from 'rxjs/operators';
+import { ApiToken } from '../models/api-token.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,10 @@ export class WeixinService {
       // map((result) => result?.access_token)
       // map((result) => result.body?.access_token)
     );
+  }
+
+  getApiToken(id: string) {
+    return this.http.get<ApiToken>(environment.apiUrl + 'wechat/login/' + id);
   }
 
   get accessToken() { return this.accessToken; }

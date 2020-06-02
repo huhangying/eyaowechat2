@@ -15,21 +15,28 @@ export class ApiInterceptor implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-        request = request.clone({
-            setHeaders: {
-                // 'Content-Type': 'application/json; encoding=utf-8',
-                // 'Accept': '*/*'
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Request-Headers': 'dnt, accept-language, origin'
-            }
-        });
+        if (request.url.indexOf('.weixin.') > 0) { // to weixin portal
+            request = request.clone({
+                setHeaders: {
+                    // 'Content-Type': 'application/json; encoding=utf-8',
+                    // 'Accept': '*/*'
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Request-Headers': 'dnt, accept-language, origin',
+                }
+            });
+        } else {
+            request = request.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${this.appStore.apiToken}`
+                }
+            });
+        }
 
         // this.appStore.updateLoading(true);
         return next.handle(request).pipe(
             tap(res => {
                 console.log(res);
-                
+
             })
             // catchError((error: HttpErrorResponse) => {
             //     // handle error
