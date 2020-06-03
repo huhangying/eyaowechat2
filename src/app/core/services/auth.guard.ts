@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 import { AppStoreService } from '../store/app-store.service';
 import { WeixinService } from 'src/app/services/weixin.service';
 import { tap, map, catchError } from 'rxjs/operators';
@@ -47,7 +47,7 @@ export class AuthGuard implements CanActivate {
         }),
         catchError(err => {
           weui.alert(JSON.stringify(err));
-          throw (err);
+          return EMPTY;
         })
       );
       return true;

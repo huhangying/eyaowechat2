@@ -1,6 +1,6 @@
 export interface Signature {
     appid?: string;
-    nonceStr: string;
+    nonce: string;
     signature: string;
-    timestamp: string;
+    timestamp: number;
 }

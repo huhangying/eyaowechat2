@@ -26,7 +26,6 @@
     "socket.io-client": "^2.3.0",
     "store2": "^2.11.2",
     "tslib": "^1.10.0",
-    "wechat-jssdk": "^5.0.4",
     "weixin-js-sdk": "^1.6.0",
     "weui": "^2.3.0",
     "weui.js": "^1.2.1",
