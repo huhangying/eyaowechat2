@@ -3,7 +3,6 @@ import { AppState } from './app-state.model';
 import { Store } from './store';
 import * as store2 from 'store2';
 import { Token } from 'src/app/models/token.model';
-import { ApiToken } from 'src/app/models/api-token.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +27,7 @@ export class AppStoreService extends Store<AppState> {
     store2.set('token', token);
   }
 
-  updateApiToken(apiToken: ApiToken) {
+  updateApiToken(apiToken: string) {
     this.setState({
       ...this.state,
       apiToken,

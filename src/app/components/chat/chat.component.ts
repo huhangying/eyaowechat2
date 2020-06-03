@@ -26,6 +26,13 @@ export class ChatComponent implements OnInit {
   ) {
     if (this.appStore.token?.openid) {
       this.buildWechatObj();
+    } else {
+      // for test
+      this.wxService.getApiToken('oEMw9sx4qgx5ygtJuN2MoJ9jQ4eg').pipe(
+        tap(apiToken => {
+          this.appStore.updateApiToken(apiToken);
+        })
+      );
     }
   }
 

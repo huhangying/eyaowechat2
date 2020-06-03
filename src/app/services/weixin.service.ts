@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Token } from '../models/token.model';
 import { map, tap } from 'rxjs/operators';
-import { ApiToken } from '../models/api-token.model';
 import { Signature } from '../models/signature.model';
 import weui from 'weui.js';
 import { ApiService } from '../core/services/api.service';
@@ -49,7 +46,7 @@ export class WeixinService {
 
   // 
   getApiToken(openid: string) {
-    return this.api.get<ApiToken>('wechat/login/' + openid);
+    return this.api.get<string>('wechat/login/' + openid);
   }
 
   get accessToken() { return this.accessToken; }
@@ -60,7 +57,7 @@ export class WeixinService {
   async fetchWechatSettings() {
     if (!this.appid || !this.secret) {
       const settings = await this.api.get<Const[]>('const/group/2').toPromise() // 2 is wechat group      
-      this.appid = settings.find(_ => _.name === 'appId').value;
+      this.appid = settings.find(_ => _.name === 'appid').value;
       this.secret = settings.find(_ => _.name === 'secret').value;
     }
   }

@@ -16,29 +16,30 @@ export class AuthGuard implements CanActivate {
     private wxService: WeixinService,
     private appStore: AppStoreService
   ) {
+    // this.getApiTokenByOpenid('oEMw9sx4qgx5ygtJuN2MoJ9jQ4eg').subscribe();
   }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    
-    const openId = this.appStore.token?.openid;
-    const hid = this.appStore.apiToken?.hid;
-    if (openId && hid) { // skip if token/openid existed
+
+    const openid = this.appStore.token?.openid;
+    const apiToken = this.appStore.apiToken;
+    if (openid && apiToken) { // skip if token/openid existed
       return true;
     }
 
-    if (!openId) {
+    if (!openid) {
       // auth to get openid (with code and state)
       const { code } = next.queryParams;
       if (!code) return true; //todo: revers to false. for test
-     
+
       return this.wxService.getToken(code).pipe(
         map(token => {
           if (token) {
             this.appStore.updateToken(token);
-            if (!hid) {
-              this.getApiTokenByOpenid(openId);
+            if (!apiToken) {
+              this.getApiTokenByOpenid(openid);
             }
             return true;
           }
@@ -46,13 +47,13 @@ export class AuthGuard implements CanActivate {
         }),
         catchError(err => {
           weui.alert(JSON.stringify(err));
-          throw(err);
+          throw (err);
         })
       );
       return true;
     }
     else {
-      return this.getApiTokenByOpenid(openId);
+      return this.getApiTokenByOpenid(openid);
     }
   }
 
