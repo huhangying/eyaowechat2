@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -14,8 +14,8 @@ export class ApiService {
   ) {
   }
 
-  get<T>(path: string) {
-    return this.http.get<T>(environment.apiUrl + path);
+  get<T>(path: string, params?: any): Observable<T> {
+    return this.http.get<T>(environment.apiUrl + path, {params: params});
   }
 
   delete<T>(path: string) {

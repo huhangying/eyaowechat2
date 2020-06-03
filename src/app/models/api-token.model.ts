@@ -1,4 +1,4 @@
 export interface ApiToken {
-    hid: string;
+    hid: number;
     id: string;
 }

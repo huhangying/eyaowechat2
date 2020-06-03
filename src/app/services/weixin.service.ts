@@ -1,57 +1,67 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Token } from '../models/token.model';
 import { map, tap } from 'rxjs/operators';
 import { ApiToken } from '../models/api-token.model';
+import { Signature } from '../models/signature.model';
+import weui from 'weui.js';
+import { ApiService } from '../core/services/api.service';
+import { Const } from '../models/const.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeixinService {
+  appid: string;
+  secret: string;
   access_token: string;
 
   constructor(
-    private http: HttpClient,
+    private api: ApiService,
   ) {
-    // this.getAccessToken();
+    this.fetchWechatSettings();
   }
 
-  checkSign() {
-    // this.api.
-  }
-
-  authorize(redirectUrl: string, ) {
-    return this.http.get<Token>(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${environment.appid}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=101#wechat_redirect`).pipe(
-      tap((result) => {
-        console.log(result);        
-      }),
-      // map((result) => result.body?.access_token)
+  getSignature(openid: string) {
+    return this.api.get<Signature>('wechat/getSignature/' + openid).pipe(
+      map(result => {
+        if (result) {
+          return {
+            ...result,
+            appid: this.appid
+          }
+        }
+        return result;
+      })
     );
   }
 
+  // get token by code
   getToken(code: string) {
-    return this.http.get<Token>(environment.weixinUrl + 'sns/oauth2/access_token', {
-      params: {
-        appid: environment.appid,
-        secret: environment.secret,
-        code: code,
-        grant_type: 'authorization_code'
-      },
-      // observe: 'response'
-    }).pipe(
-      // map((result) => result?.access_token)
-      // map((result) => result.body?.access_token)
-    );
+    return this.api.get<Token>('wechat/getWeixinToken', {
+      appid: this.appid,
+      secret: this.secret,
+      code: code,
+      grant_type: 'authorization_code'
+    });
   }
 
-  getApiToken(id: string) {
-    return this.http.get<ApiToken>(environment.apiUrl + 'wechat/login/' + id);
+  // 
+  getApiToken(openid: string) {
+    return this.api.get<ApiToken>('wechat/login/' + openid);
   }
 
   get accessToken() { return this.accessToken; }
 
-  createMenu(data) {
-    return this.http.post(environment.weixinUrl + 'cgi-bin/menu/create?access_token=' + this.accessToken, data);
+  /////////////////////////////////////////
+  // 
+
+  async fetchWechatSettings() {
+    if (!this.appid || !this.secret) {
+      const settings = await this.api.get<Const[]>('const/group/2').toPromise() // 2 is wechat group      
+      this.appid = settings.find(_ => _.name === 'appId').value;
+      this.secret = settings.find(_ => _.name === 'secret').value;
+    }
   }
 }

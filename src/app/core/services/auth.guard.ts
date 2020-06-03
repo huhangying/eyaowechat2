@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AppStoreService } from '../store/app-store.service';
 import { WeixinService } from 'src/app/services/weixin.service';
 import { tap, map, catchError } from 'rxjs/operators';
+import weui from 'weui.js';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    
     const openId = this.appStore.token?.openid;
     const hid = this.appStore.apiToken?.hid;
     if (openId && hid) { // skip if token/openid existed
@@ -29,8 +31,8 @@ export class AuthGuard implements CanActivate {
     if (!openId) {
       // auth to get openid (with code and state)
       const { code } = next.queryParams;
-      if (!code) return true; // for test
-
+      if (!code) return true; //todo: revers to false. for test
+     
       return this.wxService.getToken(code).pipe(
         map(token => {
           if (token) {
@@ -41,8 +43,13 @@ export class AuthGuard implements CanActivate {
             return true;
           }
           return false;
+        }),
+        catchError(err => {
+          weui.alert(JSON.stringify(err));
+          throw(err);
         })
       );
+      return true;
     }
     else {
       return this.getApiTokenByOpenid(openId);
