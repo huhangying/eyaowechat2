@@ -105,10 +105,16 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.wxService.refreshToken(this.appStore.token.refresh_token).pipe(
       tap(token => {
         if (token) {
+          weui.alert(JSON.stringify(token));
           this.appStore.updateToken(token);
+          this.cd.markForCheck();
         }
       })
     ).subscribe();
+  }
+
+  displayStore() {
+    weui.alert(JSON.stringify(this.appStore.state));
   }
 
   buildWechatObj() {
@@ -116,10 +122,11 @@ export class ChatComponent implements OnInit, OnDestroy {
       tap(result => {
         if (result) {
           this.returnMessage = JSON.stringify(result);
+          this.cd.markForCheck();
 
           wx.config({
             debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-            appid: result.appid, // 必填，公众号的唯一标识
+            appId: result.appid, // 必填，公众号的唯一标识
             timestamp: result.timestamp, // 必填，生成签名的时间戳
             nonceStr: result.nonce, // 必填，生成签名的随机串
             signature: result.signature,// 必填，签名
@@ -131,12 +138,14 @@ export class ChatComponent implements OnInit, OnDestroy {
           });
           wx.error(function(res){
             // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-            weui.alert('Error:' + JSON.stringify(res));
+            // 更新签名
+            // weui.alert('Error:' + JSON.stringify(res));
           });
         }
       }),
       catchError(err => {
         this.errorMessage = JSON.stringify(err);
+        this.cd.markForCheck();
         return EMPTY;
       })
     ).subscribe();
