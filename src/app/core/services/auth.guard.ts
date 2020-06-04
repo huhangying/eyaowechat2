@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     private wxService: WeixinService,
     private appStore: AppStoreService
   ) {
-    // this.getApiTokenByOpenid('oEMw9sx4qgx5ygtJuN2MoJ9jQ4eg').subscribe();
+    this.getApiTokenByOpenid('oEMw9sx4qgx5ygtJuN2MoJ9jQ4eg').subscribe();
   }
 
   canActivate(

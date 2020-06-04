@@ -44,6 +44,14 @@ export class WeixinService {
     });
   }
 
+  refreshToken(refreshCode: string) {
+    return this.api.get<Token>('wechat/refreshWeixinToken', {
+      appid: this.appid,
+      grant_type: 'refresh_token',
+      refresh_token: refreshCode,
+    });
+  }
+
   // 
   getApiToken(openid: string) {
     return this.api.get<string>('wechat/login/' + openid);

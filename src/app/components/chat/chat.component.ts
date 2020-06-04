@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import weui from 'weui.js';
 import wx from 'weixin-js-sdk';
 import { AppStoreService } from '../../core/store/app-store.service';
@@ -6,13 +6,24 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { tap, catchError } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { WeixinService } from 'src/app/services/weixin.service';
+import { Chat } from 'src/app/models/chat.model';
+import { Doctor } from 'src/app/models/doctor.model';
+import { SocketioService } from 'src/app/core/services/soketio.service';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/models/user.model';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+  styleUrls: ['./chat.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
+  room: string;
+  doctor: Doctor;
+  patient: User;
+  chats: Chat[];
   errorMessage: string;
   returnMessage: string;
 
@@ -20,25 +31,84 @@ export class ChatComponent implements OnInit {
     private appStore: AppStoreService,
     private api: ApiService,
     private wxService: WeixinService,
-
+    private socketio: SocketioService,
+    private cd: ChangeDetectorRef,
+    private user: UserService,
+    private chat: ChatService,
   ) {
     if (this.appStore.token?.openid) {
       this.buildWechatObj();
     } else {
       // for test
-      this.wxService.getApiToken('oEMw9sx4qgx5ygtJuN2MoJ9jQ4eg').pipe(
+      this.wxService.getApiToken('oCVHLwIa5VtXx1eBHBQ2VsAtf5rA').pipe(
         tap(apiToken => {
           this.appStore.updateApiToken(apiToken);
         })
       );
     }
+
+    this.socketio.setupSocketConnection();
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    // data for test
+    this.doctor = {
+      _id: '578881adbb3313624e61de71',
+      name: '周佳'
+    }
+
+    this.room = this.doctor?._id;
+    this.socketio.joinRoom(this.room);
+
+    this.socketio.onRoom(this.room, (msg) => {
+      this.chats.push(msg);
+      this.scrollBottom();
+    });
+
+    this.socketio.onChat((msg) => {
+      this.chats.push(msg);
+      this.scrollBottom();
+    });
+
+    // get user self
+    this.patient = await this.user.getUserByOpenid(this.appStore.token?.openid||'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA').toPromise();
+
+    // get chat history
+    this.chat.getChatHistory(this.patient._id, '578881adbb3313624e61de71').pipe(
+      tap(results => {
+        this.chats = results;
+        this.cd.markForCheck();
+      })
+    ).subscribe();
+  }
+
+  ngOnDestroy() {
+    this.socketio.leaveRoom(this.room);
+  }
+
+  scrollBottom() {
+    this.cd.markForCheck();
+    setTimeout(() => {
+      const footer = document.getElementById('chat-bottom');
+      footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    });
   }
 
   test() {
     weui.alert(JSON.stringify(this.appStore.token));
+  }
+
+  refreshToken() {
+    if (!this.appStore?.token?.refresh_token) {
+      return weui.alert('No refresh token existed.');
+    }
+    this.wxService.refreshToken(this.appStore.token.refresh_token).pipe(
+      tap(token => {
+        if (token) {
+          this.appStore.updateToken(token);
+        }
+      })
+    ).subscribe();
   }
 
   buildWechatObj() {

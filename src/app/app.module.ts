@@ -13,6 +13,8 @@ import { MyReservationComponent } from './components/my-reservation/my-reservati
 import { CurrentDiagnoseComponent } from './components/current-diagnose/current-diagnose.component';
 import { MyHistoryComponent } from './components/my-history/my-history.component';
 import { EntryComponent } from './components/entry/entry.component';
+import { LocalDatePipe } from './core/pipe/local-date.pipe';
+import { GenderPipe } from './core/pipe/gender.pipe';
 
 @NgModule({
   declarations: [
@@ -23,13 +25,18 @@ import { EntryComponent } from './components/entry/entry.component';
     MyReservationComponent,
     CurrentDiagnoseComponent,
     MyHistoryComponent,
-    EntryComponent
+    EntryComponent,
+
+    
+    LocalDatePipe,
+    GenderPipe,
   ],
   imports: [
     CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
