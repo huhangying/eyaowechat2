@@ -4,22 +4,27 @@
 {{returnMessage}}
 <hr>
 {{errorMessage}}
+<div class="msg_card_body pb-4 px-2">
+    <div *ngFor="let chat of chats" class="mb-2" [ngClass]="chat.sender !== doctor?._id ? ' sender': 'to'">
 
-<div *ngFor="let chat of chats" class="mb-2" [ngClass]="chat.sender === doctor?._id ? ' sender': 'to'">
-
-    <div class="d-flex"
-      [ngClass]="chat.sender === doctor?._id ? 'align-items-end flex-row-reverse': 'align-items-start flex-row'">
-      <div class="img_cont_msg">
-        <!-- <img [src]="selectedPatient?.icon" class="rounded-circle user_img_msg"> -->
-      </div>
-      <div class="msg-data">
-        {{ chat.data }}
-      </div>
+        <div class="d-flex"
+            [ngClass]="chat.sender !== doctor?._id ? 'align-items-end flex-row-reverse': 'align-items-start flex-row'">
+            <div class="img_cont_msg">
+                <span class="triangle"></span>
+                <img [src]="patient?.icon" class="rounded-circle user_img_msg">
+            </div>
+            <div class="msg-data">
+                {{ chat.data }}
+            </div>
+        </div>
+        <div class="msg-time">{{chat.created | localDate: 'time'}}</div>
     </div>
-    <div class="msg-time">{{chat.created | localDate: 'time'}}</div>
-  </div>
+</div>
 <div id="chat-bottom"></div>
 
-<div class="fixed-bottom text-center text-muted">
-    <input type="text" class="weui-input">
+<div class="fixed-bottom text-muted bg-light d-flex">
+    <input type="text" class="weui-input px-2" autocomplete="off" placeholder="请输入..." cdkFocusInitial
+        (keyup.enter)="send()" [(ngModel)]="myInput">
+    <button class="weui-btn weui-btn_mini weui-btn_primary" (click)="send()">发送</button>
+
 </div>

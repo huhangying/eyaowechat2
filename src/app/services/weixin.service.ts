@@ -34,6 +34,20 @@ export class WeixinService {
     );
   }
 
+  getSignatureByUrl(url: string) {
+    return this.api.get<Signature>('wechat/get-signature/' + encodeURIComponent(url)).pipe(
+      map(result => {
+        if (result) {
+          return {
+            ...result,
+            appid: this.appid
+          }
+        }
+        return result;
+      })
+    );
+  }
+
   // get token by code
   getToken(code: string) {
     return this.api.get<Token>('wechat/getWeixinToken', {

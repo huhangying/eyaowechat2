@@ -16,4 +16,14 @@ export class ChatService {
   getChatHistory(sender: string, to: string) {
     return this.api.get<Chat[]>(`chats/history/${sender}/${to}`);
   }
+
+  sendChat(data: Chat) {
+    return this.api.post<Chat>('chat/send', data);
+  }
+
+  // unread list
+  getUnreadListByPatient(patientId: string) {
+    return this.api.get<Chat[]>(`chats/unread/user/${patientId}`);
+  }
+
 }

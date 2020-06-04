@@ -6,12 +6,13 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { tap, catchError } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
 import { WeixinService } from 'src/app/services/weixin.service';
-import { Chat } from 'src/app/models/chat.model';
+import { Chat, ChatType } from 'src/app/models/chat.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { SocketioService } from 'src/app/core/services/soketio.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { ChatService } from 'src/app/services/chat.service';
+import { CoreService } from 'src/app/core/services/core.service';
 
 @Component({
   selector: 'app-chat',
@@ -24,6 +25,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   doctor: Doctor;
   patient: User;
   chats: Chat[];
+  myInput = '';
   errorMessage: string;
   returnMessage: string;
 
@@ -35,6 +37,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private user: UserService,
     private chat: ChatService,
+    private core: CoreService,
   ) {
     if (this.appStore.token?.openid) {
       this.buildWechatObj();
@@ -56,6 +59,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       _id: '578881adbb3313624e61de71',
       name: '周佳'
     }
+    this.core.setTitle(this.doctor.name);
 
     this.room = this.doctor?._id;
     this.socketio.joinRoom(this.room);
@@ -77,7 +81,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chat.getChatHistory(this.patient._id, '578881adbb3313624e61de71').pipe(
       tap(results => {
         this.chats = results;
-        this.cd.markForCheck();
+        this.scrollBottom();
       })
     ).subscribe();
   }
@@ -119,6 +123,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   buildWechatObj() {
     this.wxService.getSignature(this.appStore.token.openid).pipe(
+    // this.wxService.getSignatureByUrl(location.href.split('#')[0]).pipe(
       tap(result => {
         if (result) {
           this.returnMessage = JSON.stringify(result);
@@ -149,6 +154,24 @@ export class ChatComponent implements OnInit, OnDestroy {
         return EMPTY;
       })
     ).subscribe();
+  }
+
+  send() {
+    if (this.myInput.trim() === '') return; // avoid sending empty
+    const chatMsg = {
+      room: this.room,
+      sender: this.patient._id,
+      senderName: this.patient.name,
+      to: this.doctor._id,
+      type: ChatType.text,
+      data: this.myInput
+    };
+    this.chats.push(chatMsg);
+
+    this.socketio.sendChat(this.room, chatMsg);
+    this.chat.sendChat(chatMsg).subscribe();
+    this.scrollBottom();
+    this.myInput = '';
   }
 
 }
