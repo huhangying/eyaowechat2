@@ -9,8 +9,9 @@ import { MyHistoryComponent } from './components/my-history/my-history.component
 import { CurrentDiagnoseComponent } from './components/current-diagnose/current-diagnose.component';
 import { EntryComponent } from './components/entry/entry.component';
 import { ChatSelectComponent } from './components/chat/chat-select/chat-select.component';
-import { MyDoctorsSelectComponent } from './components/my-doctors/my-doctors-select/my-doctors-select.component';
 import { BookSelectComponent } from './components/book/book-select/book-select.component';
+import { AddDoctorComponent } from './components/my-doctors/add-doctor/add-doctor.component';
+import { DoctorDetailsComponent } from './components/my-doctors/doctor-details/doctor-details.component';
 
 
 const routes: Routes = [
@@ -34,14 +35,20 @@ const routes: Routes = [
     component: ChatComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'my-doctors-select',
-    component: MyDoctorsSelectComponent,
-    canActivate: [AuthGuard],
-  },
+  
   {
     path: 'my-doctors',
     component: MyDoctorsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'doctor-details',
+    component: DoctorDetailsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'add-doctor',
+    component: AddDoctorComponent,
     canActivate: [AuthGuard],
   },
   {

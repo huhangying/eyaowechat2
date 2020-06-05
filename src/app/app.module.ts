@@ -16,8 +16,9 @@ import { EntryComponent } from './components/entry/entry.component';
 import { CoreModule } from './core/core.module';
 import { SelectDoctorsComponent } from './core/component/select-doctors/select-doctors.component';
 import { ChatSelectComponent } from './components/chat/chat-select/chat-select.component';
-import { MyDoctorsSelectComponent } from './components/my-doctors/my-doctors-select/my-doctors-select.component';
 import { BookSelectComponent } from './components/book/book-select/book-select.component';
+import { AddDoctorComponent } from './components/my-doctors/add-doctor/add-doctor.component';
+import { DoctorDetailsComponent } from './components/my-doctors/doctor-details/doctor-details.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +31,9 @@ import { BookSelectComponent } from './components/book/book-select/book-select.c
     MyHistoryComponent,
     EntryComponent,
     ChatSelectComponent,
-    MyDoctorsSelectComponent,
-    BookSelectComponent,   
+    BookSelectComponent,
+    AddDoctorComponent,
+    DoctorDetailsComponent,   
 
   ],
   imports: [
