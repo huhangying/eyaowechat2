@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable, EMPTY } from 'rxjs';
+import { Observable, EMPTY, of } from 'rxjs';
 import { AppStoreService } from '../store/app-store.service';
 import { WeixinService } from 'src/app/services/weixin.service';
-import { tap, map, catchError } from 'rxjs/operators';
+import { tap, map, catchError, switchMap } from 'rxjs/operators';
 import weui from 'weui.js';
+import { UserService } from 'src/app/services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +15,17 @@ export class AuthGuard implements CanActivate {
   constructor(
     // private router: Router,
     private wxService: WeixinService,
-    private appStore: AppStoreService
+    private appStore: AppStoreService,
+    private user: UserService,
   ) {
-    this.getApiTokenByOpenid('oEMw9sx4qgx5ygtJuN2MoJ9jQ4eg').subscribe();
+    // this.getApiTokenByOpenid('oEMw9sx4qgx5ygtJuN2MoJ9jQ4eg').subscribe();
   }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    const openid = this.appStore.token?.openid;
+    const openid = this.appStore.token?.openid || next.queryParams?.openid;
     const apiToken = this.appStore.apiToken;
     if (openid && apiToken) { // skip if token/openid existed
       return true;
@@ -35,29 +37,24 @@ export class AuthGuard implements CanActivate {
       if (!code) return true; //todo: revers to false. for test
 
       return this.wxService.getToken(code).pipe(
-        map(token => {
+        switchMap(token => {
           if (token) {
-            this.appStore.updateToken(token);
             if (!apiToken) {
-              this.getApiTokenByOpenid(openid);
+              return this.canGetApiTokenByOpenid(openid);
             }
-            return true;
+            this.appStore.updateToken(token);
+            return of(true);
           }
-          return false;
+          return of(false);
         }),
-        catchError(err => {
-          weui.alert(JSON.stringify(err));
-          return EMPTY;
-        })
       );
-      return true;
     }
-    else {
-      return this.getApiTokenByOpenid(openid);
+    else { // openid existed
+      return this.canGetApiTokenByOpenid(openid);
     }
   }
 
-  getApiTokenByOpenid(openid: string) {
+  canGetApiTokenByOpenid(openid: string) {
     return this.wxService.getApiToken(openid).pipe(
       map(apiToken => {
         if (!apiToken) {
@@ -69,4 +66,13 @@ export class AuthGuard implements CanActivate {
     );
   }
 
+  // getUser(openid: string) {
+  //   return this.user.getUserByOpenid(openid).pipe(
+  //     map(user => !!user),
+  //     catchError(err => {
+  //       weui.alert(JSON.stringify(err));
+  //       return EMPTY;
+  //     })
+  //   )
+  // }
 }

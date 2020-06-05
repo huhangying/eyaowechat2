@@ -17,8 +17,12 @@ export class EntryComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  nav(target: string) {
-    this.router.navigate([target], { queryParams: this.route.snapshot.queryParams });
+  nav(target: string, useOpenid = false) {
+    if (useOpenid) {
+      this.router.navigate([target], { queryParams: {openid: 'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA', doctorid: '578881adbb3313624e61de71'} });
+    } else {
+      this.router.navigate([target], { queryParams: this.route.snapshot.queryParams });
+    }
   }
 
 }

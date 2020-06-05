@@ -31,25 +31,16 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   constructor(
     private appStore: AppStoreService,
-    private api: ApiService,
     private wxService: WeixinService,
     private socketio: SocketioService,
     private cd: ChangeDetectorRef,
-    private user: UserService,
+    private userService: UserService,
     private chat: ChatService,
     private core: CoreService,
   ) {
     if (this.appStore.token?.openid) {
-      this.buildWechatObj();
-    } else {
-      // for test
-      this.wxService.getApiToken('oCVHLwIa5VtXx1eBHBQ2VsAtf5rA').pipe(
-        tap(apiToken => {
-          this.appStore.updateApiToken(apiToken);
-        })
-      );
+      //  this.buildWechatObj();
     }
-
     this.socketio.setupSocketConnection();
   }
 
@@ -75,7 +66,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     });
 
     // get user self
-    this.patient = await this.user.getUserByOpenid(this.appStore.token?.openid||'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA').toPromise();
+    this.patient = this.userService.user ||
+      (await this.userService.getUserByOpenid(this.appStore.token?.openid || 'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA').toPromise());
 
     // get chat history
     this.chat.getChatHistory(this.patient._id, '578881adbb3313624e61de71').pipe(
@@ -95,6 +87,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       const footer = document.getElementById('chat-bottom');
       footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      this.cd.markForCheck();
     });
   }
 
@@ -123,7 +116,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   buildWechatObj() {
     this.wxService.getSignature(this.appStore.token.openid).pipe(
-    // this.wxService.getSignatureByUrl(location.href.split('#')[0]).pipe(
+      // this.wxService.getSignatureByUrl(location.href.split('#')[0]).pipe(
       tap(result => {
         if (result) {
           this.returnMessage = JSON.stringify(result);
@@ -141,7 +134,7 @@ export class ChatComponent implements OnInit, OnDestroy {
             // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
             weui.alert('Ready:' + JSON.stringify(w));
           });
-          wx.error(function(res){
+          wx.error(function (res) {
             // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
             // 更新签名
             // weui.alert('Error:' + JSON.stringify(res));

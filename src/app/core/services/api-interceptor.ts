@@ -18,7 +18,7 @@ export class ApiInterceptor implements HttpInterceptor {
         if (request.url.indexOf('.weixin.') > 0) { // to weixin portal
             request = request.clone({
                 setHeaders: {
-                    // 'Content-Type': 'application/json; encoding=utf-8',
+                    //'Content-Type': 'application/json; encoding=utf-8',
                     // 'Accept': '*/*'
                     'Access-Control-Allow-Origin': '*',
                     'Access-Control-Request-Headers': 'dnt, accept-language, origin',
@@ -27,6 +27,8 @@ export class ApiInterceptor implements HttpInterceptor {
         } else {
             request = request.clone({
                 setHeaders: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Request-Headers': 'dnt, accept-language, origin',
                     Authorization: `Bearer ${this.appStore.apiToken}`
                 }
             });

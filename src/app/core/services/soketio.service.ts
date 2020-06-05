@@ -15,7 +15,7 @@ export class SocketioService {
   setupSocketConnection() {
     if (!this.socket) {
       this.socket = io(environment.socketUrl);
-      // this.socket.emit('chat', 'Hello there from Angular.'); // test
+      this.socket.emit('chat', 'Hello there from wechat.'); // test
     }
   }
 

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Token } from '../models/token.model';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Signature } from '../models/signature.model';
-import weui from 'weui.js';
 import { ApiService } from '../core/services/api.service';
 import { Const } from '../models/const.model';
 
