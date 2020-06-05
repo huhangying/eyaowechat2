@@ -1,20 +1,18 @@
-<div class="page">
-    <div class="text-center p-3">
-        <h2 class="page__title">首页</h2>
-        <div class="page__desc">选择以下选项</div>
-    </div>
-
-    <div class="text-center">
-        <button class="weui-btn weui-btn_primary" (click)="nav('chat')">在线咨询</button>
-        <button class="weui-btn weui-btn_primary" (click)="nav('book')">预约门诊</button>
-        <button class="weui-btn weui-btn_primary" (click)="nav('my-doctors')">我的药师团队</button>
-        <button class="weui-btn weui-btn_primary" (click)="nav('my-reservation')">我的预约</button>
-        <button class="weui-btn weui-btn_primary" (click)="nav('my-history')">个人中心</button>
-        <button class="weui-btn weui-btn_primary" (click)="nav('current-diagnose', true)">当前门诊</button>
-        <button class="weui-btn weui-btn_primary" (click)="nav('chat', true)">在线咨询</button>
-    </div>
-
+<div class="text-center p-3">
+    <h2 class="page__title">首页</h2>
+    <div class="page__desc">选择以下选项</div>
 </div>
+
+<div class="text-center">
+    <button class="weui-btn weui-btn_primary" (click)="nav('chat')">在线咨询</button>
+    <button class="weui-btn weui-btn_primary" (click)="nav('book')">预约门诊</button>
+    <button class="weui-btn weui-btn_primary" (click)="nav('my-doctors', true)">我的药师团队</button>
+    <button class="weui-btn weui-btn_primary" (click)="nav('my-reservation', true)">我的预约</button>
+    <button class="weui-btn weui-btn_primary" (click)="nav('my-history', true)">个人中心</button>
+    <button class="weui-btn weui-btn_primary" (click)="nav('current-diagnose', true)">当前门诊</button>
+    <button class="weui-btn weui-btn_primary" (click)="nav('chat', true)">在线咨询</button>
+</div>
+
 <div class="fixed-bottom text-center text-muted">
     hwem
 </div>

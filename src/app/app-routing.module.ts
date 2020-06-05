@@ -12,6 +12,7 @@ import { ChatSelectComponent } from './components/chat/chat-select/chat-select.c
 import { BookSelectComponent } from './components/book/book-select/book-select.component';
 import { AddDoctorComponent } from './components/my-doctors/add-doctor/add-doctor.component';
 import { DoctorDetailsComponent } from './components/my-doctors/doctor-details/doctor-details.component';
+import { UserResolver } from './services/resolvers/user.resolver';
 
 
 const routes: Routes = [
@@ -35,11 +36,12 @@ const routes: Routes = [
     component: ChatComponent,
     canActivate: [AuthGuard],
   },
-  
+
   {
     path: 'my-doctors',
     component: MyDoctorsComponent,
     canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
   },
   {
     path: 'doctor-details',

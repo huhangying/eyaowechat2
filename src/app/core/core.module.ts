@@ -4,7 +4,8 @@ import { Title } from '@angular/platform-browser';
 import { LocalDatePipe } from './pipe/local-date.pipe';
 import { GenderPipe } from './pipe/gender.pipe';
 import { SelectDoctorsComponent } from './component/select-doctors/select-doctors.component';
-
+import { MatIconModule } from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -16,8 +17,13 @@ import { SelectDoctorsComponent } from './component/select-doctors/select-doctor
   ],
   imports: [
     CommonModule,
+    MatIconModule,
+    MatButtonModule,
   ],
   exports: [
+    MatIconModule,
+    MatButtonModule,
+
     LocalDatePipe,
     GenderPipe,
     SelectDoctorsComponent,

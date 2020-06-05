@@ -19,6 +19,7 @@ import { ChatSelectComponent } from './components/chat/chat-select/chat-select.c
 import { BookSelectComponent } from './components/book/book-select/book-select.component';
 import { AddDoctorComponent } from './components/my-doctors/add-doctor/add-doctor.component';
 import { DoctorDetailsComponent } from './components/my-doctors/doctor-details/doctor-details.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { DoctorDetailsComponent } from './components/my-doctors/doctor-details/d
     HttpClientModule,
     FormsModule,
     CoreModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },

@@ -52,8 +52,9 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/weui/dist/style/weui.min.css",
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/weui/dist/style/weui.min.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -107,6 +108,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "eyaowechat2"
 }
