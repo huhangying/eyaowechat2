@@ -14,6 +14,10 @@ import { CurrentDiagnoseComponent } from './components/current-diagnose/current-
 import { MyHistoryComponent } from './components/my-history/my-history.component';
 import { EntryComponent } from './components/entry/entry.component';
 import { CoreModule } from './core/core.module';
+import { SelectDoctorsComponent } from './core/component/select-doctors/select-doctors.component';
+import { ChatSelectComponent } from './components/chat/chat-select/chat-select.component';
+import { MyDoctorsSelectComponent } from './components/my-doctors/my-doctors-select/my-doctors-select.component';
+import { BookSelectComponent } from './components/book/book-select/book-select.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,10 @@ import { CoreModule } from './core/core.module';
     MyReservationComponent,
     CurrentDiagnoseComponent,
     MyHistoryComponent,
-    EntryComponent,   
+    EntryComponent,
+    ChatSelectComponent,
+    MyDoctorsSelectComponent,
+    BookSelectComponent,   
 
   ],
   imports: [

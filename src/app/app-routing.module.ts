@@ -8,17 +8,35 @@ import { MyReservationComponent } from './components/my-reservation/my-reservati
 import { MyHistoryComponent } from './components/my-history/my-history.component';
 import { CurrentDiagnoseComponent } from './components/current-diagnose/current-diagnose.component';
 import { EntryComponent } from './components/entry/entry.component';
+import { ChatSelectComponent } from './components/chat/chat-select/chat-select.component';
+import { MyDoctorsSelectComponent } from './components/my-doctors/my-doctors-select/my-doctors-select.component';
+import { BookSelectComponent } from './components/book/book-select/book-select.component';
 
 
 const routes: Routes = [
+  {
+    path: 'book-select',
+    component: BookSelectComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'book',
     component: BookComponent,
     canActivate: [AuthGuard],
   },
   {
+    path: 'chat-select',
+    component: ChatSelectComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'chat',
     component: ChatComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'my-doctors-select',
+    component: MyDoctorsSelectComponent,
     canActivate: [AuthGuard],
   },
   {
