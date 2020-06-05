@@ -10,13 +10,12 @@ import { of } from 'rxjs';
 })
 export class UserResolver implements Resolve<User> {
     constructor(
-        private route: ActivatedRouteSnapshot,
         private userService: UserService,
     ) { }
 
-    resolve() {
+    resolve(route: ActivatedRouteSnapshot) {
         return this.userService.user ?
             of(this.userService.user) :
-            this.userService.getUserByOpenid(this.route.queryParams.openid);
+            this.userService.getUserByOpenid(route.queryParams.openid);
     }
 }

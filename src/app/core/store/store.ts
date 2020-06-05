@@ -1,4 +1,5 @@
 import { Observable, BehaviorSubject } from 'rxjs';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 
 export class Store<T> {
   state$: Observable<T>;
@@ -9,7 +10,18 @@ export class Store<T> {
     this.state$ = this._state$.asObservable();
   }
   get state(): T {
-    return JSON.parse(JSON.stringify(this._state$.getValue()));
+    return JSON.parse(JSON.stringify(this._state$.getValue() || {}));
+  }
+
+  // given top-level state key as a stream (will always emit the current
+  // key value as the first item in the stream).
+  select<K extends keyof T>(key: K): Observable<T[K]> {
+    return this._state$.pipe(
+      map((state: T) => {
+        return (state[key]);
+      }),
+      distinctUntilChanged()
+    );
   }
 
   setState(nextState: T) {

@@ -19,7 +19,7 @@ export class EntryComponent implements OnInit {
 
   nav(target: string, useOpenid = false) {
     if (useOpenid) {
-      this.router.navigate([target], { queryParams: {openid: 'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA', doctorid: '578881adbb3313624e61de71'} });
+      this.router.navigate([target], { queryParams: {openid: 'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA', hid: 1, doctorid: '578881adbb3313624e61de71'} });
     } else {
       this.router.navigate([target], { queryParams: this.route.snapshot.queryParams });
     }

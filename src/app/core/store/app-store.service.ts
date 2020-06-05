@@ -41,7 +41,7 @@ export class AppStoreService extends Store<AppState> {
     });
   }
 
-  udpateHid(hid: string) {
+  udpateHid(hid: number) {
     this.setState({
       ...this.state,
       hid,

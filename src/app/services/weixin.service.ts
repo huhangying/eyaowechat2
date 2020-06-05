@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Token } from '../models/token.model';
-import { map } from 'rxjs/operators';
+import { map, tap, switchMap } from 'rxjs/operators';
 import { Signature } from '../models/signature.model';
 import { ApiService } from '../core/services/api.service';
 import { Const } from '../models/const.model';
+import { WechatSecret } from '../models/wechat-secret.model';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeixinService {
-  appid: string;
-  secret: string;
+  secret: WechatSecret;
   access_token: string;
 
   constructor(
     private api: ApiService,
   ) {
-    this.fetchWechatSettings();
   }
 
   getSignature(openid: string) {
-    return this.api.get<Signature>('wechat/getSignature/' + openid).pipe(
+    return this.api.get<Signature>('wechat/authSignature/' + openid).pipe(
       map(result => {
         if (result) {
           return {
             ...result,
-            appid: this.appid
+            appid: this.secret.appid
           }
         }
         return result;
@@ -34,12 +34,12 @@ export class WeixinService {
   }
 
   getSignatureByUrl(url: string) {
-    return this.api.get<Signature>('wechat/get-signature/' + encodeURIComponent(url)).pipe(
+    return this.api.get<Signature>('wechat/auth-signature/' + encodeURIComponent(url)).pipe(
       map(result => {
         if (result) {
           return {
             ...result,
-            appid: this.appid
+            appid: this.secret.appid
           }
         }
         return result;
@@ -48,38 +48,38 @@ export class WeixinService {
   }
 
   // get token by code
-  getToken(code: string) {
-    return this.api.get<Token>('wechat/getWeixinToken', {
-      appid: this.appid,
-      secret: this.secret,
-      code: code,
-      grant_type: 'authorization_code'
-    });
+  getToken(code: string, hid: number) {
+    return this.fetchWechatSettings(hid).pipe(
+      switchMap(secret => {
+        this.secret = secret;
+        return this.api.get<Token>('wechat/authWeixinToken', {
+          appid: secret.appid,
+          secret: secret.secret,
+          code: code,
+          grant_type: 'authorization_code'
+        });
+      })
+    );
   }
 
   refreshToken(refreshCode: string) {
-    return this.api.get<Token>('wechat/refreshWeixinToken', {
-      appid: this.appid,
+    return this.api.get<Token>('wechat/authRefreshWeixinToken', {
+      appid: this.secret.appid,
       grant_type: 'refresh_token',
       refresh_token: refreshCode,
     });
   }
 
   // 
-  getApiToken(openid: string) {
-    return this.api.get<string>('wechat/login/' + openid);
+  getApiToken(hid: number, openid: string) {
+    return this.api.get<string>(`wechat/login/${hid}/${openid}`);
   }
 
   get accessToken() { return this.accessToken; }
 
-  /////////////////////////////////////////
-  // 
-
-  async fetchWechatSettings() {
-    if (!this.appid || !this.secret) {
-      const settings = await this.api.get<Const[]>('const/group/2').toPromise() // 2 is wechat group      
-      this.appid = settings.find(_ => _.name === 'appid').value;
-      this.secret = settings.find(_ => _.name === 'secret').value;
-    }
+  fetchWechatSettings(hid: number) {
+    return (this.secret?.appid) ?
+      of(this.secret) :
+      this.api.get<WechatSecret>('hospital/wechat/auth/' + hid);
   }
 }
