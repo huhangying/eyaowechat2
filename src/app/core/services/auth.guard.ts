@@ -25,14 +25,13 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     const openid = this.appStore?.token?.openid || next.queryParams?.openid;
-
+    const hid = this.appStore?.hid || +next.queryParams.state || 1; // default value is for test
     const apiToken = this.appStore?.apiToken;
+
     if (openid && apiToken) { // skip if token/openid existed
       return true;
     }
-
-    const hid = +next.queryParams.state || 1; // default value is for test
-
+  
     if (!openid) {
       const { code } = next.queryParams;
       if (!code) return true; //todo: revers to false. for test

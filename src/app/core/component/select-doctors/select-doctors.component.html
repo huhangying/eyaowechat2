@@ -1,4 +1,37 @@
-<p>select-doctors works!</p>
 
-{{user | json}}
-{{pageType}}
+<div class="py-2">
+  <ng-container *ngIf="doctors$ | async; let doctors">
+    <div *ngFor="let doctor of doctors" class="card my-3 p-3">
+      <div  class="d-flex">
+        <div class="flex-fill pr-3 pt-2">
+          <img src="{{doctor.icon}}" class="rounded-circle img_msg">
+        </div>
+        <div class="flex-fill">
+          <div class="weui-flex">
+            <div class="weui-flex__item">
+              <span class="h5">{{doctor.name}}</span>
+              <span class="pl-3 text-muted">{{doctor.title}}</span>
+              <br>
+              {{doctor.department.name}}
+            </div>
+            <div class="weui-flex__item text-right">
+              <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-4"> 在线咨询 </button>
+              <button *ngIf="pageType === 3" class="weui-btn weui-btn_mini weui-btn_warn px-4"> 详情 </button>
+            </div>
+          </div>
+    
+          <div class="pt-2">
+            <b>擅长:</b>
+            <span class="pl-3 text-muted">{{doctor.expertise}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  
+  <ng-container *ngIf="!(doctors$ | async)">
+    <div class="px-3 py-4">
+      没有关注的药师。请先关注新药师后选择。
+    </div>
+  </ng-container>
+</div>
