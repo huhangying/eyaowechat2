@@ -16,7 +16,7 @@
             </div>
             <div class="weui-flex__item text-right">
               <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-4"> 在线咨询 </button>
-              <button *ngIf="pageType === 3" class="weui-btn weui-btn_mini weui-btn_warn px-4"> 详情 </button>
+              <button *ngIf="pageType === 3" class="weui-btn weui-btn_mini weui-btn_warn px-4" (click)="doctorDetails(doctor)"> 详情 </button>
             </div>
           </div>
     

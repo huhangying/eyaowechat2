@@ -46,12 +46,12 @@ const routes: Routes = [
   {
     path: 'doctor-details',
     component: DoctorDetailsComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'add-doctor',
     component: AddDoctorComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'my-reservation',

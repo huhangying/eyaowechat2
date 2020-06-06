@@ -1,2 +1,46 @@
-<p>doctor-details works!</p>
+<div class="text-center bg-white mb-3 p-2">
+  <img src="{{doctor.icon}}" class="rounded-circle img_msg">
+  <div class="py-3">
+    <span class="h5">{{doctor.name}}</span>
+    <span class="pl-3 text-muted">{{doctor.title}}</span>
+  </div>
+  <button mat-button type="button" class="btn btn-primary px-5">
+    <mat-icon>star_border</mat-icon> 取消关注
+  </button>
+</div>
 
+<div class="card px-3 pt-3 pb-1 m-2">
+  <div class="border-bottom mb-2">
+    <mat-icon class="text-warning">schedule</mat-icon>
+    <span class="section-title">工作时间</span> </div>
+  <p class="text-muted">
+    {{ doctor?.hours || '未设置' }}
+  </p>
+</div>
+
+<div class="card px-3 pt-3 pb-1 m-2">
+  <div class="border-bottom mb-2">
+    <mat-icon class="text-warning">assignment</mat-icon> 
+    <span class="section-title">药师简介</span> </div>
+  <p class="text-muted">
+    {{ doctor?.bulletin || '未设置' }}
+  </p>
+</div>
+
+<div class="card px-3 pt-3 pb-1 m-2">
+  <div class="border-bottom mb-2">
+    <mat-icon class="text-warning">verified</mat-icon> 
+    <span class="section-title">擅长领域</span> </div>
+  <p class="text-muted">
+    {{ doctor?.expertise || '未设置' }}
+  </p>
+</div>
+
+<div class="card px-3 pt-3 pb-1 m-2">
+  <div class="border-bottom mb-2">
+    <mat-icon class="text-warning">emoji_events</mat-icon> 
+    <span class="section-title">获奖情况</span> </div>
+  <p class="text-muted">
+    {{ doctor?.honor || '无' }}
+  </p>
+</div>

@@ -4,6 +4,7 @@ import { User } from 'src/app/models/user.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-select-doctors',
@@ -20,6 +21,7 @@ export class SelectDoctorsComponent implements OnInit {
   doctors$: Observable<Doctor[]>;
 
   constructor(
+    private router: Router,
     private doctorService: DoctorService,
   ) {
   }
@@ -27,4 +29,7 @@ export class SelectDoctorsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  doctorDetails(doctor: Doctor) {
+    this.router.navigate(['/doctor-details'], {state: {data: doctor}});
+  }
 }

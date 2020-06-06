@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CoreService } from 'src/app/core/services/core.service';
 
 @Component({
   selector: 'app-my-doctors',
@@ -11,7 +12,9 @@ export class MyDoctorsComponent implements OnInit {
   user: User;
 
   constructor(
-    private route: ActivatedRoute
+    private router: Router,
+    private route: ActivatedRoute,
+    private core: CoreService,
   ) {
     this.route.data.subscribe(data => {
       this.user = data.user;
@@ -19,7 +22,12 @@ export class MyDoctorsComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.core.setTitle('我的药师团队');
 
+  }
+
+  addDoctor() {
+    this.router.navigate(['/add-doctor'], {state: {user: this.user}});
   }
 
 }
