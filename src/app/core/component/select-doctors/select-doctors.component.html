@@ -1,45 +1,48 @@
 
 <div class="py-2">
   <ng-container *ngIf="doctors | async; let doctorList">
-    <div *ngFor="let doctor of doctorList" class="card my-3 p-3">
-      <div  class="d-flex">
-        <div class="flex-fill pr-3 pt-2 avartor">
-          <img src="{{doctor.icon}}" class="rounded-circle img_msg">
-        </div>
-        <div class="flex-fill">
-          <div class="weui-flex">
-            <div class="weui-flex__item">
-              <span class="h5">{{doctor.name}}</span>
-              <span class="pl-3 text-muted">{{doctor.title}}</span>
-              <br>
-              {{doctor.department.name}}
-            </div>
-            <div class="weui-flex__item text-right">
-              <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-4"> 在线咨询 </button>
-              <button *ngIf="pageType === 3 || pageType === 4" class="weui-btn weui-btn_mini weui-btn_warn px-4" (click)="doctorDetails(doctor)"> 详情 </button>
-            </div>
-          </div>
     
-          <div class="pt-2">
-            <b>擅长:</b>
-            <span class="pl-3 text-muted">{{doctor.expertise}}</span>
+    <ng-container *ngIf="doctorList?.length">
+      <div *ngFor="let doctor of doctorList" class="card my-3 p-3">
+        <div  class="d-flex">
+          <div class="flex-fill pr-3 pt-2 avartor">
+            <img src="{{doctor.icon}}" class="rounded-circle img_msg">
+          </div>
+          <div class="flex-fill">
+            <div class="weui-flex">
+              <div class="weui-flex__item">
+                <span class="h5">{{doctor.name}}</span>
+                <span class="pl-3 text-muted">{{doctor.title}}</span>
+                <br>
+                {{doctor.department.name}}
+              </div>
+              <div class="weui-flex__item text-right">
+                <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-4"> 在线咨询 </button>
+                <button *ngIf="pageType === 3 || pageType === 4" class="weui-btn weui-btn_mini weui-btn_warn px-4" (click)="doctorDetails(doctor)"> 详情 </button>
+              </div>
+            </div>
+      
+            <div class="pt-2">
+              <b>擅长:</b>
+              <span class="pl-3 text-muted">{{doctor.expertise}}</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </ng-container>
-  
-  <ng-container *ngIf="!(doctors | async)">
-    <div class="px-3 py-4">
-      <ng-container *ngIf="pageType === 1 || pageType === 3">
-        没有关注的药师。请先关注新药师后选择。
-      </ng-container>
-      <ng-container *ngIf="pageType === 2">
-        当前没有可预约的药师。
-      </ng-container>
-      <ng-container *ngIf="pageType === 4">
-        请选择药学专科后，再药师详情页面中增加关注。
-      </ng-container>
-    </div>
+    </ng-container>
+
+    <ng-container *ngIf="!doctorList?.length">
+      <div class="px-3 py-4">
+        <ng-container *ngIf="pageType === 1 || pageType === 3">
+          没有关注的药师。请先关注新药师后选择。
+        </ng-container>
+        <ng-container *ngIf="pageType === 2">
+          当前没有可预约的药师。
+        </ng-container>
+        <ng-container *ngIf="pageType === 4">
+          请选择药学专科后，再药师详情页面中增加关注。
+        </ng-container>
+      </div>
+    </ng-container>
   </ng-container>
 </div>

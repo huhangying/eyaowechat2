@@ -19,6 +19,23 @@ export class DoctorService {
     );
   }
 
+  checkRelationshipExisted(did: string, uid: string) {
+    return this.api.get<{existed: boolean}>(`relationship/${did}/${uid}`).pipe(
+      map(_ => _.existed)
+    );
+  }
+
+  addRelationship(did: string, uid: string) {
+    return this.api.post('relationship', {
+      doctor: did,
+      user: uid
+    });
+  }
+
+  removeRelationship(did: string, uid: string) {
+    return this.api.delete(`relationship/remove/${did}/${uid}`);
+  }
+
   getDepartments() {
     return this.api.get<Department[]>('departments');
   }
