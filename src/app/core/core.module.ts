@@ -6,7 +6,8 @@ import { GenderPipe } from './pipe/gender.pipe';
 import { SelectDoctorsComponent } from './component/select-doctors/select-doctors.component';
 import { MatIconModule } from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-
+import {MatListModule} from '@angular/material/list';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -19,10 +20,14 @@ import {MatButtonModule} from '@angular/material/button';
     CommonModule,
     MatIconModule,
     MatButtonModule,
+    MatListModule,
+    MatExpansionModule,
   ],
   exports: [
     MatIconModule,
     MatButtonModule,
+    MatListModule,
+    MatExpansionModule,
 
     LocalDatePipe,
     GenderPipe,

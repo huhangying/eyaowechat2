@@ -1,7 +1,7 @@
 
 <div class="py-2">
-  <ng-container *ngIf="doctors$ | async; let doctors">
-    <div *ngFor="let doctor of doctors" class="card my-3 p-3">
+  <ng-container *ngIf="doctors | async; let doctorList">
+    <div *ngFor="let doctor of doctorList" class="card my-3 p-3">
       <div  class="d-flex">
         <div class="flex-fill pr-3 pt-2">
           <img src="{{doctor.icon}}" class="rounded-circle img_msg">
@@ -29,7 +29,7 @@
     </div>
   </ng-container>
   
-  <ng-container *ngIf="!(doctors$ | async)">
+  <ng-container *ngIf="!(doctors | async)">
     <div class="px-3 py-4">
       没有关注的药师。请先关注新药师后选择。
     </div>

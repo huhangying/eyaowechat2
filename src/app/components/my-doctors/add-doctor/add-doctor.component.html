@@ -1,4 +1,18 @@
-<p>add-doctor works!</p>
-<div class="pt-5 px-2">
-  <app-select-doctors [pageType]="3" [user]="user"></app-select-doctors>
+<div class="pt-5 px-2 position-absolute w-100">
+  <app-select-doctors [pageType]="3" [doctors]="doctors$"></app-select-doctors>
 </div>
+
+<mat-accordion>
+  <mat-expansion-panel [expanded]="opened" (opened)="opened = true">
+    <mat-expansion-panel-header>
+      请选择药学专科门诊
+    </mat-expansion-panel-header>
+    <ng-container *ngIf="departments$ | async; let departments">
+      <mat-selection-list [multiple]="false">
+        <mat-list-option *ngFor="let dep of departments" (click)="selectDepartment(dep._id)">
+          {{dep.name}}
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-container>
+  </mat-expansion-panel>
+</mat-accordion>

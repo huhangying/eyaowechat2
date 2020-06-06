@@ -13,12 +13,12 @@ import { Router } from '@angular/router';
 })
 export class SelectDoctorsComponent implements OnInit {
   @Input() pageType: PageType;
-  @Input() set user(val: User) {
-    if (val?._id) {
-      this.doctors$ = this.doctorService.getDoctorsByUser(val._id);
-    }
-  };
-  doctors$: Observable<Doctor[]>;
+  // @Input() set user(val: User) {
+  //   if (val?._id) {
+  //     this.doctors$ = this.doctorService.getDoctorsByUser(val._id);
+  //   }
+  // };
+  @Input() doctors: Observable<Doctor[]>;
 
   constructor(
     private router: Router,
