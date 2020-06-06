@@ -20,6 +20,7 @@ const routes: Routes = [
     path: 'book-select',
     component: BookSelectComponent,
     canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
   },
   {
     path: 'book',
@@ -30,11 +31,12 @@ const routes: Routes = [
     path: 'chat-select',
     component: ChatSelectComponent,
     canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
   },
   {
     path: 'chat',
     component: ChatComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
 
   {

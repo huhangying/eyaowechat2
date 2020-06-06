@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Token } from '../models/token.model';
-import { map, tap, switchMap } from 'rxjs/operators';
+import { map, tap, switchMap, take } from 'rxjs/operators';
 import { Signature } from '../models/signature.model';
 import { ApiService } from '../core/services/api.service';
 import { Const } from '../models/const.model';

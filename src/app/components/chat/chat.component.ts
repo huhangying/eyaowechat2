@@ -13,6 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { ChatService } from 'src/app/services/chat.service';
 import { CoreService } from 'src/app/core/services/core.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -30,6 +31,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   returnMessage: string;
 
   constructor(
+    private router: Router,
     private appStore: AppStoreService,
     private wxService: WeixinService,
     private socketio: SocketioService,
@@ -41,15 +43,16 @@ export class ChatComponent implements OnInit, OnDestroy {
     if (this.appStore.token?.openid) {
       //  this.buildWechatObj();
     }
+    this.doctor = this.router.getCurrentNavigation().extras.state?.doctor || {};
+    this.patient = this.router.getCurrentNavigation().extras.state?.user;
+    // get user self
+    // this.patient = this.userService.user ||
+    //   (await this.userService.getUserByOpenid(this.appStore.token?.openid || 'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA').toPromise());
+
     this.socketio.setupSocketConnection();
   }
 
   async ngOnInit() {
-    // data for test
-    this.doctor = {
-      _id: '578881adbb3313624e61de71',
-      name: '周佳'
-    }
     this.core.setTitle(this.doctor.name);
 
     this.room = this.doctor?._id;
@@ -65,12 +68,9 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.scrollBottom();
     });
 
-    // get user self
-    this.patient = this.userService.user ||
-      (await this.userService.getUserByOpenid(this.appStore.token?.openid || 'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA').toPromise());
 
     // get chat history
-    this.chat.getChatHistory(this.patient._id, '578881adbb3313624e61de71').pipe(
+    this.chat.getChatHistory(this.patient._id, this.doctor._id).pipe(
       tap(results => {
         this.chats = results;
         this.scrollBottom();

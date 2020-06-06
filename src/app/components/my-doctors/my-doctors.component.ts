@@ -33,20 +33,20 @@ export class MyDoctorsComponent implements OnInit, OnDestroy {
       }),
       takeUntil(this.destroy$)
     ).subscribe();
-   }
+  }
 
   ngOnInit(): void {
     this.core.setTitle('我的药师团队');
 
-    
   }
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
   }
 
   addDoctor() {
-    this.router.navigate(['/add-doctor'], {state: {user: this.user}});
+    this.router.navigate(['/add-doctor'], { state: { user: this.user } });
   }
 
 }

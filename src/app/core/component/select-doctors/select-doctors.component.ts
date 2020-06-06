@@ -3,6 +3,7 @@ import { PageType } from 'src/app/core/enum/page.enum';
 import { Doctor } from 'src/app/models/doctor.model';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-select-doctors',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class SelectDoctorsComponent implements OnInit {
   @Input() pageType: PageType;
-  @Input() userid: string;
+  @Input() user: User;
   @Input() doctors: Observable<Doctor[]>;
 
   constructor(
@@ -22,8 +23,13 @@ export class SelectDoctorsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  doctorDetails(doctor: Doctor) {
+  goDoctorDetails(doctor: Doctor) {
     this.router.navigate(['/doctor-details'], 
-      {state: {doctor: doctor, userid: this.userid}});
+      {state: {doctor: doctor, userid: this.user._id}});
+  }
+
+  goChat(doctor: Doctor) {
+    this.router.navigate(['/chat'], 
+      {state: {doctor: doctor, user: this.user}});
   }
 }

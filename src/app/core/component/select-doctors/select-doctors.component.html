@@ -1,7 +1,7 @@
 
 <div class="py-2">
   <ng-container *ngIf="doctors | async; let doctorList">
-    
+
     <ng-container *ngIf="doctorList?.length">
       <div *ngFor="let doctor of doctorList" class="card my-3 p-3">
         <div  class="d-flex">
@@ -17,8 +17,8 @@
                 {{doctor.department.name}}
               </div>
               <div class="weui-flex__item text-right">
-                <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-4"> 在线咨询 </button>
-                <button *ngIf="pageType === 3 || pageType === 4" class="weui-btn weui-btn_mini weui-btn_warn px-4" (click)="doctorDetails(doctor)"> 详情 </button>
+                <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-4" (click)="goChat(doctor)"> 在线咨询 </button>
+                <button *ngIf="pageType === 3 || pageType === 4" class="weui-btn weui-btn_mini weui-btn_warn px-4" (click)="goDoctorDetails(doctor)"> 详情 </button>
               </div>
             </div>
       
