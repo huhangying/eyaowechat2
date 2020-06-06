@@ -36,6 +36,7 @@ export class ChatSelectComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.core.setTitle('在线咨询');
   }
 
   ngOnDestroy() {

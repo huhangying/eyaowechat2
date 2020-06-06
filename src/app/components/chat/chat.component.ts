@@ -72,7 +72,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     // get chat history
     this.chat.getChatHistory(this.patient._id, this.doctor._id).pipe(
       tap(results => {
-        this.chats = results;
+        this.chats = results || [];
         this.scrollBottom();
       })
     ).subscribe();

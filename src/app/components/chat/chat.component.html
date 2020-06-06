@@ -1,10 +1,10 @@
-<button class="weui-btn weui-btn_primary" (click)="test()">绿色按钮</button>
-<button class="weui-btn weui-btn_primary" (click)="refreshToken()">刷新Token</button>
-<button class="weui-btn weui-btn_primary" (click)="displayStore()">App store</button>
-{{returnMessage}}
-<hr>
-{{errorMessage}}
-<div class="msg_card_body pb-4 px-2">
+<div class="msg_card_body pb-4 px-2 h-100">
+    <button class="weui-btn weui-btn_primary" (click)="test()">绿色按钮</button>
+    <button class="weui-btn weui-btn_primary" (click)="refreshToken()">刷新Token</button>
+    <button class="weui-btn weui-btn_primary" (click)="displayStore()">App store</button>
+    {{returnMessage}}
+    <hr>
+    {{errorMessage}}
     <div *ngFor="let chat of chats" class="mb-2" [ngClass]="chat.sender !== doctor?._id ? ' sender': 'to'">
 
         <div class="d-flex"
@@ -23,7 +23,16 @@
 <div id="chat-bottom"></div>
 
 <div class="fixed-bottom text-muted bg-light d-flex">
-    <input type="text" class="weui-input px-2" autocomplete="off" placeholder="请输入..." cdkFocusInitial
+    <input matInput class="weui-input pl-2 align-self-center" autocomplete="off" placeholder="请输入..." cdkFocusInitial
         (keyup.enter)="send()" [(ngModel)]="myInput">
-    <button class="weui-btn weui-btn_mini weui-btn_primary" (click)="send()">发送</button>
+    <button mat-icon-button>
+        <mat-icon>mood</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="!myInput">
+        <mat-icon>image</mat-icon>
+    </button>
+    <button mat-icon-button *ngIf="!myInput">
+        <mat-icon>keyboard_voice</mat-icon>
+    </button>
+    <button mat-flat-button *ngIf="myInput" class="weui-btn weui-btn_mini weui-btn_primary" (click)="send()">发送</button>
 </div>
