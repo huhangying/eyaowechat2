@@ -34,10 +34,14 @@ export class AddDoctorComponent implements OnInit {
 
   }
 
+  setExpansionStatus(status) {
+    this.opened = status;
+  }
+
   selectDepartment(id: string) {
     this.doctors$ = this.doctorService.getDoctorsByDepartmentId(id);
     // collapse
-    this.opened = false;
+    this.setExpansionStatus(false);
     this.cd.markForCheck();
   }
 
