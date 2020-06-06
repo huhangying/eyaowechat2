@@ -25,7 +25,7 @@ export class AddDoctorComponent implements OnInit {
     private doctorService: DoctorService,
     private cd: ChangeDetectorRef,
   ) { 
-    this.user = this.router.getCurrentNavigation().extras?.state?.user;
+    this.user = this.router.getCurrentNavigation().extras?.state?.user || {};
     this.departments$ = this.doctorService.getDepartments();
   }
 

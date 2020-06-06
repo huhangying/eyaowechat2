@@ -27,8 +27,6 @@ export class ApiInterceptor implements HttpInterceptor {
         } else {
             request = request.clone({
                 setHeaders: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Request-Headers': 'dnt, accept-language, origin',
                     Authorization: `Bearer ${this.appStore.apiToken}`
                 }
             });
