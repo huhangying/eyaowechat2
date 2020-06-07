@@ -13,6 +13,7 @@ import { BookSelectComponent } from './components/book/book-select/book-select.c
 import { AddDoctorComponent } from './components/my-doctors/add-doctor/add-doctor.component';
 import { DoctorDetailsComponent } from './components/my-doctors/doctor-details/doctor-details.component';
 import { UserResolver } from './services/resolvers/user.resolver';
+import { BookingDetailsComponent } from './components/my-reservation/booking-details/booking-details.component';
 
 
 const routes: Routes = [
@@ -59,6 +60,11 @@ const routes: Routes = [
     path: 'my-reservation',
     component: MyReservationComponent,
     canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
+  },
+  {
+    path: 'booking-details',
+    component: BookingDetailsComponent,
   },
   {
     path: 'my-history',

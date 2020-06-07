@@ -1,0 +1,49 @@
+<div class="card p-2 m-2 text-muted">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item h6">预约信息</li>
+    <li class="list-group-item py-1">
+      <div class="d-flex justify-content-between">
+        <div>
+          <span class="item-label">预约科室:</span>
+          {{ booking.schedule?.doctor.department?.name }}
+        </div>
+        <div>
+          <a href="">
+            <mat-icon class="text-warning">location_on</mat-icon>
+          </a>
+        </div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <span class="item-label">预约药师:</span>
+      {{ booking.schedule?.doctor.name}}
+    </li>
+    <li class="list-group-item">
+      <span class="item-label">预约时间:</span>
+      {{ booking.created | localDate}} {{booking.schedule?.period.name}}
+    </li>
+    <li class="list-group-item">
+      <span class="item-label">预约状态:</span>
+      {{ booking.created | localDate}} {{booking.schedule?.period.name}}
+    </li>
+  </ul>
+</div>
+<div class="card p-2 m-2 text-muted">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item h6">个人信息</li>
+    <li class="list-group-item">
+      <span class="item-label">姓名:</span>
+      {{ user?.name }}
+    </li>
+    <li class="list-group-item">
+      <span class="item-label">手机号码:</span>
+      {{ user?.cell }}
+    </li>
+  </ul>
+</div>
+
+<div class="py-2 px-4">
+  <button type="button" class="btn btn-primary btn-block" (click)="goBack()">
+    确定
+  </button>
+</div>

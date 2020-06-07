@@ -1,1 +1,10 @@
-<p>my-reservation works!</p>
+<mat-tab-group mat-stretch-tabs backgroundColor="basic" class="example-stretched-tabs mat-elevation-z4 w-100 h-100">
+  <mat-tab label="现有预约">
+    <app-booking-list [bookings]="currentBookings" [user]="user">
+    </app-booking-list>
+  </mat-tab>
+  <mat-tab label="已结束预约">
+    <app-booking-list [bookings]="finishedBookings" [user]="user">
+    </app-booking-list>
+  </mat-tab>
+</mat-tab-group>

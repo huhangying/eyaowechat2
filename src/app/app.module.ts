@@ -20,6 +20,8 @@ import { BookSelectComponent } from './components/book/book-select/book-select.c
 import { AddDoctorComponent } from './components/my-doctors/add-doctor/add-doctor.component';
 import { DoctorDetailsComponent } from './components/my-doctors/doctor-details/doctor-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BookingListComponent } from './components/my-reservation/booking-list/booking-list.component';
+import { BookingDetailsComponent } from './components/my-reservation/booking-details/booking-details.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ChatSelectComponent,
     BookSelectComponent,
     AddDoctorComponent,
-    DoctorDetailsComponent,   
+    DoctorDetailsComponent,
+    BookingListComponent,
+    BookingDetailsComponent,   
 
   ],
   imports: [
