@@ -25,7 +25,7 @@
       <mat-expansion-panel-header>
         <span class="h6 pt-1">处方信息</span>
       </mat-expansion-panel-header>
-      <ul class="list-group border-top">
+      <ul class="list-group list-group-flush border-top">
         <li class="list-group-item px-0" *ngFor="let med of diagnose.prescription">
           <span class="text-warning">{{ med.name }}</span>
           <span class="text-muted pl-3">({{ med.capacity}}{{med.unit}}*{{med.quantity}})</span>

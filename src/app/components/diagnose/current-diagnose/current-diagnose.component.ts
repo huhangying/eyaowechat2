@@ -1,15 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { User } from 'src/app/models/user.model';
+import { Router, ActivatedRoute } from '@angular/router';
+import { CoreService } from 'src/app/core/services/core.service';
+import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-current-diagnose',
   templateUrl: './current-diagnose.component.html',
   styleUrls: ['./current-diagnose.component.scss']
 })
-export class CurrentDiagnoseComponent implements OnInit {
+export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject<void>();
+  user: User;
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private core: CoreService,
+  ) {
+    this.route.data.pipe(
+      distinctUntilChanged(),
+      tap(data => {
+        this.user = data.user;
+
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
+  }
 
   ngOnInit(): void {
+    this.core.setTitle('当前门诊');
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+  }
+
+  nav(target: string, useOpenid = false) {
+    if (useOpenid) {
+      this.router.navigate([target], { queryParams: { openid: this.user.link_id } });
+    } else {
+      this.router.navigate([target], { queryParams: this.route.snapshot.queryParams });
+    }
   }
 
 }

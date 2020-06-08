@@ -1,1 +1,27 @@
-<p>current-diagnose works!</p>
+<div class="card p-2 mx-2 my-3">
+  <ul class="list-group list-group-flush text-muted">
+    <li class="list-group-item" (click)="nav('/user-info', true)">
+      <span class="text-success">
+        <mat-icon>assignment_turned_in</mat-icon>
+      </span>
+      <span class="section-title">门诊结论</span></li>
+    <li class="list-group-item" (click)="nav('/my-doctors', true)">
+      <mat-icon color="primary">grading</mat-icon>
+      <span class="section-title">药师门诊处方</span>
+    </li>
+    <li class="list-group-item" (click)="nav('/my-reservation', true)">
+      <mat-icon color="accent">notifications_active</mat-icon>
+      <span class="section-title">当日用药提醒</span>
+    </li>
+    <li class="list-group-item" (click)="nav('/my-surveys', true)">
+      <span class="text-info">
+        <mat-icon>all_inbox</mat-icon>
+      </span>
+      <span class="section-title">联合用药反馈</span>
+    </li>
+    <li class="list-group-item" (click)="nav('/diagnose-history', true)">
+      <mat-icon color="warn">gesture</mat-icon>
+      <span class="section-title">不良反应反馈</span>
+    </li>
+  </ul>
+</div>
