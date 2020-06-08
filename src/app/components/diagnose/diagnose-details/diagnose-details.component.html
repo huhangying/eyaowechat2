@@ -19,19 +19,35 @@
   </ul>
 </div>
 
-<div class="card mx-2 my-3 p-2">
+<div class="mx-2 my-1">
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <span class="h6 pt-1">处方信息</span>
       </mat-expansion-panel-header>
-      <ul class="list-group list-group-flush border-top">
+      <ul class="list-group border-top">
         <li class="list-group-item px-0" *ngFor="let med of diagnose.prescription">
           <span class="text-warning">{{ med.name }}</span>
           <span class="text-muted pl-3">({{ med.capacity}}{{med.unit}}*{{med.quantity}})</span>
           <div class="pt-2">
             <span class="text-muted">服用方式: </span>{{ med.usage}}, {{ showDosageInstruction(med.dosage, med.unit)}}
           </div>
+        </li>
+      </ul>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<div class="mx-2 my-3">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <span class="h6 pt-1">门诊结论</span>
+      </mat-expansion-panel-header>
+      <ul class="list-group list-group-flush border-top">
+        <li class="list-group-item px-0" *ngFor="let list of getSurveyList()">
+          {{list}}
         </li>
       </ul>
 

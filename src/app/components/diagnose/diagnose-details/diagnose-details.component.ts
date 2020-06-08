@@ -29,4 +29,8 @@ export class DiagnoseDetailsComponent implements OnInit {
     return this.medicineService.showDosageInstruction(dosage, unit);
   }
 
+  getSurveyList() {
+    return  this.diagnose.surveys.find(_ => _.type === 5)?.list;
+  }
+
 }
