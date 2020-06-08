@@ -25,6 +25,7 @@ import { BookingDetailsComponent } from './components/my-reservation/booking-det
 import { UserInfoComponent } from './components/profile/user-info/user-info.component';
 import { MySurveysComponent } from './components/profile/my-surveys/my-surveys.component';
 import { DiagnoseHistoryComponent } from './components/profile/diagnose-history/diagnose-history.component';
+import { DiagnoseDetailsComponent } from './components/diagnose/diagnose-details/diagnose-details.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import { DiagnoseHistoryComponent } from './components/profile/diagnose-history/
     BookingDetailsComponent,
     UserInfoComponent,
     MySurveysComponent,  
-    DiagnoseHistoryComponent,
+    DiagnoseHistoryComponent, DiagnoseDetailsComponent,
   ],
   imports: [
     CommonModule,

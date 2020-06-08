@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CoreService } from 'src/app/core/services/core.service';
 import { Subject, Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
@@ -19,6 +19,7 @@ export class DiagnoseHistoryComponent implements OnInit, OnDestroy {
 
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private core: CoreService,
     private diagnoseService: DiagnoseService,
@@ -45,7 +46,7 @@ export class DiagnoseHistoryComponent implements OnInit, OnDestroy {
   }
 
   goDetails(diagnose: Diagnose) {
-
+    this.router.navigate(['/diagnose-details'], { state: { diagnose: diagnose } });
   }
 
 }

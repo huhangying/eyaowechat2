@@ -17,6 +17,8 @@ import { BookingDetailsComponent } from './components/my-reservation/booking-det
 import { UserInfoComponent } from './components/profile/user-info/user-info.component';
 import { MySurveysComponent } from './components/profile/my-surveys/my-surveys.component';
 import { DiagnoseHistoryComponent } from './components/profile/diagnose-history/diagnose-history.component';
+import { DiagnoseDetailsComponent } from './components/diagnose/diagnose-details/diagnose-details.component';
+import { MedicinePeriodsResolver } from './services/resolvers/medicine-periods.resolver';
 
 
 const routes: Routes = [
@@ -93,6 +95,12 @@ const routes: Routes = [
     component: DiagnoseHistoryComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver }
+  },
+  {
+    path: 'diagnose-details',
+    component: DiagnoseDetailsComponent,
+    canActivate: [AuthGuard],
+    resolve: { medicinePeriods: MedicinePeriodsResolver }
   },
   //
   {
