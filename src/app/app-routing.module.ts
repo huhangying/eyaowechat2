@@ -6,7 +6,7 @@ import { BookComponent } from './components/book/book.component';
 import { MyDoctorsComponent } from './components/my-doctors/my-doctors.component';
 import { MyReservationComponent } from './components/my-reservation/my-reservation.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { CurrentDiagnoseComponent } from './components/current-diagnose/current-diagnose.component';
+import { CurrentDiagnoseComponent } from './components/diagnose/current-diagnose/current-diagnose.component';
 import { EntryComponent } from './components/entry/entry.component';
 import { ChatSelectComponent } from './components/chat/chat-select/chat-select.component';
 import { BookSelectComponent } from './components/book/book-select/book-select.component';

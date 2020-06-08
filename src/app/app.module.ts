@@ -10,7 +10,7 @@ import { ApiInterceptor } from './core/services/api-interceptor';
 import { BookComponent } from './components/book/book.component';
 import { MyDoctorsComponent } from './components/my-doctors/my-doctors.component';
 import { MyReservationComponent } from './components/my-reservation/my-reservation.component';
-import { CurrentDiagnoseComponent } from './components/current-diagnose/current-diagnose.component';
+import { CurrentDiagnoseComponent } from './components/diagnose/current-diagnose/current-diagnose.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EntryComponent } from './components/entry/entry.component';
 import { CoreModule } from './core/core.module';

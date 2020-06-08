@@ -1,2 +1,35 @@
-<p>diagnose-history works!</p>
-{{ user | json }}
+<ng-container *ngIf="diagnoses$ | async; let diagnoses">
+
+  <ng-container *ngIf="diagnoses?.length">
+    <div class="card mx-2 my-3 p-2">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <span class="h5">门诊历史记录</span>
+        </li>
+        <li class="list-group-item pr-0" *ngFor="let diagnose of diagnoses">
+          <div>
+            <span class="">{{ diagnose.doctor?.department?.name}}</span>
+            <span class="text-muted pl-4">{{ diagnose.updatedAt | localDate }}</span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div class="pt-2">
+              <span class="h6">{{ diagnose.doctor?.name}}</span>
+              <span class="text-muted pl-3">{{ diagnose.doctor?.title}}</span>
+            </div>
+            <button mat-button class="text-warning" (click)="goDetails(diagnose)">
+              查看详情 <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
+          </div>
+
+        </li>
+      </ul>
+  
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!diagnoses?.length">
+    <div class="px-3 py-4">
+      您还没有门诊历史记录。
+    </div>
+  </ng-container>
+</ng-container>
