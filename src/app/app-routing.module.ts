@@ -13,11 +13,9 @@ import { BookSelectComponent } from './components/book/book-select/book-select.c
 import { AddDoctorComponent } from './components/my-doctors/add-doctor/add-doctor.component';
 import { DoctorDetailsComponent } from './components/my-doctors/doctor-details/doctor-details.component';
 import { UserResolver } from './services/resolvers/user.resolver';
-import { BookingDetailsComponent } from './components/my-reservation/booking-details/booking-details.component';
 import { UserInfoComponent } from './components/profile/user-info/user-info.component';
 import { MySurveysComponent } from './components/profile/my-surveys/my-surveys.component';
 import { DiagnoseHistoryComponent } from './components/profile/diagnose-history/diagnose-history.component';
-import { DiagnoseDetailsComponent } from './components/diagnose/diagnose-details/diagnose-details.component';
 import { MedicinePeriodsResolver } from './services/resolvers/medicine-periods.resolver';
 
 
@@ -67,10 +65,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     resolve: { user: UserResolver }
   },
-  {
-    path: 'booking-details',
-    component: BookingDetailsComponent,
-  },
   // 
   {
     path: 'profile',
@@ -94,13 +88,8 @@ const routes: Routes = [
     path: 'diagnose-history',
     component: DiagnoseHistoryComponent,
     canActivate: [AuthGuard],
-    resolve: { user: UserResolver }
-  },
-  {
-    path: 'diagnose-details',
-    component: DiagnoseDetailsComponent,
-    canActivate: [AuthGuard],
-    resolve: { medicinePeriods: MedicinePeriodsResolver }
+    resolve: { user: UserResolver,
+      medicinePeriods: MedicinePeriodsResolver }
   },
   //
   {

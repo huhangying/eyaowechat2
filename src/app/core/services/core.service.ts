@@ -10,7 +10,11 @@ export class CoreService {
     private titleService: Title,
   ) { }
 
-  public setTitle( newTitle: string) {
-    this.titleService.setTitle( newTitle );
+  public setTitle(newTitle: string) {
+    this.titleService.setTitle(newTitle);
+  }
+
+  public getTitle() {
+    return this.titleService.getTitle();
   }
 }

@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Booking } from 'src/app/models/booking.model';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
+import { MatDialog } from '@angular/material/dialog';
+import { CoreService } from 'src/app/core/services/core.service';
+import { BookingDetailsComponent } from '../booking-details/booking-details.component';
 
 @Component({
   selector: 'app-booking-list',
@@ -14,14 +17,24 @@ export class BookingListComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private core: CoreService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
   }
 
   goDetails(booking: Booking) {
-    this.router.navigate(['/booking-details'], {
-      state: { booking: booking, user: this.user }
+    const currentTitle = this.core.getTitle();
+    this.dialog.open(BookingDetailsComponent, {
+      maxWidth: '100vw',
+      panelClass: 'full-width-dialog',
+      data: {
+        booking: booking,
+        user: this.user
+      }
+    }).afterClosed().subscribe(() => {
+      this.core.setTitle(currentTitle);
     });
   }
 
