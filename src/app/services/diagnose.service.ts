@@ -14,4 +14,8 @@ export class DiagnoseService {
   getUserDiagnoseHistory(userid: string) {
     return this.api.get<Diagnose[]>('diagnoses/history/' + userid);
   }
+
+  getUserCurrentDiagnose(userid: string) {
+    return this.api.get<Diagnose>('diagnoses/history/latest/' + userid);
+  }
 }

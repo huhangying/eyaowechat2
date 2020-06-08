@@ -4,6 +4,10 @@ import { User } from 'src/app/models/user.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CoreService } from 'src/app/core/services/core.service';
 import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { DiagnoseDetailsComponent } from '../diagnose-details/diagnose-details.component';
+import { Diagnose } from 'src/app/models/diagnose.model';
+import { DiagnoseService } from 'src/app/services/diagnose.service';
 
 @Component({
   selector: 'app-current-diagnose',
@@ -13,17 +17,26 @@ import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
 export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   user: User;
+  diagnose: Diagnose;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private core: CoreService,
+    public dialog: MatDialog,
+    private diagnoseService: DiagnoseService,
   ) {
     this.route.data.pipe(
       distinctUntilChanged(),
       tap(data => {
         this.user = data.user;
-
+        if (this.user?._id) {
+          this.diagnoseService.getUserCurrentDiagnose(this.user._id).subscribe(
+            result => {
+              this.diagnose = result;
+            }
+          );
+        }
       }),
       takeUntil(this.destroy$)
     ).subscribe();
@@ -44,6 +57,17 @@ export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate([target], { queryParams: this.route.snapshot.queryParams });
     }
+  }
+
+  openDialog() {
+    if (true) {
+      this.dialog.open(DiagnoseDetailsComponent, {
+        data: {
+          diagnose: this.diagnose
+        }
+      });
+    }
+
   }
 
 }

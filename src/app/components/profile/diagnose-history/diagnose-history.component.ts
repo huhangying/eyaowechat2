@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CoreService } from 'src/app/core/services/core.service';
 import { Subject, Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
 import { DiagnoseService } from 'src/app/services/diagnose.service';
 import { Diagnose } from 'src/app/models/diagnose.model';
+import { MatDialog } from '@angular/material/dialog';
+import { DiagnoseDetailsComponent } from '../../diagnose/diagnose-details/diagnose-details.component';
 
 @Component({
   selector: 'app-diagnose-history',
@@ -19,9 +21,9 @@ export class DiagnoseHistoryComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private core: CoreService,
+    public dialog: MatDialog,
     private diagnoseService: DiagnoseService,
   ) {
     this.route.data.pipe(
@@ -46,7 +48,15 @@ export class DiagnoseHistoryComponent implements OnInit, OnDestroy {
   }
 
   goDetails(diagnose: Diagnose) {
-    this.router.navigate(['/diagnose-details'], { state: { diagnose: diagnose } });
+    this.dialog.open(DiagnoseDetailsComponent, {
+      maxWidth: '100vw',
+      panelClass: 'full-width-dialog',
+      data: {
+        diagnose: diagnose
+      }
+    }).afterClosed().subscribe(() => {
+      this.core.setTitle('门诊历史记录');
+    });
   }
 
 }

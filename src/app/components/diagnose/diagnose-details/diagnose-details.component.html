@@ -25,6 +25,7 @@
       <mat-expansion-panel-header>
         <span class="h6 pt-1">处方信息</span>
       </mat-expansion-panel-header>
+
       <ul class="list-group list-group-flush border-top">
         <li class="list-group-item px-0" *ngFor="let med of diagnose.prescription">
           <span class="text-warning">{{ med.name }}</span>
@@ -34,23 +35,28 @@
           </div>
         </li>
       </ul>
-
     </mat-expansion-panel>
   </mat-accordion>
 </div>
 
-<div class="mx-2 my-3">
+<div class="mx-2 mt-3 mb-5">
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <span class="h6 pt-1">门诊结论</span>
       </mat-expansion-panel-header>
+
       <ul class="list-group list-group-flush border-top">
         <li class="list-group-item px-0" *ngFor="let list of getSurveyList()">
           {{list}}
         </li>
       </ul>
-
     </mat-expansion-panel>
   </mat-accordion>
+</div>
+
+<div class="fixed-bottom px-4">
+  <button type="button" class="btn btn-primary btn-block" (click)="close()">
+    确定
+  </button>
 </div>
