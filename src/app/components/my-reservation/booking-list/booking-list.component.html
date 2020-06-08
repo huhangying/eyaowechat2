@@ -1,22 +1,22 @@
 <ng-container *ngIf="bookings?.length">
 
   <div class="card m-2 p-1" *ngFor="let booking of bookings">
-  
+
     <div class="text-muted px-3 pt-3">
       <div>预约科室: &nbsp;&nbsp; {{booking.schedule?.doctor.department?.name }}</div>
-      <div class="py-2">预约时间: &nbsp;&nbsp; 
+      <div class="py-2">预约药师: &nbsp;&nbsp; {{booking.schedule?.doctor.name}}</div>
+      <div>预约时间: &nbsp;&nbsp;
         {{booking.created | localDate}} {{booking.schedule?.period.name}}
       </div>
-      <div>预约药师: &nbsp;&nbsp; {{booking.schedule?.doctor.name}}</div>
     </div>
     <div class="more-info text-muted d-flex justify-content-between">
       <div class="px-3 py-2">
       </div>
       <button mat-button class="text-warning" (click)="goDetails(booking)">
-        查看详情 <mat-icon>read_more</mat-icon>
+        查看详情 <mat-icon>keyboard_arrow_right</mat-icon>
       </button>
     </div>
-  
+
   </div>
 </ng-container>
 

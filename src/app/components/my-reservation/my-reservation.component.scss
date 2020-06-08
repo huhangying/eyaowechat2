@@ -1,0 +1,8 @@
+:host {
+  /* active tab */
+  ::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+    color: #0051ff;
+    font-weight: bolder;
+    background-color: white;
+  }
+}
