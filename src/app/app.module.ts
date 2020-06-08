@@ -23,6 +23,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BookingListComponent } from './components/my-reservation/booking-list/booking-list.component';
 import { BookingDetailsComponent } from './components/my-reservation/booking-details/booking-details.component';
 import { UserInfoComponent } from './components/profile/user-info/user-info.component';
+import { MySurveysComponent } from './components/profile/my-surveys/my-surveys.component';
+import { DiagnoseHistoryComponent } from './components/profile/diagnose-history/diagnose-history.component';
 
 @NgModule({
   declarations: [
@@ -40,8 +42,9 @@ import { UserInfoComponent } from './components/profile/user-info/user-info.comp
     DoctorDetailsComponent,
     BookingListComponent,
     BookingDetailsComponent,
-    UserInfoComponent,   
-
+    UserInfoComponent,
+    MySurveysComponent,  
+    DiagnoseHistoryComponent,
   ],
   imports: [
     CommonModule,
