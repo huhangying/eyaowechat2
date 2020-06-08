@@ -9,6 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatListModule,
     MatExpansionModule,
     MatTabsModule,
+    MatDialogModule,
   ],
   exports: [
     MatIconModule,
@@ -31,6 +33,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatListModule,
     MatExpansionModule,
     MatTabsModule,
+    MatDialogModule,
 
     LocalDatePipe,
     GenderPipe,
