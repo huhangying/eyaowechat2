@@ -1,35 +1,42 @@
 <div class="card p-2 mx-2 my-3">
   <div class="d-flex align-items-center p-3">
-    <div>
-  d
+    <div class="flex-fill pr-3">
+      <img src="{{user.icon}}" class="rounded-circle img_msg">
     </div>
-    <div class="w-100">
-      <div class="border-bottom">
-        <span class="h6 pr-3">{{ user.name }}</span>
+    <div class="flex-fill w-100">
+      <div class="border-bottom pb-2">
+        <span class="h4 pr-3">{{ user.name }}</span>
         {{ user.birthdate | localDate }}
       </div>
-      <div>门诊号: </div>
-      <div>社保号: </div>
+      <div class="pt-2"><span class="item-label">门诊号: </span>{{ user.sin || '未设置' }}</div>
+      <div class="pt-2"><span class="item-label">社保号: </span>{{ user.admissionNumber || '未设置' }}</div>
     </div>
   </div>
 </div>
 
 <div class="card p-2 mx-2 my-3">
   <ul class="list-group list-group-flush text-muted">
-    <li class="list-group-item">
-      <span class="text-success"><mat-icon>assignment_ind</mat-icon></span>
+    <li class="list-group-item" (click)="nav('/user-info', true)">
+      <span class="text-success">
+        <mat-icon>assignment_ind</mat-icon>
+      </span>
       <span class="section-title">健康档案</span></li>
     <li class="list-group-item" (click)="nav('/my-doctors', true)">
       <mat-icon color="primary">people_outline</mat-icon>
-      <span class="section-title">我的药师</span></li>
+      <span class="section-title">我的药师</span>
+    </li>
     <li class="list-group-item" (click)="nav('/my-reservation', true)">
       <mat-icon color="accent">date_range</mat-icon>
-      <span class="section-title">预约记录</span></li>
+      <span class="section-title">预约记录</span>
+    </li>
     <li class="list-group-item">
-      <span class="text-info"><mat-icon>menu_book</mat-icon></span>
+      <span class="text-info">
+        <mat-icon>menu_book</mat-icon>
+      </span>
       <span class="section-title">我的问卷</span></li>
     <li class="list-group-item">
       <mat-icon color="warn">grading</mat-icon>
-      <span class="section-title">门诊历史记录</span></li>
+      <span class="section-title">门诊历史记录</span>
+    </li>
   </ul>
 </div>

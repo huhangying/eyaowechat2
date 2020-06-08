@@ -14,6 +14,7 @@ import { AddDoctorComponent } from './components/my-doctors/add-doctor/add-docto
 import { DoctorDetailsComponent } from './components/my-doctors/doctor-details/doctor-details.component';
 import { UserResolver } from './services/resolvers/user.resolver';
 import { BookingDetailsComponent } from './components/my-reservation/booking-details/booking-details.component';
+import { UserInfoComponent } from './components/profile/user-info/user-info.component';
 
 
 const routes: Routes = [
@@ -66,9 +67,16 @@ const routes: Routes = [
     path: 'booking-details',
     component: BookingDetailsComponent,
   },
+  // 
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
+  },
+  {
+    path: 'user-info',
+    component: UserInfoComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver }
   },

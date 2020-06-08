@@ -22,6 +22,7 @@ import { DoctorDetailsComponent } from './components/my-doctors/doctor-details/d
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BookingListComponent } from './components/my-reservation/booking-list/booking-list.component';
 import { BookingDetailsComponent } from './components/my-reservation/booking-details/booking-details.component';
+import { UserInfoComponent } from './components/profile/user-info/user-info.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { BookingDetailsComponent } from './components/my-reservation/booking-det
     AddDoctorComponent,
     DoctorDetailsComponent,
     BookingListComponent,
-    BookingDetailsComponent,   
+    BookingDetailsComponent,
+    UserInfoComponent,   
 
   ],
   imports: [
