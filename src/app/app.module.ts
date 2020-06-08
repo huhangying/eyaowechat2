@@ -11,7 +11,7 @@ import { BookComponent } from './components/book/book.component';
 import { MyDoctorsComponent } from './components/my-doctors/my-doctors.component';
 import { MyReservationComponent } from './components/my-reservation/my-reservation.component';
 import { CurrentDiagnoseComponent } from './components/current-diagnose/current-diagnose.component';
-import { MyHistoryComponent } from './components/my-history/my-history.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { EntryComponent } from './components/entry/entry.component';
 import { CoreModule } from './core/core.module';
 import { SelectDoctorsComponent } from './core/component/select-doctors/select-doctors.component';
@@ -31,7 +31,7 @@ import { BookingDetailsComponent } from './components/my-reservation/booking-det
     MyDoctorsComponent,
     MyReservationComponent,
     CurrentDiagnoseComponent,
-    MyHistoryComponent,
+    ProfileComponent,
     EntryComponent,
     ChatSelectComponent,
     BookSelectComponent,

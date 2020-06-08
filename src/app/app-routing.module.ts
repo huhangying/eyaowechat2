@@ -5,7 +5,7 @@ import { AuthGuard } from './core/services/auth.guard';
 import { BookComponent } from './components/book/book.component';
 import { MyDoctorsComponent } from './components/my-doctors/my-doctors.component';
 import { MyReservationComponent } from './components/my-reservation/my-reservation.component';
-import { MyHistoryComponent } from './components/my-history/my-history.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { CurrentDiagnoseComponent } from './components/current-diagnose/current-diagnose.component';
 import { EntryComponent } from './components/entry/entry.component';
 import { ChatSelectComponent } from './components/chat/chat-select/chat-select.component';
@@ -67,9 +67,10 @@ const routes: Routes = [
     component: BookingDetailsComponent,
   },
   {
-    path: 'my-history',
-    component: MyHistoryComponent,
+    path: 'profile',
+    component: ProfileComponent,
     canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
   },
   {
     path: 'current-diagnose',
