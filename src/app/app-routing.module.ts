@@ -96,7 +96,7 @@ const routes: Routes = [
     path: 'current-diagnose',
     component: CurrentDiagnoseComponent,
     canActivate: [AuthGuard],
-    resolve: { user: UserResolver }
+    resolve: { user: UserResolver, medicinePeriods: MedicinePeriodsResolver }
   },
   {
     path: 'entry',

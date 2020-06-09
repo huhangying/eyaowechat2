@@ -82,7 +82,7 @@ export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
         maxWidth: '100vw',
         panelClass: 'full-width-dialog',
         data: {
-          notices: this.diagnose.notices,
+          diagnose: this.diagnose,
         }
       }).afterClosed()
         .subscribe(() => {

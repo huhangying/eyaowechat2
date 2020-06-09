@@ -1,8 +1,26 @@
-<ng-container *ngIf="data.notices?.length">
-  <p>today-notice works!</p>
+<ng-container *ngIf="diagnose?.prescription?.length">
+  <div class="card mx-2 my-3" *ngFor="let med of diagnose.prescription">
+    <span class="text-warning">{{ med.name }}</span>
+    <span class="text-muted pl-3">({{ med.capacity}}{{med.unit}}*{{med.quantity}})</span>
+    <div class="pt-2">
+      <span class="text-muted">服用方式: </span>{{ med.usage}}, {{ showDosageInstruction(med.dosage, med.unit)}}
+    </div>
+  </div>
 </ng-container>
 
-<ng-container *ngIf="!data.notices?.length">
+
+<ng-container *ngIf="diagnose?.notices?.length">
+  <div class="card mx-2 my-3" *ngFor="let notice of diagnose.notices">
+    <div class="section-title border-bottom">
+      {{ notice.notice }}
+    </div>
+    <div class="text-muted">
+
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!diagnose.prescription?.length">
   <div class="px-3 py-4">
     没有当日用药提醒。
   </div>
