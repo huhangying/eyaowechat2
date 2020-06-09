@@ -52,7 +52,8 @@ export class DiagnoseHistoryComponent implements OnInit, OnDestroy {
       maxWidth: '100vw',
       panelClass: 'full-width-dialog',
       data: {
-        diagnose: diagnose
+        diagnose: diagnose,
+        mode: 3
       }
     }).afterClosed().subscribe(() => {
       this.core.setTitle('门诊历史记录');

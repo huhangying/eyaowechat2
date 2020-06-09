@@ -59,13 +59,20 @@ export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
     }
   }
 
-  openDialog() {
-    if (true) {
+  openDiagnoseDetails(mode: number) {
+    if (this.diagnose) {
       this.dialog.open(DiagnoseDetailsComponent, {
+        maxWidth: '100vw',
+        panelClass: 'full-width-dialog',
         data: {
-          diagnose: this.diagnose
+          diagnose: this.diagnose,
+          mode: mode
         }
-      });
+      }).afterClosed()
+        .subscribe(() => {
+          this.core.setTitle('当前门诊');
+        }
+        );
     }
 
   }

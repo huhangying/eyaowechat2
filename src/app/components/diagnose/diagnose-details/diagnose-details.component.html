@@ -19,7 +19,7 @@
   </ul>
 </div>
 
-<div class="mx-2 my-1">
+<div class="mx-2 my-1" *ngIf="mode === 2 || mode === 3">
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -39,7 +39,7 @@
   </mat-accordion>
 </div>
 
-<div class="mx-2 mt-3 mb-5">
+<div class="mx-2 mt-3 mb-5" *ngIf="mode === 1 || mode === 3">
   <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>

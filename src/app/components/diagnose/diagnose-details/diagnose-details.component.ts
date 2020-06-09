@@ -13,21 +13,34 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class DiagnoseDetailsComponent implements OnInit {
   diagnose: Diagnose;
+  mode: number;
 
   constructor(
     private core: CoreService,
     private medicineService: MedicineService,
     public dialogRef: MatDialogRef<DiagnoseDetailsComponent>,
-    @Inject(MAT_DIALOG_DATA) @Optional() @SkipSelf() public data: { 
-      diagnose: Diagnose 
+    @Inject(MAT_DIALOG_DATA) @Optional() @SkipSelf() public data: {
+      diagnose: Diagnose,
+      mode: number // 1: 显示门诊结论； 2.显示处方； 3. 两个都显示
     },
-   ) { 
+  ) {
     this.diagnose = data.diagnose;
+    this.mode = data.mode;
   }
 
   ngOnInit(): void {
     this.dialogRef.updateSize('100%', '100%');
-    this.core.setTitle('门诊记录详细情况');
+    switch (this.mode) {
+      case 1:
+        this.core.setTitle('门诊结论');
+        break;
+      case 2:
+        this.core.setTitle('药师门诊处方');
+        break;
+      case 3:
+        this.core.setTitle('门诊记录详细情况');
+        break;
+    }
   }
 
   close() {
@@ -39,7 +52,7 @@ export class DiagnoseDetailsComponent implements OnInit {
   }
 
   getSurveyList() {
-    return  this.diagnose.surveys.find(_ => _.type === 5)?.list;
+    return this.diagnose.surveys.find(_ => _.type === 5)?.list;
   }
 
 }

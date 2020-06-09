@@ -1,11 +1,11 @@
 <div class="card p-2 mx-2 my-3">
   <ul class="list-group list-group-flush text-muted">
-    <li class="list-group-item" (click)="openDialog()">
+    <li class="list-group-item" (click)="openDiagnoseDetails(1)">
       <span class="text-success">
         <mat-icon>assignment_turned_in</mat-icon>
       </span>
       <span class="section-title">门诊结论</span></li>
-    <li class="list-group-item" (click)="nav('/my-doctors', true)">
+    <li class="list-group-item" (click)="openDiagnoseDetails(2)">
       <mat-icon color="primary">grading</mat-icon>
       <span class="section-title">药师门诊处方</span>
     </li>
