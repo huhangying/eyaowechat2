@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MedicineNotice } from 'src/app/models/medicine/medicine-notice.model';
 import { CoreService } from 'src/app/core/services/core.service';
 import { Diagnose } from 'src/app/models/diagnose.model';
-import { Dosage } from 'src/app/models/medicine/medicine.model';
+import { Dosage, Medicine } from 'src/app/models/medicine/medicine.model';
 import { MedicineService } from 'src/app/services/medicine.service';
 
 @Component({
@@ -13,6 +13,8 @@ import { MedicineService } from 'src/app/services/medicine.service';
 })
 export class TodayNoticeComponent implements OnInit {
   diagnose: Diagnose;
+  currentPrescription: Medicine[];
+  currentNotices: MedicineNotice[];
 
   constructor(
     private core: CoreService,
@@ -22,7 +24,12 @@ export class TodayNoticeComponent implements OnInit {
       diagnose: Diagnose
     }
   ) {
-    this.diagnose = data.diagnose;
+    this.currentPrescription = data.diagnose?.prescription?.filter(_ => {
+      return this.core.isInToday(_.startDate, _.endDate);
+    });
+    this.currentNotices = data.diagnose?.notices?.filter(_ => {
+      return this.core.isInToday(_.startDate, _.endDate, _.days_to_start, _.during);
+    });
   }
 
   ngOnInit(): void {
