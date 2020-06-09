@@ -14,7 +14,7 @@ import { AddDoctorComponent } from './components/my-doctors/add-doctor/add-docto
 import { DoctorDetailsComponent } from './components/my-doctors/doctor-details/doctor-details.component';
 import { UserResolver } from './services/resolvers/user.resolver';
 import { UserInfoComponent } from './components/profile/user-info/user-info.component';
-import { MySurveysComponent } from './components/profile/my-surveys/my-surveys.component';
+import { MySurveysComponent } from './components/my-surveys/my-surveys.component';
 import { DiagnoseHistoryComponent } from './components/profile/diagnose-history/diagnose-history.component';
 import { MedicinePeriodsResolver } from './services/resolvers/medicine-periods.resolver';
 

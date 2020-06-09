@@ -23,7 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BookingListComponent } from './components/my-reservation/booking-list/booking-list.component';
 import { BookingDetailsComponent } from './components/my-reservation/booking-details/booking-details.component';
 import { UserInfoComponent } from './components/profile/user-info/user-info.component';
-import { MySurveysComponent } from './components/profile/my-surveys/my-surveys.component';
+import { MySurveysComponent } from './components/my-surveys/my-surveys.component';
 import { DiagnoseHistoryComponent } from './components/profile/diagnose-history/diagnose-history.component';
 import { DiagnoseDetailsComponent } from './components/diagnose/diagnose-details/diagnose-details.component';
 import { TodayNoticeComponent } from './components/diagnose/today-notice/today-notice.component';
