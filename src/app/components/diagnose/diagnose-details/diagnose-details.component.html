@@ -21,7 +21,7 @@
 
 <div class="mx-2 my-1" *ngIf="mode === 2 || mode === 3">
   <mat-accordion>
-    <mat-expansion-panel>
+    <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <span class="h6 pt-1">处方信息</span>
       </mat-expansion-panel-header>
@@ -41,7 +41,7 @@
 
 <div class="mx-2 mt-3 mb-5" *ngIf="mode === 1 || mode === 3">
   <mat-accordion>
-    <mat-expansion-panel>
+    <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <span class="h6 pt-1">门诊结论</span>
       </mat-expansion-panel-header>
