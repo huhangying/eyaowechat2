@@ -34,4 +34,9 @@ export class CoreService {
     }
     return true;
   }
+
+  getMinutes(date: Date): number {
+    return moment(date).minute();
+  }
+
 }

@@ -1,2 +1,35 @@
-<p>my-surveys works!</p>
-{{ user | json }}
+<ng-container *ngIf="surveryGroups$ | async; let surveryGroups">
+
+  <ng-container *ngIf="surveryGroups?.length">
+    <div class="card mx-2 my-3 p-2">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <span class="h5">我的问卷</span>
+        </li>
+        <li class="list-group-item pr-0" *ngFor="let surveyGroup of surveryGroups">
+          <div>
+            <span class="">{{ getNameByType(surveyGroup.type) }}</span>
+            <span class="text-muted pl-4">{{ surveyGroup.surveys[0]?.availableBy | localDate }}过期</span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div class="pt-2">
+              <span class="h6">{{ surveyGroup.surveys[0]?.doctor.name}}</span>
+              <span class="text-muted pl-3">{{ surveyGroup.surveys[0].doctor?.title}}</span>
+            </div>
+            <button mat-button class="text-warning" (click)="goDetails(surveyGroup)">
+              查看详情 <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
+          </div>
+
+        </li>
+      </ul>
+  
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!surveryGroups?.length">
+    <div class="px-3 py-4">
+      没有我的问卷。
+    </div>
+  </ng-container>
+</ng-container>
