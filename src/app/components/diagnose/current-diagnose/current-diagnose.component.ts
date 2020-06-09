@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DiagnoseDetailsComponent } from '../diagnose-details/diagnose-details.component';
 import { Diagnose } from 'src/app/models/diagnose.model';
 import { DiagnoseService } from 'src/app/services/diagnose.service';
+import { TodayNoticeComponent } from '../today-notice/today-notice.component';
 
 @Component({
   selector: 'app-current-diagnose',
@@ -71,10 +72,23 @@ export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
       }).afterClosed()
         .subscribe(() => {
           this.core.setTitle('当前门诊');
-        }
-        );
+        });
     }
+  }
 
+  openTodayNotice() {
+    if (this.diagnose) {
+      this.dialog.open(TodayNoticeComponent, {
+        maxWidth: '100vw',
+        panelClass: 'full-width-dialog',
+        data: {
+          notices: this.diagnose.notices,
+        }
+      }).afterClosed()
+        .subscribe(() => {
+          this.core.setTitle('当前门诊');
+        });
+    }
   }
 
 }

@@ -1,0 +1,15 @@
+<ng-container *ngIf="data.notices?.length">
+  <p>today-notice works!</p>
+</ng-container>
+
+<ng-container *ngIf="!data.notices?.length">
+  <div class="px-3 py-4">
+    没有当日用药提醒。
+  </div>
+</ng-container>
+
+<div class="fixed-bottom px-4 py-2">
+  <button type="button" class="btn btn-primary btn-block" (click)="close()">
+    确定
+  </button>
+</div>
