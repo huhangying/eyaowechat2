@@ -1,0 +1,17 @@
+:host {
+  background-color: lightyellow;
+  .notes {
+    color: lightslategrey;
+    font-size: 12px;
+    padding: 1rem 1.6rem;
+    margin-bottom: 4rem;
+  }
+  .question-option {
+    display: flex;
+    // flex-direction: column;
+    margin: 0.7rem 1.5rem 0.3rem 1.5rem;
+  }
+  ::ng-deep .mat-checkbox-label{
+    white-space: normal!important;
+  }
+}

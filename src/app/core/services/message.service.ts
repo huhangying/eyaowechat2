@@ -21,8 +21,8 @@ export class MessageService {
     weui.confirm('您确定要删除？', callback);
   }
 
-  success() {
-    weui.toast('操作成功', 3000);
+  success(msg?: string, timer?: number) {
+    weui.toast(msg || '操作成功', timer || 2500);
   }
 
   error(msg: string) {

@@ -10,6 +10,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatExpansionModule,
     MatTabsModule,
     MatDialogModule,
+    MatCheckboxModule,
+    MatRadioModule,
   ],
   exports: [
     MatIconModule,
@@ -34,7 +38,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatExpansionModule,
     MatTabsModule,
     MatDialogModule,
-
+    MatCheckboxModule,
+    MatRadioModule,
+    
     LocalDatePipe,
     GenderPipe,
     SelectDoctorsComponent,

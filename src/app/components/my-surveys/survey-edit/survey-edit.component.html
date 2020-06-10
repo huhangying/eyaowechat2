@@ -1,0 +1,59 @@
+<div class="border-bottom px-3 pt-3 pb-2 h5 bg-white d-flex justify-content-between">
+  <div class="align-self-center">{{ surveyName }}</div>
+  <div>
+    <button mat-flat-button (click)="reset()">
+      重选<mat-icon color="primary">replay</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="card px-3 py-2 mx-2 my-3">
+  <div class="d-flex p-1">
+    <div class="h6 pr-2">{{ questionIndex + 1}}. </div>    
+    <div class="h6">{{ question.question }}
+      <span class="text-primary">{{ getQuestionType(question.answer_type) }}</span>
+    </div>
+  </div>
+  <ng-container *ngIf="question.answer_type === 0 || question.answer_type === 1">
+    <mat-radio-group name="{{surveyIndex}}{{questionIndex}}">
+      <ng-container *ngFor="let option of question.options; let oIndex=index">
+        <mat-radio-button name="{{surveyIndex}}{{questionIndex}}" (click)="changeRadioSelection(question, oIndex)" [value]="oIndex" [checked]="option.selected"
+          class="question-option text-wrap">
+          {{option.answer}}
+        </mat-radio-button>
+        <input type="text" nbInput [(ngModel)]="option.input" placeholder="请输入..." class="ml-5 w-75"
+          *ngIf="option.input_required && option.selected">
+      </ng-container>
+    </mat-radio-group>
+  </ng-container>
+  <ng-container *ngIf="question.answer_type === 2">
+    <ng-container *ngFor="let option of question.options">
+      <mat-checkbox [(ngModel)]="option.selected" class="question-option text-wrap">
+        {{option.answer}}
+      </mat-checkbox>
+      <input type="text" nbInput [(ngModel)]="option.input" placeholder="请输入..." class="ml-5 w-75"
+        *ngIf="option.input_required && option.selected">
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="question.answer_type === 3">
+    <textarea nbInput fullWidth placeholder="请输入..." [(ngModel)]="question.options[0].answer"></textarea>
+  </ng-container>
+</div>
+
+<div class="notes">
+  为了给您提供更优质的服务，请认真填写此份问卷，您的回答对我们很重要！您的资料我们会严格保密，谢谢！
+</div>
+
+<div class="fixed-bottom d-flex justify-content-around py-2 bg-white border-top">
+  <div>
+    <button mat-raised-button (click)="prev()">
+      <mat-icon color="primary">arrow_left</mat-icon>上一题&nbsp;&nbsp;
+    </button>
+  </div>
+  <div class="align-self-center"> {{ questionIndex + 1}} / {{questionCount}} </div>
+  <div>
+    <button mat-raised-button (click)="next()">
+      &nbsp;&nbsp;下一题<mat-icon color="primary">arrow_right</mat-icon>
+    </button>
+  </div>
+</div>

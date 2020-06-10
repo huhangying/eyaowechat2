@@ -14,7 +14,6 @@ import { CurrentDiagnoseComponent } from './components/diagnose/current-diagnose
 import { ProfileComponent } from './components/profile/profile.component';
 import { EntryComponent } from './components/entry/entry.component';
 import { CoreModule } from './core/core.module';
-import { SelectDoctorsComponent } from './core/component/select-doctors/select-doctors.component';
 import { ChatSelectComponent } from './components/chat/chat-select/chat-select.component';
 import { BookSelectComponent } from './components/book/book-select/book-select.component';
 import { AddDoctorComponent } from './components/my-doctors/add-doctor/add-doctor.component';
@@ -27,6 +26,7 @@ import { MySurveysComponent } from './components/my-surveys/my-surveys.component
 import { DiagnoseHistoryComponent } from './components/profile/diagnose-history/diagnose-history.component';
 import { DiagnoseDetailsComponent } from './components/diagnose/diagnose-details/diagnose-details.component';
 import { TodayNoticeComponent } from './components/diagnose/today-notice/today-notice.component';
+import { SurveyEditComponent } from './components/my-surveys/survey-edit/survey-edit.component';
 
 @NgModule({
   declarations: [
@@ -45,8 +45,11 @@ import { TodayNoticeComponent } from './components/diagnose/today-notice/today-n
     BookingListComponent,
     BookingDetailsComponent,
     UserInfoComponent,
-    MySurveysComponent,  
-    DiagnoseHistoryComponent, DiagnoseDetailsComponent, TodayNoticeComponent,
+    MySurveysComponent,
+    DiagnoseHistoryComponent,
+    DiagnoseDetailsComponent,
+    TodayNoticeComponent,
+    SurveyEditComponent,
   ],
   imports: [
     CommonModule,
@@ -64,4 +67,4 @@ import { TodayNoticeComponent } from './components/diagnose/today-notice/today-n
 })
 export class AppModule {
 
- }
+}

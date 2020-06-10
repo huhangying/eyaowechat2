@@ -45,6 +45,10 @@ export class SurveyService {
     );
   }
 
+  saveSurvey(survey: Survey) {
+    return this.api.patch<Survey>('survey/' + survey._id, survey);
+  }
+
   getSurveyGroupNameByType(type: number) {
     switch (type) {
       case 1:

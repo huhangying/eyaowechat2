@@ -3,10 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { CoreService } from 'src/app/core/services/core.service';
 import { Subject, Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
-import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, tap, takeUntil, filter, map } from 'rxjs/operators';
 import { SurveyService } from 'src/app/services/survey.service';
-import { Survey } from 'src/app/models/survey/survey.model';
 import { SurveyGroup } from 'src/app/models/survey/survey-group.model';
+import { MatDialog } from '@angular/material/dialog';
+import { SurveyEditComponent } from './survey-edit/survey-edit.component';
 
 @Component({
   selector: 'app-my-surveys',
@@ -21,6 +22,7 @@ export class MySurveysComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private core: CoreService,
+    public dialog: MatDialog,
     private surveyService: SurveyService,
   ) {
     this.route.data.pipe(
@@ -47,8 +49,23 @@ export class MySurveysComponent implements OnInit, OnDestroy {
   getNameByType(type: number) {
     return this.surveyService.getSurveyGroupNameByType(type);
   }
-  goDetails(survey: Survey) {
 
+  goDetails(surveyGroup: SurveyGroup) {
+    this.dialog.open(SurveyEditComponent, {
+      maxWidth: '100vw',
+      panelClass: 'full-width-dialog',
+      data: {
+        surveyGroup: surveyGroup,
+        user: this.user
+      }
+    }).afterClosed().subscribe((gkey) => {
+      if (gkey) { // 已完成
+        this.surveryGroups$ = this.surveryGroups$.pipe(
+          map(groups => groups.filter(_ => _.groupkey !== gkey))
+        );
+      }
+      this.core.setTitle('我的问卷');
+    });
   }
 
 }
