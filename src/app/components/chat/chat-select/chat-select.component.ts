@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { Doctor } from 'src/app/models/doctor.model';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CoreService } from 'src/app/core/services/core.service';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
@@ -18,7 +18,6 @@ export class ChatSelectComponent implements OnInit, OnDestroy {
   doctors$: Observable<Doctor[]>;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private core: CoreService,
     private doctorService: DoctorService,

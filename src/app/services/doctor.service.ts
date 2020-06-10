@@ -19,6 +19,12 @@ export class DoctorService {
     );
   }
 
+  getScheduleDoctorsByUser(userid: string) {
+    return this.api.get<{doctor: Doctor, apply: boolean}[]>('relationships/get-schedule-doctors/user/' + userid).pipe(
+      map(doc => doc.filter(_ => _.apply).map(_ => _.doctor))
+    );
+  }
+
   checkRelationshipExisted(did: string, uid: string) {
     return this.api.get<{existed: boolean}>(`relationship/${did}/${uid}`).pipe(
       map(_ => _.existed)
