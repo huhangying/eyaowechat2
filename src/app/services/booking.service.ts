@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../core/services/api.service';
 import { Booking } from '../models/booking.model';
 import { BookingStatus } from '../core/enum/booking-status.enum';
+import { Schedule } from '../models/schedule.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class BookingService {
 
   getBookingsByUser(userid: string) {
     return this.api.get<Booking[]>('bookings/my/user/' + userid);
+  }
+
+  getSchedulesByDoctor(doctorid: string) {
+    return this.api.get<Schedule[]>('schedules/' + doctorid);
   }
 
   getStatusLabel(status: BookingStatus) {

@@ -32,4 +32,9 @@ export class SelectDoctorsComponent implements OnInit {
     this.router.navigate(['/chat'], 
       {state: {doctor: doctor, user: this.user}});
   }
+
+  goBook(doctor: Doctor) {
+    this.router.navigate(['/book'], 
+      {state: {doctor: doctor, user: this.user}});
+  }
 }

@@ -18,6 +18,7 @@
               </div>
               <div class="weui-flex__item text-right">
                 <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-4" (click)="goChat(doctor)"> 在线咨询 </button>
+                <button *ngIf="pageType === 2" class="weui-btn weui-btn_mini weui-btn_warn px-4" (click)="goBook(doctor)"> 预约门诊 </button>
                 <button *ngIf="pageType === 3 || pageType === 4" class="weui-btn weui-btn_mini weui-btn_warn px-4" (click)="goDoctorDetails(doctor)"> 详情 </button>
               </div>
             </div>
