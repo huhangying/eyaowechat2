@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import weui from 'weui.js';
+import { EMPTY } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,13 @@ export class MessageService {
     weui.toast(msg || '操作成功', timer || 2500);
   }
 
-  error(msg: string) {
-    weui.topTips(msg, 3000);
+  error(msg?: string) {
+    weui.topTips(msg || '操作失败', 3000);
+  }
+
+  errorCatch(msg?: string) {
+    this.error(msg);
+    return EMPTY;
   }
 
 }
