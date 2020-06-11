@@ -28,6 +28,9 @@ import { DiagnoseDetailsComponent } from './components/diagnose/diagnose-details
 import { TodayNoticeComponent } from './components/diagnose/today-notice/today-notice.component';
 import { SurveyEditComponent } from './components/my-surveys/survey-edit/survey-edit.component';
 import { SurveyViewComponent } from './components/my-surveys/survey-view/survey-view.component';
+import { AdverseReactionComponent } from './components/diagnose/feedback/adverse-reaction/adverse-reaction.component';
+import { DoseCombinationComponent } from './components/diagnose/feedback/dose-combination/dose-combination.component';
+import { FeedbackComponent } from './components/diagnose/feedback/feedback/feedback.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,9 @@ import { SurveyViewComponent } from './components/my-surveys/survey-view/survey-
     TodayNoticeComponent,
     SurveyEditComponent,
     SurveyViewComponent,
+    AdverseReactionComponent,
+    DoseCombinationComponent,
+    FeedbackComponent,
   ],
   imports: [
     CommonModule,

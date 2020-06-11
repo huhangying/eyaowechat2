@@ -17,6 +17,8 @@ import { UserInfoComponent } from './components/profile/user-info/user-info.comp
 import { MySurveysComponent } from './components/my-surveys/my-surveys.component';
 import { DiagnoseHistoryComponent } from './components/profile/diagnose-history/diagnose-history.component';
 import { MedicinePeriodsResolver } from './services/resolvers/medicine-periods.resolver';
+import { DoseCombinationComponent } from './components/diagnose/feedback/dose-combination/dose-combination.component';
+import { AdverseReactionComponent } from './components/diagnose/feedback/adverse-reaction/adverse-reaction.component';
 
 
 const routes: Routes = [
@@ -97,6 +99,18 @@ const routes: Routes = [
     component: CurrentDiagnoseComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver, medicinePeriods: MedicinePeriodsResolver }
+  },
+  {
+    path: 'adverse-reaction',
+    component: AdverseReactionComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
+  },
+  {
+    path: 'dose-combination',
+    component: DoseCombinationComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
   },
   {
     path: 'entry',
