@@ -5,7 +5,7 @@ import { Doctor } from 'src/app/models/doctor.model';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { Observable, of } from 'rxjs';
 import { MessageService } from 'src/app/core/services/message.service';
-import { tap, catchError } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-doctor-details',
@@ -44,7 +44,6 @@ export class DoctorDetailsComponent implements OnInit {
           this.message.error();
         }
       }),
-      catchError(err => this.message.errorCatch())
     ).subscribe();
   }
 
@@ -59,7 +58,6 @@ export class DoctorDetailsComponent implements OnInit {
             this.message.error();
           }
         }),
-        catchError(err => this.message.errorCatch())
       ).subscribe();
     });
   }

@@ -1,16 +1,16 @@
 import { AppStoreService } from '../store/app-store.service';
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { finalize, catchError, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { MessageService } from './message.service';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
 
     constructor(
         private appStore: AppStoreService,
-        private router: Router,
+        private message: MessageService,
     ) {
     }
 
@@ -34,10 +34,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
         // this.appStore.updateLoading(true);
         return next.handle(request).pipe(
-            tap(res => {
-                // console.log(res);
-
-            })
+            catchError(err => this.message.errorCatch())
             // catchError((error: HttpErrorResponse) => {
             //     // handle error
             //     // 403 => redirect to login
