@@ -1,0 +1,40 @@
+<ng-container *ngIf="survey">
+
+  <ng-container *ngFor="let question of survey.questions; let qIndex=index">
+    <h5 class="text-info px-2 pt-2 pb-1">{{qIndex + 1}}. {{question.question}}</h5>
+    <ng-container *ngIf="question.answer_type === 0 || question.answer_type === 1">
+      <mat-radio-group name="{{survey?._id}}{{qIndex}}">
+        <ng-container *ngFor="let option of question.options; let oIndex=index">
+          <mat-radio-button name="{{survey?._id}}{{qIndex}}" [value]="oIndex" [checked]="option.selected"
+            class="question-option" disabled>
+            {{option.answer}}
+          </mat-radio-button>
+          <div class="alert alert-secondary" *ngIf="option.input_required && option.selected">
+            {{ option.input}}
+            <span *ngIf="!option.input" class="text-muted small">未输入</span>
+          </div>
+        </ng-container>
+      </mat-radio-group>
+    </ng-container>
+    <ng-container *ngIf="question.answer_type === 2">
+      <ng-container *ngFor="let option of question.options">
+        <mat-checkbox [(ngModel)]="option.selected" class="question-option" [disabled]="readonly">
+          {{option.answer}}
+        </mat-checkbox>
+        <div class="alert alert-secondary" *ngIf="option.input_required && option.selected">
+          {{ option.input}}
+          <span *ngIf="!option.input" class="text-muted small">未输入</span>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="question.answer_type === 3">
+      <div class="alert alert-secondary">
+        {{ question.options[0].answer }}
+        <span *ngIf="!question.options[0].answer" class="text-muted small">未输入</span>
+      </div>
+    </ng-container>
+
+  </ng-container>
+
+</ng-container>

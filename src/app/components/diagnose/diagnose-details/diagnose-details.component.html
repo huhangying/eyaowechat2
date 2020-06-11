@@ -47,8 +47,8 @@
       </mat-expansion-panel-header>
 
       <ul class="list-group list-group-flush border-top">
-        <li class="list-group-item px-0" *ngFor="let list of getSurveyList()">
-          {{list}}
+        <li class="list-group-item px-0" *ngFor="let surveyId of getSurveyList()">
+          <app-survey-view [surveyId]="surveyId"></app-survey-view>
         </li>
       </ul>
     </mat-expansion-panel>

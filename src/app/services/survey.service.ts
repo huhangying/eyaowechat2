@@ -45,6 +45,10 @@ export class SurveyService {
     );
   }
 
+  getSurveyById(id: string) {
+    return this.api.get<Survey>('survey/' + id);
+  }
+
   saveSurvey(survey: Survey) {
     return this.api.patch<Survey>('survey/' + survey._id, survey);
   }

@@ -27,6 +27,7 @@ import { DiagnoseHistoryComponent } from './components/profile/diagnose-history/
 import { DiagnoseDetailsComponent } from './components/diagnose/diagnose-details/diagnose-details.component';
 import { TodayNoticeComponent } from './components/diagnose/today-notice/today-notice.component';
 import { SurveyEditComponent } from './components/my-surveys/survey-edit/survey-edit.component';
+import { SurveyViewComponent } from './components/my-surveys/survey-view/survey-view.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { SurveyEditComponent } from './components/my-surveys/survey-edit/survey-
     DiagnoseDetailsComponent,
     TodayNoticeComponent,
     SurveyEditComponent,
+    SurveyViewComponent,
   ],
   imports: [
     CommonModule,
