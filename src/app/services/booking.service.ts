@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../core/services/api.service';
-import { Booking } from '../models/booking.model';
+import { Booking, OriginBooking } from '../models/booking.model';
 import { BookingStatus } from '../core/enum/booking-status.enum';
 import { Schedule } from '../models/schedule.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,32 @@ export class BookingService {
     private api: ApiService,
   ) { }
 
+  // booking
+
   getBookingsByUser(userid: string) {
     return this.api.get<Booking[]>('bookings/my/user/' + userid);
   }
 
+  createBooking(booking: OriginBooking) {
+    return this.api.post<OriginBooking>('booking', booking);
+  }
+
+  // schedule
+
   getSchedulesByDoctor(doctorid: string) {
     return this.api.get<Schedule[]>('schedules/' + doctorid);
+  }
+
+  getOneWeekSchedules(doctorid: string, startDate) {
+    return this.api.get<Schedule[]>('schedules/find-a-week/' + doctorid + '/' + startDate);
+  }
+
+  // functions
+
+  getGlobalReservationNote() {
+    return this.api.get<{value: string}>('const/reservation_note').pipe(
+      map(result => result?.value)
+    )
   }
 
   getStatusLabel(status: BookingStatus) {

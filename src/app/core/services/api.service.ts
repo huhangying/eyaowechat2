@@ -33,7 +33,7 @@ export class ApiService {
         }),
         catchError(error => {
           if (error instanceof HttpErrorResponse) {
-            console.log(error);
+            // console.log(error);
           }
           throw error;
         })
@@ -51,7 +51,7 @@ export class ApiService {
         }),
         catchError(error => {
           if (error instanceof HttpErrorResponse) {
-            console.log(error);
+            // console.log(error);
           }
           throw error;
         })

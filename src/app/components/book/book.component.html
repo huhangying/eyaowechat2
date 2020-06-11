@@ -1,3 +1,147 @@
-<p>book works!</p>
+<div class="text-center bg-white mb-3 pt-2">
+  <img src="{{doctor.icon}}" class="rounded-circle img_msg">
+  <div class="py-3">
+    <span class="h6">{{doctor.name}}</span>
+    <span class="pl-3 text-muted">{{doctor.title}}</span>
+  </div>
+</div>
 
-{{ this.schedules$ | async | json }}
+<div class="border border-primary d-flex text-center m-2">
+  <div class="flex-fill p-2" (click)="scheduleSelected=true"
+    [ngClass]="scheduleSelected ? 'bg-primary text-white' : ''">
+    药师排班</div>
+  <div class="flex-fill p-2" (click)="scheduleSelected=false"
+    [ngClass]="!scheduleSelected ? 'bg-primary text-white' : ''">
+    药师详情</div>
+</div>
+
+<ng-container *ngIf="scheduleSelected">
+  <div class="text-center">
+    {{ yearMonth }}
+  </div>
+  <div class="card mb-2 mx-2">
+    <div class="d-flex align-items-center">
+      <div class="flex-fill week-nav" (click)="prevWeek()">
+        <button mat-icon-button>
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+      </div>
+      <div class="flex-fill text-center py-2" (click)="select(0, day0)"
+        [ngClass]="day0 ? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 0">
+        {{ getDay() }}
+        <div class="pt-2">日</div>
+      </div>
+      <div class="flex-fill text-center py-2" (click)="select(1, day1)"
+        [ngClass]="day1? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 1">
+        {{ getDay(1) }}
+        <div class="pt-2">一</div>
+      </div>
+      <div class="flex-fill text-center py-2" (click)="select(2, day2)"
+        [ngClass]="day2 ? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 2">
+        {{ getDay(2)  }}
+        <div class="pt-2">二</div>
+      </div>
+      <div class="flex-fill text-center py-2" (click)="select(3, day3)"
+        [ngClass]="day3 ? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 3">
+        {{ getDay(3)  }}
+        <div class="pt-2">三</div>
+      </div>
+      <div class="flex-fill text-center py-2" (click)="select(4, day4)"
+        [ngClass]="day4 ? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 4">
+        {{ getDay(4)  }}
+        <div class="pt-2">四</div>
+      </div>
+      <div class="flex-fill text-center py-2" (click)="select(5, day5)"
+        [ngClass]="day5 ? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 5">
+        {{ getDay(5)  }}
+        <div class="pt-2">五</div>
+      </div>
+      <div class="flex-fill text-center py-2" (click)="select(6, day6)"
+        [ngClass]="day6 ? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 6">
+        {{ getDay(6)  }}
+        <div class="pt-2">六</div>
+      </div>
+      <div class="flex-fill text-right week-nav" (click)="nextWeek()">
+        <button mat-icon-button color="primary">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="availableSchedules?.length">
+    <div class="card m-2 pt-1">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex align-items-center" *ngFor="let schedule of availableSchedules">
+          <div>
+            {{schedule.date | localDate}} {{schedule.period.name}} 
+            <span class="pl-2 text-muted">(可预约: {{ schedule.limit }})</span>
+          </div>
+          <button mat-raised-button color="warn" class="ml-auto" (click)="book(schedule)">
+            预约
+          </button>
+        </li>
+      </ul>
+      <div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!availableSchedules?.length">
+    <div class="alert alert-warning mx-2">
+      暂无可预约的门诊。
+    </div>
+  </ng-container>
+
+
+  <div class="card p-3 m-2">
+    <div class="border-bottom mb-2">
+      <mat-icon class="text-warning">campaign</mat-icon>
+      <span class="section-title">预约须知</span>
+    </div>
+    <div class="text-muted text-wrap p-2" [innerHtml]="reservationNote">
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!scheduleSelected">
+  <div class="card px-3 pt-3 pb-1 m-2">
+    <div class="border-bottom mb-2">
+      <mat-icon class="text-warning">schedule</mat-icon>
+      <span class="section-title">工作时间</span>
+    </div>
+    <p class="text-muted">
+      {{ doctor?.hours || '未设置' }}
+    </p>
+  </div>
+
+  <div class="card px-3 pt-3 pb-1 m-2">
+    <div class="border-bottom mb-2">
+      <mat-icon class="text-warning">assignment</mat-icon>
+      <span class="section-title">药师简介</span>
+    </div>
+    <p class="text-muted">
+      {{ doctor?.bulletin || '未设置' }}
+    </p>
+  </div>
+
+  <div class="card px-3 pt-3 pb-1 m-2">
+    <div class="border-bottom mb-2">
+      <mat-icon class="text-warning">verified</mat-icon>
+      <span class="section-title">擅长领域</span>
+    </div>
+    <p class="text-muted">
+      {{ doctor?.expertise || '未设置' }}
+    </p>
+  </div>
+
+  <div class="card px-3 pt-3 pb-1 m-2">
+    <div class="border-bottom mb-2">
+      <mat-icon class="text-warning">emoji_events</mat-icon>
+      <span class="section-title">获奖情况</span>
+    </div>
+    <p class="text-muted">
+      {{ doctor?.honor || '无' }}
+    </p>
+  </div>
+</ng-container>

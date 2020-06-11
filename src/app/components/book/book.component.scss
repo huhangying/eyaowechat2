@@ -1,0 +1,22 @@
+:host {
+  .img_msg {
+    height: 100px;
+    width: 100px;
+    border: 1.5px solid #f5f6fa;
+  }
+  .day-selected {
+    border-bottom: 1px solid blue;
+  }
+  .day-avaliable {
+    background-color: lightgoldenrodyellow;
+    border-right: 1px solid #fff;
+  }
+  .day-disabled {
+    color: gray;
+    background-color: lightgray;
+    border-right: 1px solid #fff;
+  }
+  .week-nav {
+    max-width: 42px;
+  }
+}
