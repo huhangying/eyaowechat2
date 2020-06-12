@@ -50,8 +50,7 @@ export class AddFeedbackComponent implements OnInit {
   get startDate() { return this.form.get('startDate'); }
   get endDate() { return this.form.get('endDate'); }
 
-  selectStartDate(e) {
-    e.preventDefault();
+  selectStartDate() {
     weui.datePicker({
       start: 2020,
       default: new Date(),

@@ -16,14 +16,17 @@
     </li>
     <li class="list-group-item d-flex">
       <span class="item-label">开始时间:</span>
-      <div (click)="selectStartDate($event)">
-        <input class="weui-input" formControlName="startDate" [value]="startDate.value | localDate">
+      <div (click)="selectStartDate()">
+        {{ startDate.value | localDate}}
+        <input class="weui-input" type="hidden" formControlName="startDate"
+          [value]="startDate.value">
       </div>
     </li>
     <li class="list-group-item d-flex">
       <span class="item-label">结束时间:</span>
-      <div (click)="selectEndDate()">
-        <input class="weui-input" formControlName="endDate" [value]="endDate.value | localDate">
+      <div>
+        {{ endDate.value | localDate}}
+        <input class="weui-input" type=""  (click)="selectEndDate()" formControlName="endDate" [value]="endDate.value">
       </div>
     </li>
     <li class="list-group-item d-flex">
