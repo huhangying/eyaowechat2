@@ -1,0 +1,58 @@
+<div class="card m-2" [formGroup]="form">
+  <ul class="list-group list-group-flush text-muted">
+    <li class="list-group-item">
+      <span class="h5">
+        用药详情
+      </span>
+      <span class="text-warning">(*为必填项)</span>
+    </li>
+    <li class="list-group-item">
+      <span class="item-label">药师:</span>
+      {{ data.doctor.name }}
+    </li>
+    <li class="list-group-item d-flex">
+      <span class="item-label">药物名称:</span>
+      <input class="weui-input" type="text" formControlName="name">
+    </li>
+    <li class="list-group-item d-flex">
+      <span class="item-label">开始时间:</span>
+      <div (click)="selectStartDate($event)">
+        <input class="weui-input" formControlName="startDate" [value]="startDate.value | localDate">
+      </div>
+    </li>
+    <li class="list-group-item d-flex">
+      <span class="item-label">结束时间:</span>
+      <div (click)="selectEndDate()">
+        <input class="weui-input" formControlName="endDate" [value]="endDate.value | localDate">
+      </div>
+    </li>
+    <li class="list-group-item d-flex">
+      <div class="item-label">用药方法:</div>
+      <div class="px-2 py-0 w-100">
+        <textarea class="weui-textarea" placeholder="请输入用药方法" rows="3" formControlName="how">
+        </textarea>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="weui-uploaders">
+        <div class="weui-uploader__title pb-2">
+          附件图片: <span><span id="uploadCount">0</span>/3</span>
+        </div>
+
+        <!-- <ul class="weui-uploader__files" id="uploaderFiles"> -->
+        <img src="{{ avatar }}" onerror="this.src='/assets/images/icon/default.svg';this.onerror='';"
+          class="avatar-image img-fluid img-thumbnail z-depth-1" alt="">
+        <!-- </ul> -->
+        <div class="weui-uploader__input-box">
+          <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" capture="camera"
+            multiple="" formControlName="notes" (change)="imageUpload($event)" />
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="fixed-bottom px-4 py-2">
+  <button type="button" class="btn btn-primary btn-block" (click)="submit()">
+    提交
+  </button>
+</div>

@@ -1,2 +1,17 @@
-<p>feedback works!</p>
-{{ type }}
+<div class="card m-2">
+  <ul class="list-group list-group-flush text-muted">
+    <li class="list-group-item">
+      <span class="h5">
+        用药详情
+      </span>
+      <span class="text-warning">(*为必填项)</span>
+    </li>
+    
+  </ul>
+</div>
+
+<div class="fixed-bottom px-4 py-2" [class.d-none]="hideAddBtn">
+  <button type="button" class="btn btn-primary btn-block" (click)="add()">
+    新增
+  </button>
+</div>

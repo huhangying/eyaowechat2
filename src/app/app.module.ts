@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChatComponent } from './components/chat/chat.component';
@@ -31,6 +31,7 @@ import { SurveyViewComponent } from './components/my-surveys/survey-view/survey-
 import { AdverseReactionComponent } from './components/diagnose/feedback/adverse-reaction/adverse-reaction.component';
 import { DoseCombinationComponent } from './components/diagnose/feedback/dose-combination/dose-combination.component';
 import { FeedbackComponent } from './components/diagnose/feedback/feedback/feedback.component';
+import { AddFeedbackComponent } from './components/diagnose/feedback/add-feedback/add-feedback.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { FeedbackComponent } from './components/diagnose/feedback/feedback/feedb
     AdverseReactionComponent,
     DoseCombinationComponent,
     FeedbackComponent,
+    AddFeedbackComponent,
   ],
   imports: [
     CommonModule,
@@ -65,6 +67,7 @@ import { FeedbackComponent } from './components/diagnose/feedback/feedback/feedb
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     CoreModule,
     BrowserAnimationsModule,
   ],

@@ -9,6 +9,7 @@ import { DiagnoseDetailsComponent } from '../diagnose-details/diagnose-details.c
 import { Diagnose } from 'src/app/models/diagnose.model';
 import { DiagnoseService } from 'src/app/services/diagnose.service';
 import { TodayNoticeComponent } from '../today-notice/today-notice.component';
+import { Doctor } from 'src/app/models/doctor.model';
 
 @Component({
   selector: 'app-current-diagnose',
@@ -18,6 +19,7 @@ import { TodayNoticeComponent } from '../today-notice/today-notice.component';
 export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   user: User;
+  doctor: Doctor;
   diagnose: Diagnose;
 
   constructor(
@@ -52,12 +54,13 @@ export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  nav(target: string, useOpenid = false) {
-    if (useOpenid) {
-      this.router.navigate([target], { queryParams: { openid: this.user.link_id } });
-    } else {
-      this.router.navigate([target], { queryParams: this.route.snapshot.queryParams });
-    }
+  nav(target: string) {
+    this.router.navigate([target], {
+      queryParams: this.route.snapshot.queryParams,
+      state: {
+        doctor: this.diagnose.doctor,
+      }
+    });
   }
 
   openDiagnoseDetails(mode: number) {
