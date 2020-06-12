@@ -25,4 +25,5 @@ export class UserService {
   }
 
   get user() { return this.appStore.user; }
+  get openid() { return this.appStore.token?.openid; }
 }

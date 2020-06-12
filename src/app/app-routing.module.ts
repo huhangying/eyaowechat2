@@ -19,11 +19,13 @@ import { DiagnoseHistoryComponent } from './components/profile/diagnose-history/
 import { MedicinePeriodsResolver } from './services/resolvers/medicine-periods.resolver';
 import { DoseCombinationComponent } from './components/diagnose/feedback/dose-combination/dose-combination.component';
 import { AdverseReactionComponent } from './components/diagnose/feedback/adverse-reaction/adverse-reaction.component';
+import { AuthMockGuard } from './core/services/auth-mock.guard';
+import { DoctorResolver } from './services/resolvers/doctor.resolver';
 
 
 const routes: Routes = [
   {
-    path: 'book-select',
+    path: 'book-select',    // <-
     component: BookSelectComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver }
@@ -32,9 +34,10 @@ const routes: Routes = [
     path: 'book',
     component: BookComponent,
     canActivate: [AuthGuard],
+    resolve: { user: UserResolver, doctor: DoctorResolver }
   },
   {
-    path: 'chat-select',
+    path: 'chat-select',    // <-
     component: ChatSelectComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver }
@@ -42,11 +45,12 @@ const routes: Routes = [
   {
     path: 'chat',
     component: ChatComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver, doctor: DoctorResolver }
   },
 
   {
-    path: 'my-doctors',
+    path: 'my-doctors',    // <-
     component: MyDoctorsComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver }
@@ -54,22 +58,23 @@ const routes: Routes = [
   {
     path: 'doctor-details',
     component: DoctorDetailsComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver, doctor: DoctorResolver }
   },
   {
     path: 'add-doctor',
     component: AddDoctorComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
-    path: 'my-reservation',
+    path: 'my-reservation',    // <-
     component: MyReservationComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver }
   },
   // 
   {
-    path: 'profile',
+    path: 'profile',    // <-
     component: ProfileComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver }
@@ -95,7 +100,7 @@ const routes: Routes = [
   },
   //
   {
-    path: 'current-diagnose',
+    path: 'current-diagnose',    // <-
     component: CurrentDiagnoseComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver, medicinePeriods: MedicinePeriodsResolver }
@@ -104,17 +109,19 @@ const routes: Routes = [
     path: 'adverse-reaction',
     component: AdverseReactionComponent,
     canActivate: [AuthGuard],
-    resolve: { user: UserResolver }
+    resolve: { user: UserResolver, doctor: DoctorResolver }
   },
   {
     path: 'dose-combination',
     component: DoseCombinationComponent,
     canActivate: [AuthGuard],
-    resolve: { user: UserResolver }
+    resolve: { user: UserResolver, doctor: DoctorResolver }
   },
   {
     path: 'entry',
     component: EntryComponent,
+    canActivate: [AuthMockGuard],
+    resolve: { user: UserResolver }
   },
   { path: '', redirectTo: 'entry', pathMatch: 'full' },
   { path: '**', redirectTo: 'entry' },

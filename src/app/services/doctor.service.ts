@@ -3,6 +3,7 @@ import { ApiService } from '../core/services/api.service';
 import { Doctor, DoctorWrap } from '../models/doctor.model';
 import { map } from 'rxjs/operators';
 import { Department } from '../models/department.model';
+import { AppStoreService } from '../core/store/app-store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,22 +12,32 @@ export class DoctorService {
 
   constructor(
     private api: ApiService,
+    private appStore: AppStoreService,
   ) { }
 
+  get doctor() { return this.appStore.doctor; }
+  set doctor(val: Doctor) {
+    this.appStore.udpateDoctor(val);
+  }
+
+  getDoctorById(id: string) {
+    return this.api.get<Doctor>('doctor/' + id);
+  }
+
   getDoctorsByUser(userid: string) {
-    return this.api.get<{doctor: Doctor}[]>('relationships/get-doctors/user/' + userid).pipe(
+    return this.api.get<{ doctor: Doctor }[]>('relationships/get-doctors/user/' + userid).pipe(
       map(doc => doc.map(_ => _.doctor))
     );
   }
 
   getScheduleDoctorsByUser(userid: string) {
-    return this.api.get<{doctor: Doctor, apply: boolean}[]>('relationships/get-schedule-doctors/user/' + userid).pipe(
+    return this.api.get<{ doctor: Doctor, apply: boolean }[]>('relationships/get-schedule-doctors/user/' + userid).pipe(
       map(doc => doc.filter(_ => _.apply).map(_ => _.doctor))
     );
   }
 
   checkRelationshipExisted(did: string, uid: string) {
-    return this.api.get<{existed: boolean}>(`relationship/${did}/${uid}`).pipe(
+    return this.api.get<{ existed: boolean }>(`relationship/${did}/${uid}`).pipe(
       map(_ => _.existed)
     );
   }

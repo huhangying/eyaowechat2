@@ -2,18 +2,16 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestro
 import weui from 'weui.js';
 import wx from 'weixin-js-sdk';
 import { AppStoreService } from '../../core/store/app-store.service';
-import { ApiService } from 'src/app/core/services/api.service';
-import { tap, catchError } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
+import { tap, catchError, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { EMPTY, Subject } from 'rxjs';
 import { WeixinService } from 'src/app/services/weixin.service';
 import { Chat, ChatType } from 'src/app/models/chat.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { SocketioService } from 'src/app/core/services/soketio.service';
-import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { ChatService } from 'src/app/services/chat.service';
 import { CoreService } from 'src/app/core/services/core.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -22,33 +20,32 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject<void>();
   room: string;
   doctor: Doctor;
-  patient: User;
+  user: User;
   chats: Chat[];
   myInput = '';
   errorMessage: string;
   returnMessage: string;
 
   constructor(
-    private router: Router,
+    private route: ActivatedRoute,
     private appStore: AppStoreService,
     private wxService: WeixinService,
     private socketio: SocketioService,
     private cd: ChangeDetectorRef,
-    private userService: UserService,
     private chat: ChatService,
     private core: CoreService,
   ) {
-    if (this.appStore.token?.openid) {
-      //  this.buildWechatObj();
-    }
-    this.doctor = this.router.getCurrentNavigation().extras.state?.doctor || {};
-    this.patient = this.router.getCurrentNavigation().extras.state?.user;
-    // get user self
-    // this.patient = this.userService.user ||
-    //   (await this.userService.getUserByOpenid(this.appStore.token?.openid || 'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA').toPromise());
-
+    this.route.data.pipe(
+      distinctUntilChanged(),
+      tap(data => {
+        this.user = data.user;
+        this.doctor = data.doctor;
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
     this.socketio.setupSocketConnection();
   }
 
@@ -70,7 +67,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 
     // get chat history
-    this.chat.getChatHistory(this.patient._id, this.doctor._id).pipe(
+    this.chat.getChatHistory(this.user._id, this.doctor._id).pipe(
       tap(results => {
         this.chats = results || [];
         this.scrollBottom();
@@ -79,6 +76,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
     this.socketio.leaveRoom(this.room);
   }
 
@@ -89,29 +88,6 @@ export class ChatComponent implements OnInit, OnDestroy {
       footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
       this.cd.markForCheck();
     });
-  }
-
-  test() {
-    weui.alert(JSON.stringify(this.appStore.token));
-  }
-
-  refreshToken() {
-    if (!this.appStore?.token?.refresh_token) {
-      return weui.alert('No refresh token existed.');
-    }
-    this.wxService.refreshToken(this.appStore.token.refresh_token).pipe(
-      tap(token => {
-        if (token) {
-          weui.alert(JSON.stringify(token));
-          this.appStore.updateToken(token);
-          this.cd.markForCheck();
-        }
-      })
-    ).subscribe();
-  }
-
-  displayStore() {
-    weui.alert(JSON.stringify(this.appStore.state));
   }
 
   buildWechatObj() {
@@ -153,8 +129,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     if (this.myInput.trim() === '') return; // avoid sending empty
     const chatMsg = {
       room: this.room,
-      sender: this.patient._id,
-      senderName: this.patient.name,
+      sender: this.user._id,
+      senderName: this.user.name,
       to: this.doctor._id,
       type: ChatType.text,
       data: this.myInput

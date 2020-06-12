@@ -46,7 +46,7 @@ export class MyDoctorsComponent implements OnInit, OnDestroy {
   }
 
   addDoctor() {
-    this.router.navigate(['/add-doctor'], { state: { user: this.user } });
+    this.router.navigate(['/add-doctor'], { queryParams: this.route.snapshot.queryParams });
   }
 
 }

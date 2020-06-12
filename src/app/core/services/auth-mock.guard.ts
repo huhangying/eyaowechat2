@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AppStoreService } from '../store/app-store.service';
 import { WeixinService } from 'src/app/services/weixin.service';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthMockGuard implements CanActivate {
 
   constructor(
     private wxService: WeixinService,
@@ -20,30 +20,17 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    // entry: code + state;
-    // redirect: openid + state
-    const { code, state, openid } = next.queryParams; // state is hid
+    // mock appStore: token, hid and apiToken
+    this.appStore.updateToken({
+      openid: 'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA',
+      expires_in: 7200,
+      access_token: 'access_token',
+      scope: 'SCOPE',
+      refresh_token: 'refresh_token'
+    });
+    this.appStore.udpateHid(1);
 
-    if (openid && this.appStore?.apiToken) { // skip if token/openid existed
-      return true;
-    }
-
-    const hid = +state;
-    if (!openid) {
-      this.appStore.udpateHid(hid);
-      return this.wxService.getToken(code, hid).pipe(
-        switchMap(token => {
-          if (token) {
-            this.appStore.updateToken(token);
-            return this.canGetApiTokenByOpenid(hid, token.openid);
-          }
-          return of(false);
-        }),
-      );
-    }
-    else { // openid existed
-      return this.canGetApiTokenByOpenid(hid, openid);
-    }
+    return this.canGetApiTokenByOpenid(this.appStore.hid, this.appStore.token.openid);
   }
 
   canGetApiTokenByOpenid(hid: number, openid: string) {

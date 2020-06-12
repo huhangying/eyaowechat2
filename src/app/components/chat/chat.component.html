@@ -1,17 +1,11 @@
 <div class="msg_card_body px-2 h-100">
-    <button class="weui-btn weui-btn_primary" (click)="test()">绿色按钮</button>
-    <button class="weui-btn weui-btn_primary" (click)="refreshToken()">刷新Token</button>
-    <button class="weui-btn weui-btn_primary" (click)="displayStore()">App store</button>
-    {{returnMessage}}
-    <hr>
-    {{errorMessage}}
     <div *ngFor="let chat of chats" class="mb-2" [ngClass]="chat.sender !== doctor?._id ? ' sender': 'to'">
 
         <div class="d-flex"
             [ngClass]="chat.sender !== doctor?._id ? 'align-items-end flex-row-reverse': 'align-items-start flex-row'">
             <div class="img_cont_msg">
                 <span class="triangle"></span>
-                <img [src]="patient?.icon" class="rounded-circle user_img_msg">
+                <img [src]="user?.icon" class="rounded-circle user_img_msg">
             </div>
             <div class="msg-data">
                 {{ chat.data }}

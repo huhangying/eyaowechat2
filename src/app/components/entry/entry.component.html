@@ -4,13 +4,15 @@
 </div>
 
 <div class="text-center">
-    <button class="weui-btn weui-btn_primary" (click)="nav('chat-select', true)">在线咨询</button>
-    <button class="weui-btn weui-btn_primary" (click)="nav('book-select', true)">预约门诊</button>
-    <button class="weui-btn weui-btn_primary" (click)="nav('my-doctors', true)">我的药师团队</button>
-    <button class="weui-btn weui-btn_primary" (click)="nav('my-reservation', true)">我的预约</button>
-    <button class="weui-btn weui-btn_primary" (click)="nav('profile', true)">个人中心</button>
-    <button class="weui-btn weui-btn_primary" (click)="nav('current-diagnose', true)">当前门诊</button>
-    <button class="weui-btn weui-btn_primary" (click)="nav('chat', true)">在线咨询</button>
+    <button class="weui-btn weui-btn_primary" (click)="nav('chat-select')">在线咨询</button>
+    <button class="weui-btn weui-btn_primary" (click)="nav('book-select')">预约门诊</button>
+    <button class="weui-btn weui-btn_primary" (click)="nav('my-doctors')">我的药师团队</button>
+    <button class="weui-btn weui-btn_primary" (click)="nav('my-reservation')">我的预约</button>
+    <button class="weui-btn weui-btn_primary" (click)="nav('profile')">个人中心</button>
+    <button class="weui-btn weui-btn_primary" (click)="nav('current-diagnose')">当前门诊</button>
+    <hr>
+    <button class="weui-btn weui-btn_primary" (click)="refreshToken()">刷新Token</button>
+    <button class="weui-btn weui-btn_primary" (click)="displayStore()">App store</button>
 </div>
 
 <div class="fixed-bottom text-center text-muted">

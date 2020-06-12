@@ -1,11 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CoreService } from 'src/app/core/services/core.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { DoctorService } from 'src/app/services/doctor.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Department } from 'src/app/models/department.model';
 import { Doctor } from 'src/app/models/doctor.model';
+import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-doctor',
@@ -13,25 +14,38 @@ import { Doctor } from 'src/app/models/doctor.model';
   styleUrls: ['./add-doctor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddDoctorComponent implements OnInit {
+export class AddDoctorComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject<void>();
   user: User;
   departments$: Observable<Department[]>;
   doctors$: Observable<Doctor[]>;
   opened: false;
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private core: CoreService,
     private doctorService: DoctorService,
     private cd: ChangeDetectorRef,
   ) { 
-    this.user = this.router.getCurrentNavigation().extras?.state?.user || {};
+    this.route.data.pipe(
+      distinctUntilChanged(),
+      tap(data => {
+        this.user = data.user;
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
+
     this.departments$ = this.doctorService.getDepartments();
   }
 
   ngOnInit(): void {
     this.core.setTitle('选择我的药师');
-
+  }
+  
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 
   setExpansionStatus(status) {

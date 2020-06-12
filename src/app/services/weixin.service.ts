@@ -49,6 +49,14 @@ export class WeixinService {
 
   // get token by code
   getToken(code: string, hid: number) {
+    if (this.secret?.appid && this.secret?.secret) { // has secret in service
+      return this.api.get<Token>('wechat/authWeixinToken', {
+        appid: this.secret.appid,
+        secret: this.secret.secret,
+        code: code,
+        grant_type: 'authorization_code'
+      });
+    }
     return this.fetchWechatSettings(hid).pipe(
       switchMap(secret => {
         this.secret = secret;

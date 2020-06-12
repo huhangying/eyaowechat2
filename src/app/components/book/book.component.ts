@@ -1,13 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CoreService } from 'src/app/core/services/core.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Doctor } from 'src/app/models/doctor.model';
 import { User } from 'src/app/models/user.model';
 import { BookingService } from 'src/app/services/booking.service';
 import { Schedule } from 'src/app/models/schedule.model';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import * as moment from 'moment';
-import { tap } from 'rxjs/operators';
+import { tap, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { MessageService } from 'src/app/core/services/message.service';
 import { OriginBooking } from 'src/app/models/booking.model';
 
@@ -17,7 +17,8 @@ import { OriginBooking } from 'src/app/models/booking.model';
   styleUrls: ['./book.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BookComponent implements OnInit {
+export class BookComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject<void>();
   doctor: Doctor;
   user: User;
   schedules$: Observable<Schedule[]>;
@@ -37,14 +38,20 @@ export class BookComponent implements OnInit {
   selectedDay: number = -1;
 
   constructor(
-    private router: Router,
+    private route: ActivatedRoute,
     private core: CoreService,
     private bookingService: BookingService,
     private cd: ChangeDetectorRef,
     private message: MessageService,
   ) {
-    this.doctor = this.router.getCurrentNavigation().extras.state?.doctor || {};
-    this.user = this.router.getCurrentNavigation().extras.state?.user;
+    this.route.data.pipe(
+      distinctUntilChanged(),
+      tap(data => {
+        this.user = data.user;
+        this.doctor = data.doctor;
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
 
     if (this.doctor?._id) {
       // get schedules
@@ -61,6 +68,11 @@ export class BookComponent implements OnInit {
 
   ngOnInit(): void {
     this.core.setTitle(this.doctor.name);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 
   nextWeek() {

@@ -10,6 +10,7 @@ import { Diagnose } from 'src/app/models/diagnose.model';
 import { DiagnoseService } from 'src/app/services/diagnose.service';
 import { TodayNoticeComponent } from '../today-notice/today-notice.component';
 import { Doctor } from 'src/app/models/doctor.model';
+import { DoctorService } from 'src/app/services/doctor.service';
 
 @Component({
   selector: 'app-current-diagnose',
@@ -28,6 +29,7 @@ export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
     private core: CoreService,
     public dialog: MatDialog,
     private diagnoseService: DiagnoseService,
+    private doctorService: DoctorService,
   ) {
     this.route.data.pipe(
       distinctUntilChanged(),
@@ -55,11 +57,12 @@ export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
   }
 
   nav(target: string) {
+    this.doctorService.doctor = this.diagnose.doctor;
     this.router.navigate([target], {
-      queryParams: this.route.snapshot.queryParams,
-      state: {
-        doctor: this.diagnose.doctor,
-      }
+      queryParams: {
+        ...this.route.snapshot.queryParams,
+        doctorid: this.diagnose.doctor._id
+      },
     });
   }
 

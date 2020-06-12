@@ -38,12 +38,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  nav(target: string, useOpenid = false) {
-    if (useOpenid) {
-      this.router.navigate([target], { queryParams: { openid: this.user.link_id } });
-    } else {
-      this.router.navigate([target], { queryParams: this.route.snapshot.queryParams });
-    }
+  nav(target: string) {
+    this.router.navigate([target], { queryParams: this.route.snapshot.queryParams });
   }
 
 }

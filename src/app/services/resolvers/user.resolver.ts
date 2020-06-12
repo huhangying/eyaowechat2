@@ -16,6 +16,6 @@ export class UserResolver implements Resolve<User> {
     resolve(route: ActivatedRouteSnapshot) {
         return this.userService.user ?
             of(this.userService.user) :
-            this.userService.getUserByOpenid(route.queryParams.openid);
+            this.userService.getUserByOpenid(this.userService.openid || route.queryParams.openid);
     }
 }

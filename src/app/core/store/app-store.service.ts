@@ -3,6 +3,7 @@ import { AppState } from './app-state.model';
 import { Store } from './store';
 import { Token } from 'src/app/models/token.model';
 import { User } from 'src/app/models/user.model';
+import { Doctor } from 'src/app/models/doctor.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class AppStoreService extends Store<AppState> {
   get hid() { return this.state?.hid; }
   get apiToken() { return this.state?.apiToken; }
   get user() { return this.state?.user; }
+  get doctor() { return this.state?.doctor; }
 
   updateToken(token: Token) {
     this.setState({
@@ -45,6 +47,13 @@ export class AppStoreService extends Store<AppState> {
     this.setState({
       ...this.state,
       hid,
+    });
+  }
+
+  udpateDoctor(doctor: Doctor) {
+    this.setState({
+      ...this.state,
+      doctor,
     });
   }
 
