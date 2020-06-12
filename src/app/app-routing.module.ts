@@ -28,7 +28,7 @@ const routes: Routes = [
     path: 'book-select',    // <-
     component: BookSelectComponent,
     canActivate: [AuthGuard],
-    resolve: { user: UserResolver }
+    // resolve: { user: UserResolver }
   },
   {
     path: 'book',

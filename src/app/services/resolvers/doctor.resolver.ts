@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { of } from 'rxjs';
 import { Doctor } from 'src/app/models/doctor.model';
 import { DoctorService } from '../doctor.service';
@@ -13,7 +13,7 @@ export class DoctorResolver implements Resolve<Doctor> {
         private doctorService: DoctorService,
     ) { }
 
-    resolve(route: ActivatedRouteSnapshot) {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.doctorService.doctor ?
             of(this.doctorService.doctor) :
             this.doctorService.getDoctorById(route.queryParams.doctorid);

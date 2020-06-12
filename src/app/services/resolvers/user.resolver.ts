@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { UserService } from '../user.service';
 import { of } from 'rxjs';
@@ -13,7 +13,7 @@ export class UserResolver implements Resolve<User> {
         private userService: UserService,
     ) { }
 
-    resolve(route: ActivatedRouteSnapshot) {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.userService.user ?
             of(this.userService.user) :
             this.userService.getUserByOpenid(this.userService.openid || route.queryParams.openid);

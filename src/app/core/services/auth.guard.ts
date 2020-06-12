@@ -3,7 +3,9 @@ import { CanActivate, ActivatedRouteSnapshot, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AppStoreService } from '../store/app-store.service';
 import { WeixinService } from 'src/app/services/weixin.service';
-import { map, concatMap } from 'rxjs/operators';
+import { map, concatMap, tap } from 'rxjs/operators';
+import { MessageService } from './message.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,8 @@ export class AuthGuard implements CanActivate {
   constructor(
     private wxService: WeixinService,
     private appStore: AppStoreService,
+    private userService: UserService,
+    private message: MessageService,
   ) {
   }
 
@@ -29,16 +33,15 @@ export class AuthGuard implements CanActivate {
     }
 
     const hid = +state;
+    this.appStore.udpateHid(hid);
     if (!openid) {
-      this.appStore.udpateHid(hid);
       return this.wxService.getToken(code, hid).pipe(
-        concatMap(token => {
-          if (token) {
-            this.appStore.updateToken(token);
-            return this.canGetApiTokenByOpenid(hid, token.openid);
+        tap(_token => {
+          if (_token) {
+            this.appStore.updateToken(_token);
           }
-          return of(false);
         }),
+        concatMap(token => this.canGetApiTokenByOpenid(hid, token.openid))
       );
     }
     else { // openid existed
@@ -48,12 +51,17 @@ export class AuthGuard implements CanActivate {
 
   canGetApiTokenByOpenid(hid: number, openid: string) {
     return this.wxService.getApiToken(hid, openid).pipe(
-      map(apiToken => {
-        if (!apiToken) {
-          return false;
-        }
+      tap(apiToken => {
         this.appStore.updateApiToken(apiToken);
-        return true;
+      }),
+      concatMap( apiToken => {
+        if (!apiToken) return of(false);
+        return this.userService.getUserByOpenid(openid).pipe(
+          tap(user => {
+            this.appStore.updateUser(user);
+          }),
+          map(user => !!user)
+        )
       })
     );
   }
