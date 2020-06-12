@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CoreService } from 'src/app/core/services/core.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { Observable, Subject } from 'rxjs';
@@ -23,7 +23,6 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private core: CoreService,
     private doctorService: DoctorService,
     private cd: ChangeDetectorRef,

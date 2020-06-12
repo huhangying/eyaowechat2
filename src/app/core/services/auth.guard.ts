@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AppStoreService } from '../store/app-store.service';
 import { WeixinService } from 'src/app/services/weixin.service';
-import { map, switchMap } from 'rxjs/operators';
+import { map, concatMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
     if (!openid) {
       this.appStore.udpateHid(hid);
       return this.wxService.getToken(code, hid).pipe(
-        switchMap(token => {
+        concatMap(token => {
           if (token) {
             this.appStore.updateToken(token);
             return this.canGetApiTokenByOpenid(hid, token.openid);

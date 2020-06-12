@@ -65,6 +65,7 @@ const routes: Routes = [
     path: 'add-doctor',
     component: AddDoctorComponent,
     canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
   },
   {
     path: 'my-reservation',    // <-
@@ -120,7 +121,7 @@ const routes: Routes = [
   {
     path: 'entry',
     component: EntryComponent,
-    canActivate: [AuthMockGuard],
+    canActivate: [AuthMockGuard], // disable later
     resolve: { user: UserResolver }
   },
   { path: '', redirectTo: 'entry', pathMatch: 'full' },
