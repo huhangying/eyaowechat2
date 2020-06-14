@@ -4,6 +4,7 @@ import { User } from 'src/app/models/user.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CoreService } from 'src/app/core/services/core.service';
 import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
+import { AppStoreService } from 'src/app/core/store/app-store.service';
 
 @Component({
   selector: 'app-profile',
@@ -18,6 +19,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private core: CoreService,
+    private appStore: AppStoreService,
   ) {
     this.route.data.pipe(
       distinctUntilChanged(),
@@ -39,7 +41,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   nav(target: string) {
-    this.router.navigate([target], { queryParams: this.route.snapshot.queryParams });
+    this.router.navigate([target], { queryParams: {
+      openid: this.appStore.token?.openid,
+      state: this.appStore.hid
+    } });
   }
 
 }
