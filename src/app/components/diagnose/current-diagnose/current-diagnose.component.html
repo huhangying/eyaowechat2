@@ -1,27 +1,35 @@
-<div class="card p-2 mx-2 my-3">
-  <ul class="list-group list-group-flush text-muted">
-    <li class="list-group-item" (click)="openDiagnoseDetails(1)">
-      <span class="text-success">
-        <mat-icon>assignment_turned_in</mat-icon>
-      </span>
-      <span class="section-title">门诊结论</span></li>
-    <li class="list-group-item" (click)="openDiagnoseDetails(2)">
-      <mat-icon color="primary">grading</mat-icon>
-      <span class="section-title">药师门诊处方</span>
-    </li>
-    <li class="list-group-item" (click)="openTodayNotice()">
-      <mat-icon color="accent">notifications_active</mat-icon>
-      <span class="section-title">当日用药提醒</span>
-    </li>
-    <li class="list-group-item" (click)="nav('/dose-combination')">
-      <span class="text-info">
-        <mat-icon>all_inbox</mat-icon>
-      </span>
-      <span class="section-title">联合用药反馈</span>
-    </li>
-    <li class="list-group-item" (click)="nav('/adverse-reaction')">
-      <mat-icon color="warn">gesture</mat-icon>
-      <span class="section-title">不良反应反馈</span>
-    </li>
-  </ul>
-</div>
+<ng-container *ngIf="diagnose">
+  <div class="card p-2 mx-2 my-3">
+    <ul class="list-group list-group-flush text-muted">
+      <li class="list-group-item" (click)="openDiagnoseDetails(1)">
+        <span class="text-success">
+          <mat-icon>assignment_turned_in</mat-icon>
+        </span>
+        <span class="section-title">门诊结论</span></li>
+      <li class="list-group-item" (click)="openDiagnoseDetails(2)">
+        <mat-icon color="primary">grading</mat-icon>
+        <span class="section-title">药师门诊处方</span>
+      </li>
+      <li class="list-group-item" (click)="openTodayNotice()">
+        <mat-icon color="accent">notifications_active</mat-icon>
+        <span class="section-title">当日用药提醒</span>
+      </li>
+      <li class="list-group-item" (click)="nav('/dose-combination')">
+        <span class="text-info">
+          <mat-icon>all_inbox</mat-icon>
+        </span>
+        <span class="section-title">联合用药反馈</span>
+      </li>
+      <li class="list-group-item" (click)="nav('/adverse-reaction')">
+        <mat-icon color="warn">gesture</mat-icon>
+        <span class="section-title">不良反应反馈</span>
+      </li>
+    </ul>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!diagnose">
+  <div class="p-4">
+    暂无当前门诊。
+  </div>
+</ng-container>
