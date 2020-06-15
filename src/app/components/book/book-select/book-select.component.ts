@@ -39,6 +39,9 @@ export class BookSelectComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.core.setTitle('预约门诊');
+    if (this.appStore.token?.openid) {
+      this.core.replaceUrlWithOpenid(this.route.routeConfig.path, this.appStore.token.openid, this.appStore.hid);
+    }
   }
 
   ngOnDestroy() {

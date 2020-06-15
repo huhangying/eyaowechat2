@@ -11,6 +11,7 @@ import { DiagnoseService } from 'src/app/services/diagnose.service';
 import { TodayNoticeComponent } from '../today-notice/today-notice.component';
 import { Doctor } from 'src/app/models/doctor.model';
 import { DoctorService } from 'src/app/services/doctor.service';
+import { AppStoreService } from 'src/app/core/store/app-store.service';
 
 @Component({
   selector: 'app-current-diagnose',
@@ -30,6 +31,7 @@ export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private diagnoseService: DiagnoseService,
     private doctorService: DoctorService,
+    private appStore: AppStoreService,
   ) {
     this.route.data.pipe(
       distinctUntilChanged(),
@@ -49,6 +51,9 @@ export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.core.setTitle('当前门诊');
+    if (this.appStore.token?.openid) {
+      this.core.replaceUrlWithOpenid(this.route.routeConfig.path, this.appStore.token.openid, this.appStore.hid);
+    }
   }
 
   ngOnDestroy() {

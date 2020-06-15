@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CoreService } from 'src/app/core/services/core.service';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
+import { AppStoreService } from 'src/app/core/store/app-store.service';
 
 @Component({
   selector: 'app-chat-select',
@@ -21,7 +22,8 @@ export class ChatSelectComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private core: CoreService,
     private doctorService: DoctorService,
-  ) { 
+    private appStore: AppStoreService,
+  ) {
     this.route.data.pipe(
       distinctUntilChanged(),
       tap(data => {
@@ -36,6 +38,9 @@ export class ChatSelectComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.core.setTitle('在线咨询');
+    if (this.appStore.token?.openid) {
+      this.core.replaceUrlWithOpenid(this.route.routeConfig.path, this.appStore.token.openid, this.appStore.hid);
+    }
   }
 
   ngOnDestroy() {

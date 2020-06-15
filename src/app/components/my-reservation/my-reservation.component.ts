@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { Subject, Observable } from 'rxjs';
 import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
+import { AppStoreService } from 'src/app/core/store/app-store.service';
 
 @Component({
   selector: 'app-my-reservation',
@@ -21,6 +22,7 @@ export class MyReservationComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private bookingService: BookingService,
     private core: CoreService,
+    private appStore: AppStoreService,
   ) {
     this.route.data.pipe(
       distinctUntilChanged(),
@@ -40,6 +42,9 @@ export class MyReservationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.core.setTitle('我的预约');
+    if (this.appStore.token?.openid) {
+      this.core.replaceUrlWithOpenid(this.route.routeConfig.path, this.appStore.token.openid, this.appStore.hid);
+    }
   }
 
   ngOnDestroy() {

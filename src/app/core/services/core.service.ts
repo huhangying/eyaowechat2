@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import * as moment from 'moment';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ export class CoreService {
 
   constructor(
     private titleService: Title,
+    private location: Location,
   ) { }
 
   public setTitle(newTitle: string) {
@@ -17,6 +19,11 @@ export class CoreService {
 
   public getTitle() {
     return this.titleService.getTitle();
+  }
+
+  // replace the URL with openid
+  replaceUrlWithOpenid(path: string, openid: string, hid: number) {
+    this.location.replaceState('/' + path, `openid=${openid}&state=${hid}`);
   }
 
   isInToday(startDate: Date, endDate: Date, start = 0, during?: number): boolean {

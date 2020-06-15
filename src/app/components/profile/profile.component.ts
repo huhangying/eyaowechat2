@@ -33,6 +33,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.core.setTitle('个人中心');
+    if (this.appStore.token?.openid) {
+      this.core.replaceUrlWithOpenid(this.route.routeConfig.path, this.appStore.token.openid, this.appStore.hid);
+    }
   }
 
   ngOnDestroy() {
@@ -41,10 +44,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   nav(target: string) {
-    this.router.navigate([target], { queryParams: {
-      openid: this.appStore.token?.openid,
-      state: this.appStore.hid
-    } });
+    this.router.navigate([target], {
+      queryParams: {
+        openid: this.appStore.token?.openid,
+        state: this.appStore.hid
+      }
+    });
   }
 
 }

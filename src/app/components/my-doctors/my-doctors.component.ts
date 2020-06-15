@@ -6,6 +6,7 @@ import { DoctorService } from 'src/app/services/doctor.service';
 import { Observable, Subject } from 'rxjs';
 import { Doctor } from 'src/app/models/doctor.model';
 import { tap, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { AppStoreService } from 'src/app/core/store/app-store.service';
 
 @Component({
   selector: 'app-my-doctors',
@@ -22,6 +23,7 @@ export class MyDoctorsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private core: CoreService,
     private doctorService: DoctorService,
+    private appStore: AppStoreService,
   ) {
     this.route.data.pipe(
       distinctUntilChanged(),
@@ -37,7 +39,9 @@ export class MyDoctorsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.core.setTitle('我的药师团队');
-
+    if (this.appStore.token?.openid) {
+      this.core.replaceUrlWithOpenid(this.route.routeConfig.path, this.appStore.token.openid, this.appStore.hid);
+    }
   }
 
   ngOnDestroy() {
