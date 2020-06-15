@@ -21,7 +21,7 @@ export class DoctorService {
   }
 
   getDoctorById(id: string) {
-    return this.api.get<Doctor>('doctor/' + id);
+    return this.api.get<Doctor>('doctor/brief/' + id);
   }
 
   getDoctorsByUser(userid: string) {

@@ -9,7 +9,7 @@ import { Observable, Subject } from 'rxjs';
 import * as moment from 'moment';
 import { tap, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { MessageService } from 'src/app/core/services/message.service';
-import { OriginBooking } from 'src/app/models/booking.model';
+import { OriginBooking, Booking } from 'src/app/models/booking.model';
 
 @Component({
   selector: 'app-book',
@@ -153,14 +153,31 @@ export class BookComponent implements OnInit, OnDestroy {
     }).pipe(
       tap((result: OriginBooking) => {
         if (result) {
-          this.message.success('预约成功！'); 
           // decrease limit number of the schedule
           this.availableSchedules = this.availableSchedules.map(schedule => {
             if (schedule._id === result.schedule) {
               schedule.limit--;
             }
             return schedule;
-          }); 
+          });
+
+          this.message.success('预约成功！');
+        
+          // send user booking message
+          const booking: Booking = {
+            _id: result._id,
+            doctor: this.doctor._id,
+            schedule: schedule,
+            user: this.user,
+            status: result.status
+          };
+          
+          this.bookingService.sendBookingConfirmation(booking, this.doctor).pipe(
+            tap(_ => {
+              // console.log(_);
+            })
+          ).subscribe();
+
           this.cd.markForCheck();
         }
       })

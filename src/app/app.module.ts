@@ -32,6 +32,7 @@ import { AdverseReactionComponent } from './components/diagnose/feedback/adverse
 import { DoseCombinationComponent } from './components/diagnose/feedback/dose-combination/dose-combination.component';
 import { FeedbackComponent } from './components/diagnose/feedback/feedback/feedback.component';
 import { AddFeedbackComponent } from './components/diagnose/feedback/add-feedback/add-feedback.component';
+import { LocalDatePipe } from './core/pipe/local-date.pipe';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { AddFeedbackComponent } from './components/diagnose/feedback/add-feedbac
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
+    LocalDatePipe,
   ],
   bootstrap: [AppComponent]
 })
