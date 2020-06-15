@@ -17,6 +17,8 @@ export class AddFeedbackComponent implements OnInit {
   doctor: Doctor;
   feedback: UserFeedback;
   type: number;
+  startDate: Date;
+  endDate: Date;
   avatar: any;
 
   constructor(
@@ -40,22 +42,18 @@ export class AddFeedbackComponent implements OnInit {
 
     this.form = this.fb.group({
       name: ['', Validators.required],
-      startDate: [''],
-      endDate: [''],
       how: [''],
       notes: [''],
     });
   }
 
-  get startDate() { return this.form.get('startDate'); }
-  get endDate() { return this.form.get('endDate'); }
-
   selectStartDate() {
     weui.datePicker({
       start: 2020,
+      end: this.endDate || new Date(),      
       default: new Date(),
       onConfirm: (result) => {
-        this.startDate.patchValue(new Date(result));
+        this.startDate = new Date(result);
       },
       title: '选择开始日期',
     });
@@ -63,10 +61,10 @@ export class AddFeedbackComponent implements OnInit {
 
   selectEndDate() {
     weui.datePicker({
-      start: this.feedback.startDate || 2020,
+      start: this.startDate || 2020,
       default: new Date(),
       onConfirm: (result) => {
-        this.endDate.patchValue(new Date(result));
+        this.endDate = new Date(result);
       },
       title: '选择结束日期',
     });

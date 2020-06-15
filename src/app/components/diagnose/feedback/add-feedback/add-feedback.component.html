@@ -14,19 +14,18 @@
       <span class="item-label">药物名称:</span>
       <input class="weui-input" type="text" formControlName="name">
     </li>
-    <li class="list-group-item d-flex">
-      <span class="item-label">开始时间:</span>
-      <div (click)="selectStartDate()">
-        {{ startDate.value | localDate}}
-        <input class="weui-input" type="hidden" formControlName="startDate"
-          [value]="startDate.value">
+    <li class="list-group-item d-flex align-items-center py-2">
+      <span class="item-label">开始日期:</span>
+      <div>
+        <button mat-button  (click)="selectStartDate()">
+          {{ startDate ? (startDate | localDate) : '请选择开始日期'}}</button>
       </div>
     </li>
-    <li class="list-group-item d-flex">
-      <span class="item-label">结束时间:</span>
+    <li class="list-group-item d-flex align-items-center py-2">
+      <span class="item-label">结束日期:</span>
       <div>
-        {{ endDate.value | localDate}}
-        <input class="weui-input" type=""  (click)="selectEndDate()" formControlName="endDate" [value]="endDate.value">
+        <button mat-button  (click)="selectEndDate()">
+          {{ endDate ? (endDate | localDate) : '请选择结束日期' }}</button>
       </div>
     </li>
     <li class="list-group-item d-flex">
