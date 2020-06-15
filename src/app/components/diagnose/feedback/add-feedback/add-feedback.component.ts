@@ -6,6 +6,9 @@ import { UserFeedback } from 'src/app/models/user-feedback.model';
 import weui from 'weui.js';
 import * as moment from 'moment';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FeedbackService } from 'src/app/services/feedback.service';
+import { tap } from 'rxjs/operators';
+import { MessageService } from 'src/app/core/services/message.service';
 
 @Component({
   selector: 'app-add-feedback',
@@ -17,6 +20,7 @@ export class AddFeedbackComponent implements OnInit {
   doctor: Doctor;
   feedback: UserFeedback;
   type: number;
+  typeLabel: string;
   startDate: Date;
   endDate: Date;
   avatar: any;
@@ -24,6 +28,8 @@ export class AddFeedbackComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private core: CoreService,
+    private feedbackService: FeedbackService,
+    private message: MessageService,
     public dialogRef: MatDialogRef<AddFeedbackComponent>,
     @Inject(MAT_DIALOG_DATA) @Optional() @SkipSelf() public data: {
       doctor: Doctor,
@@ -33,11 +39,12 @@ export class AddFeedbackComponent implements OnInit {
   ) {
     this.doctor = data.doctor;
     this.type = data.type;
+    this.typeLabel = this.type === 1 ? '不良反应' : '联合用药';
   }
 
   ngOnInit(): void {
     this.dialogRef.updateSize('100%', '100%');
-    this.core.setTitle(this.type === 1 ? '' : '');
+    this.core.setTitle(this.typeLabel + '反馈');
     this.feedback = {};
 
     this.form = this.fb.group({
@@ -171,7 +178,22 @@ export class AddFeedbackComponent implements OnInit {
   }
 
   submit() {
-
+    const feedback = {
+      ...this.form.value,
+      doctor: this.doctor._id,
+      user: this.data.userid,
+      type: this.type,
+      startDate: this.startDate,
+      endDate: this.startDate,
+      status: 0
+    };
+    this.feedbackService.createFeedback(feedback).pipe(
+      tap((result: UserFeedback) => {
+        if (result?._id) {
+          this.message.success();
+        }
+      })
+    ).subscribe();
   }
 
 }

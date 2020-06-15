@@ -2,43 +2,46 @@
   <ul class="list-group list-group-flush text-muted">
     <li class="list-group-item">
       <span class="h5">
-        用药详情
+        新增{{ typeLabel }}详情
       </span>
-      <span class="text-warning">(*为必填项)</span>
+      <span class="text-warning pl-3"></span>
     </li>
     <li class="list-group-item">
-      <span class="item-label">药师:</span>
+      <span class="item-label">反馈药师:</span>
       {{ data.doctor.name }}
     </li>
     <li class="list-group-item d-flex">
-      <span class="item-label">药物名称:</span>
-      <input class="weui-input" type="text" formControlName="name">
-    </li>
-    <li class="list-group-item d-flex align-items-center py-2">
-      <span class="item-label">开始日期:</span>
-      <div>
-        <button mat-button  (click)="selectStartDate()">
-          {{ startDate ? (startDate | localDate) : '请选择开始日期'}}</button>
+      <span class="item-label">{{type === 1 ? '不良反应': '药物名称'}}:</span>
+      <div class="px-2 py-0 w-100">
+        <textarea class="weui-textarea" type="text" formControlName="name" placeholder="请输入"
+          [rows]="type === 1 ? 3 : 1"></textarea>
       </div>
     </li>
-    <li class="list-group-item d-flex align-items-center py-2">
-      <span class="item-label">结束日期:</span>
-      <div>
-        <button mat-button  (click)="selectEndDate()">
-          {{ endDate ? (endDate | localDate) : '请选择结束日期' }}</button>
-      </div>
-    </li>
-    <li class="list-group-item d-flex">
+    <li class="list-group-item d-flex" *ngIf="type=== 2">
       <div class="item-label">用药方法:</div>
       <div class="px-2 py-0 w-100">
         <textarea class="weui-textarea" placeholder="请输入用药方法" rows="3" formControlName="how">
         </textarea>
       </div>
     </li>
+    <li class="list-group-item d-flex align-items-center py-2">
+      <span class="item-label">开始日期:</span>
+      <div>
+        <button mat-button (click)="selectStartDate()">
+          {{ startDate ? (startDate | localDate) : '请选择开始日期'}}</button>
+      </div>
+    </li>
+    <li class="list-group-item d-flex align-items-center py-2">
+      <span class="item-label">结束日期:</span>
+      <div>
+        <button mat-button (click)="selectEndDate()">
+          {{ endDate ? (endDate | localDate) : '请选择结束日期' }}</button>
+      </div>
+    </li>
     <li class="list-group-item">
       <div class="weui-uploaders">
         <div class="weui-uploader__title pb-2">
-          附件图片: <span><span id="uploadCount">0</span>/3</span>
+          附件图片:
         </div>
 
         <!-- <ul class="weui-uploader__files" id="uploaderFiles"> -->
@@ -46,15 +49,15 @@
           class="avatar-image img-fluid img-thumbnail z-depth-1" alt="">
         <!-- </ul> -->
         <div class="weui-uploader__input-box">
-          <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" capture="camera"
-            multiple="" formControlName="notes" (change)="imageUpload($event)" />
+          <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" capture
+            multiple="false" formControlName="notes" (change)="imageUpload($event)" />
         </div>
       </div>
     </li>
   </ul>
 </div>
 <div class="fixed-bottom px-4 py-2">
-  <button type="button" class="btn btn-primary btn-block" (click)="submit()">
+  <button type="button" class="btn btn-primary btn-block" [disabled]="form.invalid" (click)="submit()">
     提交
   </button>
 </div>

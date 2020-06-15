@@ -3,6 +3,9 @@ import { Doctor } from 'src/app/models/doctor.model';
 import { MatDialog } from '@angular/material/dialog';
 import { CoreService } from 'src/app/core/services/core.service';
 import { AddFeedbackComponent } from '../add-feedback/add-feedback.component';
+import { Observable } from 'rxjs';
+import { UserFeedback } from 'src/app/models/user-feedback.model';
+import { FeedbackService } from 'src/app/services/feedback.service';
 
 @Component({
   selector: 'app-feedback',
@@ -14,13 +17,16 @@ export class FeedbackComponent implements OnInit {
   @Input() doctor: Doctor;
   @Input() userid: string;
   hideAddBtn = false;
+  feedbacks$: Observable<UserFeedback[]>;
   
   constructor(
     public dialog: MatDialog,
     private core: CoreService,
+    private feedbackServcie: FeedbackService,
   ) { }
 
   ngOnInit(): void {
+    this.feedbacks$ = this.feedbackServcie.getFeedbacksByType(this.type, this.userid);
   }
 
   add() {

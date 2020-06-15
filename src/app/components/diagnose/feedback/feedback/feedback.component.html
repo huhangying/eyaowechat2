@@ -1,4 +1,4 @@
-<div class="card m-2">
+<!-- <div class="card m-2">
   <ul class="list-group list-group-flush text-muted">
     <li class="list-group-item">
       <span class="h5">
@@ -8,6 +8,21 @@
     </li>
     
   </ul>
+</div> -->
+
+<div class="py-2">
+  <ng-container *ngIf="feedbacks$ | async; let feedbacks">
+    <ng-container *ngIf="feedbacks?.length">
+      <div *ngFor="let feedback of feedbacks" class="card mx-2 my-3 p-3" [class.text-right]="feedback.status < 2">
+        {{feedback.name}} | {{feedback.status}}
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!feedbacks?.length">
+      <div class="px-3 py-2">
+      </div>
+    </ng-container>
+  </ng-container>
 </div>
 
 <div class="fixed-bottom px-4 py-2" [class.d-none]="hideAddBtn">
