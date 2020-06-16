@@ -46,4 +46,14 @@ export class CoreService {
     return moment(date).minute();
   }
 
+  weuiDate2Date(datapicker) {
+    if (datapicker?.length < 3) return null;
+    return new Date(datapicker[0].value, datapicker[1].value - 1, datapicker[2].value);
+  }
+
+  date2WeuiDate(date: Date) {
+    if (!date) return [];
+    return [date.getFullYear(), date.getMonth() + 1, date.getDate()];
+  }
+
 }

@@ -1,35 +1,39 @@
-import { Component, OnInit, Optional, Inject, SkipSelf } from '@angular/core';
+import { Component, OnInit, Optional, Inject, SkipSelf, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CoreService } from 'src/app/core/services/core.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Doctor } from 'src/app/models/doctor.model';
 import { UserFeedback } from 'src/app/models/user-feedback.model';
-import weui from 'weui.js';
 import * as moment from 'moment';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FeedbackService } from 'src/app/services/feedback.service';
-import { tap } from 'rxjs/operators';
+import { tap, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { MessageService } from 'src/app/core/services/message.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-add-feedback',
   templateUrl: './add-feedback.component.html',
-  styleUrls: ['./add-feedback.component.scss']
+  styleUrls: ['./add-feedback.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddFeedbackComponent implements OnInit {
+export class AddFeedbackComponent implements OnInit, OnDestroy {
   form: FormGroup;
+  destroy$ = new Subject<void>();
   doctor: Doctor;
   feedback: UserFeedback;
   type: number;
   typeLabel: string;
-  startDate: Date;
-  endDate: Date;
   avatar: any;
+
+  startMaxDate: moment.Moment;
+  endMinDate: moment.Moment;
 
   constructor(
     private fb: FormBuilder,
     private core: CoreService,
     private feedbackService: FeedbackService,
     private message: MessageService,
+    private cd: ChangeDetectorRef,
     public dialogRef: MatDialogRef<AddFeedbackComponent>,
     @Inject(MAT_DIALOG_DATA) @Optional() @SkipSelf() public data: {
       doctor: Doctor,
@@ -40,41 +44,48 @@ export class AddFeedbackComponent implements OnInit {
     this.doctor = data.doctor;
     this.type = data.type;
     this.typeLabel = this.type === 1 ? '不良反应' : '联合用药';
-  }
-
-  ngOnInit(): void {
-    this.dialogRef.updateSize('100%', '100%');
-    this.core.setTitle(this.typeLabel + '反馈');
     this.feedback = {};
 
     this.form = this.fb.group({
       name: ['', Validators.required],
       how: [''],
+      startDate: [''],
+      endDate: [''],
       notes: [''],
     });
   }
 
-  selectStartDate() {
-    weui.datePicker({
-      start: 2020,
-      end: this.endDate || new Date(),      
-      default: new Date(),
-      onConfirm: (result) => {
-        this.startDate = new Date(result);
-      },
-      title: '选择开始日期',
-    });
-  }
+  get startDate() { return this.form.get('startDate'); }
+  get endDate() { return this.form.get('endDate'); }
 
-  selectEndDate() {
-    weui.datePicker({
-      start: this.startDate || 2020,
-      default: new Date(),
-      onConfirm: (result) => {
-        this.endDate = new Date(result);
-      },
-      title: '选择结束日期',
-    });
+  ngOnInit(): void {
+    this.dialogRef.updateSize('100%', '100%');
+    this.core.setTitle(this.typeLabel + '反馈');
+
+    this.startDate.valueChanges.pipe(
+      distinctUntilChanged(),
+      filter(_ => _),
+      tap(value => {
+        this.endMinDate = moment(value);
+        this.cd.markForCheck();
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
+
+    this.endDate.valueChanges.pipe(
+      distinctUntilChanged(),
+      filter(_ => _),
+      tap(value => {
+        this.startMaxDate = moment(value);
+        this.cd.markForCheck();
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
+  }
+  
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 
   imageUpload(event) {
@@ -122,7 +133,7 @@ export class AddFeedbackComponent implements OnInit {
     //    },
     //    onBeforeQueued: function(files) {
     //        // `this` 是轮询到的文件, `files` 是所有文件
-    
+
     //        if(["image/jpg", "image/jpeg", "image/png", "image/gif"].indexOf(this.type) < 0){
     //            weui.alert('请上传图片');
     //            return false; // 阻止文件添加
@@ -139,27 +150,27 @@ export class AddFeedbackComponent implements OnInit {
     //            weui.alert('最多只能上传3张图片');
     //            return false;
     //        }
-    
+
     //        ++uploadCount;
-    
+
     //        // return true; // 阻止默认行为，不插入预览图的框架
     //    },
     //    onQueued: function(){
     //        console.log(this);
-    
+
     //        // console.log(this.status); // 文件的状态：'ready', 'progress', 'success', 'fail'
     //        // console.log(this.base64); // 如果是base64上传，file.base64可以获得文件的base64
-    
+
     //        // this.upload(); // 如果是手动上传，这里可以通过调用upload来实现；也可以用它来实现重传。
     //        // this.stop(); // 中断上传
-    
+
     //        // return true; // 阻止默认行为，不显示预览图的图像
     //    },
     //    onBeforeSend: function(data, headers){
     //        console.log(this, data, headers);
     //        // $.extend(data, { test: 1 }); // 可以扩展此对象来控制上传参数
     //        // $.extend(headers, { Origin: 'http://127.0.0.1' }); // 可以扩展此对象来控制上传头部
-    
+
     //        // return false; // 阻止文件上传
     //    },
     //    onProgress: function(percent){
@@ -183,8 +194,6 @@ export class AddFeedbackComponent implements OnInit {
       doctor: this.doctor._id,
       user: this.data.userid,
       type: this.type,
-      startDate: this.startDate,
-      endDate: this.startDate,
       status: 0
     };
     this.feedbackService.createFeedback(feedback).pipe(

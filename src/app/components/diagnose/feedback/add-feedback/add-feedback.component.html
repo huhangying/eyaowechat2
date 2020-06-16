@@ -27,15 +27,19 @@
     <li class="list-group-item d-flex align-items-center py-2">
       <span class="item-label">开始日期:</span>
       <div>
-        <button mat-button (click)="selectStartDate()">
-          {{ startDate ? (startDate | localDate) : '请选择开始日期'}}</button>
+        <input mat-input class="weui-input w-50" id="startDate" #startDate [matDatepicker]="pickerStart"
+          formControlName="startDate" [max]="startMaxDate">
+        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+        <mat-datepicker #pickerStart></mat-datepicker>
       </div>
     </li>
     <li class="list-group-item d-flex align-items-center py-2">
       <span class="item-label">结束日期:</span>
       <div>
-        <button mat-button (click)="selectEndDate()">
-          {{ endDate ? (endDate | localDate) : '请选择结束日期' }}</button>
+        <input mat-input class="weui-input w-50" id="endDate" #endDate [matDatepicker]="pickerEnd"
+          formControlName="endDate" [min]="endMinDate">
+        <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+        <mat-datepicker #pickerEnd></mat-datepicker>
       </div>
     </li>
     <li class="list-group-item">
@@ -49,8 +53,8 @@
           class="avatar-image img-fluid img-thumbnail z-depth-1" alt="">
         <!-- </ul> -->
         <div class="weui-uploader__input-box">
-          <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*"
-            multiple="false" formControlName="notes" (change)="imageUpload($event)" />
+          <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="false"
+            formControlName="notes" (change)="imageUpload($event)" />
         </div>
       </div>
     </li>

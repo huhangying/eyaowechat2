@@ -34,7 +34,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       tap(data => {
         this.user = data.user;
-        this.birthdate = this.user.birthdate;
+        this.birthdate = new Date(this.user.birthdate);
         this.form.patchValue(this.user);
       }),
       takeUntil(this.destroy$)
@@ -51,11 +51,15 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   }
 
   selectBirthdate() {
+    console.log(this.birthdate);
+
     weui.datePicker({
       start: 1920,
-      default: 1980,
-      onConfirm: (result) => {
-        this.birthdate = new Date(result);
+      defaultValue: this.birthdate? this.core.date2WeuiDate(this.birthdate): [1980, 1, 1],
+      end: new Date(),
+      onConfirm: (picker) => {
+        // console.log(picker);
+        this.birthdate = this.core.weuiDate2Date(picker);
       },
       title: '选择出生日期',
     });
