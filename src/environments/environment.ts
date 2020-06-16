@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   // apiUrl: 'http://192.168.87.250:3000/api/',
   apiUrl: 'http://127.0.0.1:3000/api/',
-  socketUrl: 'http://127.0.0.1:3000'
+  socketUrl: 'http://127.0.0.1:3000',
+  imageServer: 'http://192.168.87.250:8888/public/upload/',
 };
 
 /*
