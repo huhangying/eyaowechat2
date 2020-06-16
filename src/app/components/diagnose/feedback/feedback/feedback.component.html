@@ -3,7 +3,7 @@
     <ng-container *ngIf="feedbacks?.length">
       <div *ngFor="let feedback of feedbacks" class="card mx-2 my-3 p-3" [class.text-right]="feedback.status < 2">
         <div *ngIf="feedback.status < 2" class="text-right">
-          您发送于 {{ feedback.createdAt | localDate: 'full'}}
+          您： <span class="text-muted small">发送于 {{ feedback.createdAt | localDate: 'full'}}</span>
           <hr>
           <div class="mt-n2 mb-2">
             {{feedback.name}}
@@ -16,7 +16,7 @@
         </div>
 
         <div *ngIf="feedback.status >= 2">
-          {{doctor.name + doctor.title}}回复： 发送于 {{ feedback.createdAt | localDate: 'full'}}
+          {{doctor.name + doctor.title}}回复： <span class="text-muted small">发送于 {{ feedback.createdAt | localDate: 'full'}}</span>
           <hr>
           <div class="mt-n1 mb-1">
             {{ feedback.name }}
