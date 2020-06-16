@@ -1,20 +1,27 @@
-<!-- <div class="card m-2">
-  <ul class="list-group list-group-flush text-muted">
-    <li class="list-group-item">
-      <span class="h5">
-        用药详情
-      </span>
-      <span class="text-warning">(*为必填项)</span>
-    </li>
-    
-  </ul>
-</div> -->
-
-<div class="py-2">
+<div class="pb-2 mb-5">
   <ng-container *ngIf="feedbacks$ | async; let feedbacks">
     <ng-container *ngIf="feedbacks?.length">
       <div *ngFor="let feedback of feedbacks" class="card mx-2 my-3 p-3" [class.text-right]="feedback.status < 2">
-        {{feedback.name}} | {{feedback.status}}
+        <div *ngIf="feedback.status < 2" class="text-right">
+          您发送于 {{ feedback.createdAt | localDate: 'full'}}
+          <hr>
+          <div class="mt-n2 mb-2">
+            {{feedback.name}}
+          </div>
+          {{feedback.how}}
+          <div class="text-muted">
+            开始日期: {{ feedback.startDate ? (feedback.startDate | localDate): '未设置' }} -
+            结束日期: {{ feedback.endDate ? (feedback.endDate | localDate): '未设置' }}
+          </div>
+        </div>
+
+        <div *ngIf="feedback.status >= 2">
+          {{doctor.name + doctor.title}}回复： 发送于 {{ feedback.createdAt | localDate: 'full'}}
+          <hr>
+          <div class="mt-n1 mb-1">
+            {{ feedback.name }}
+          </div>
+        </div>
       </div>
     </ng-container>
 
