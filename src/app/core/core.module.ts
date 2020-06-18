@@ -15,12 +15,14 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { ImgPathPipe } from './pipe/img-path.pipe';
 
 @NgModule({
   declarations: [
     LocalDatePipe,
     GenderPipe,
     SelectDoctorsComponent,
+    ImgPathPipe,
 
   ],
   imports: [
@@ -48,6 +50,7 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-mo
 
     LocalDatePipe,
     GenderPipe,
+    ImgPathPipe,
     SelectDoctorsComponent,
 
   ],

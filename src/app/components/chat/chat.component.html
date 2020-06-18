@@ -1,16 +1,32 @@
 <div class="msg_card_body px-2 h-100">
     <div *ngFor="let chat of chats" class="mb-2" [ngClass]="chat.sender !== doctor?._id ? ' sender': 'to'">
 
-        <div class="d-flex"
-            [ngClass]="chat.sender !== doctor?._id ? 'align-items-end flex-row-reverse': 'align-items-start flex-row'">
-            <div class="img_cont_msg">
-                <span class="triangle"></span>
-                <img [src]="user?.icon" class="rounded-circle user_img_msg">
+        <ng-container *ngIf="chat.sender !== doctor._id">
+            <div class="d-flex align-items-end flex-row-reverse">
+                <div class="img_cont_msg">
+                    <span class="triangle"></span>
+                    <img [src]="user?.icon" class="rounded-circle user_img_msg">
+                </div>
+                <div class="msg-data">
+                    {{ chat.data }}
+                </div>
             </div>
-            <div class="msg-data">
-                {{ chat.data }}
+        </ng-container>
+
+        <ng-container *ngIf="chat.sender === doctor._id">
+            <div class="d-flex align-items-start flex-row">
+                <div class="img_cont_msg">
+                    <span class="triangle"></span>
+                    <img [src]="doctor?.icon | imgPath"
+                        onerror="this.src='/assets/images/default.svg';this.onerror='';"
+                        class="rounded-circle user_img_msg">
+                </div>
+                <div class="msg-data">
+                    {{ chat.data }}
+                </div>
             </div>
-        </div>
+        </ng-container>
+
         <div class="msg-time">{{chat.created | localDate: 'time'}}</div>
     </div>
     <div id="chat-bottom" class="pb-5"></div>
