@@ -1,12 +1,12 @@
-
 <div class="py-2">
   <ng-container *ngIf="doctors | async; let doctorList">
 
     <ng-container *ngIf="doctorList?.length">
       <div *ngFor="let doctor of doctorList" class="card my-3 p-3">
-        <div  class="d-flex">
+        <div class="d-flex">
           <div class="flex-fill pr-3 pt-2 avartor">
-            <img src="{{doctor.icon}}" class="rounded-circle img_msg">
+            <img src="{{doctor.icon | imgPath}}" onerror="this.src='/assets/images/default.svg';this.onerror='';"
+              class="rounded-circle img_msg">
           </div>
           <div class="flex-fill">
             <div class="weui-flex">
@@ -17,12 +17,15 @@
                 {{doctor.department.name}}
               </div>
               <div class="weui-flex__item text-right">
-                <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-4" (click)="goChat(doctor)"> 在线咨询 </button>
-                <button *ngIf="pageType === 2" class="weui-btn weui-btn_mini weui-btn_warn px-4" (click)="goBook(doctor)"> 预约门诊 </button>
-                <button *ngIf="pageType === 3 || pageType === 4" class="weui-btn weui-btn_mini weui-btn_warn px-4" (click)="goDoctorDetails(doctor)"> 详情 </button>
+                <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-4"
+                  (click)="goChat(doctor)"> 在线咨询 </button>
+                <button *ngIf="pageType === 2" class="weui-btn weui-btn_mini weui-btn_warn px-4"
+                  (click)="goBook(doctor)"> 预约门诊 </button>
+                <button *ngIf="pageType === 3 || pageType === 4" class="weui-btn weui-btn_mini weui-btn_warn px-4"
+                  (click)="goDoctorDetails(doctor)"> 详情 </button>
               </div>
             </div>
-      
+
             <div class="pt-2">
               <b>擅长:</b>
               <span class="pl-3 text-muted">{{doctor.expertise}}</span>
