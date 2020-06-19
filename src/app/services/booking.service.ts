@@ -27,12 +27,27 @@ export class BookingService {
     return this.api.post<OriginBooking>('booking', booking);
   }
 
+  cancelBooking(booking: Booking) {
+    return this.api.patch<OriginBooking>('booking/' + booking._id, { status: 2 }); // 2: 取消预约
+  }
+
   sendBookingConfirmation(booking: Booking, doctor: Doctor) {
-    return this.api.post('wechat/send-booking-msg', {
+    return this.api.post('wechat/send-booking-msg',
+      this.buildBookingConfirmationMsg(booking, doctor, '您已经预约成功，详情如下', "请按照指示到相应位置科室就诊"));
+  }
+
+  sendBookingCancellation(booking: Booking, doctor: Doctor) {
+    return this.api.post('wechat/send-booking-msg',
+      this.buildBookingConfirmationMsg(booking, doctor, '您的预约已经取消，详情如下', ""));
+  }
+
+  // 
+  buildBookingConfirmationMsg(booking: Booking, doctor: Doctor, header: string, footer: string) {
+    return {
       openid: booking.user?.link_id,
       data: {
         header: {
-          value: '您已经预约成功，详情如下'
+          value: header
         },
         doctor: {
           value: `${doctor?.name} ${doctor?.title}`,
@@ -55,10 +70,10 @@ export class BookingService {
           color: "#173177"
         },
         footer: {
-          value: "请按照指示到相应位置科室就诊"
+          value: footer
         }
       }
-    });
+    };
   }
 
   // schedule

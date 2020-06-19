@@ -33,7 +33,12 @@ export class BookingListComponent implements OnInit {
         booking: booking,
         user: this.user
       }
-    }).afterClosed().subscribe(() => {
+    }).afterClosed().subscribe((result) => {
+      if (result?._id) {
+        // refresh data
+        const updatedBooking = this.bookings.find(_ => _._id === result._id);
+        updatedBooking.status = result.status;
+      }
       this.core.setTitle(currentTitle);
     });
   }
