@@ -50,7 +50,12 @@ export class MyDoctorsComponent implements OnInit, OnDestroy {
   }
 
   addDoctor() {
-    this.router.navigate(['/add-doctor'], { queryParams: this.route.snapshot.queryParams });
+    this.router.navigate(['/add-doctor'], {
+      queryParams: {
+        openid: this.appStore.token?.openid,
+        state: this.appStore.hid
+      }
+    });
   }
 
 }
