@@ -21,6 +21,7 @@ import { DoseCombinationComponent } from './components/diagnose/feedback/dose-co
 import { AdverseReactionComponent } from './components/diagnose/feedback/adverse-reaction/adverse-reaction.component';
 import { AuthMockGuard } from './core/services/auth-mock.guard';
 import { DoctorResolver } from './services/resolvers/doctor.resolver';
+import { ArticleComponent } from './components/public/article/article.component';
 
 
 const routes: Routes = [
@@ -117,6 +118,11 @@ const routes: Routes = [
     component: DoseCombinationComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver, doctor: DoctorResolver }
+  },
+  // shared
+  {
+    path: 'article',
+    component: ArticleComponent,
   },
   {
     path: 'entry',

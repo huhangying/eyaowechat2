@@ -33,6 +33,7 @@ import { DoseCombinationComponent } from './components/diagnose/feedback/dose-co
 import { FeedbackComponent } from './components/diagnose/feedback/feedback/feedback.component';
 import { AddFeedbackComponent } from './components/diagnose/feedback/add-feedback/add-feedback.component';
 import { LocalDatePipe } from './core/pipe/local-date.pipe';
+import { ArticleComponent } from './components/public/article/article.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { LocalDatePipe } from './core/pipe/local-date.pipe';
     DoseCombinationComponent,
     FeedbackComponent,
     AddFeedbackComponent,
+    ArticleComponent,
   ],
   imports: [
     CommonModule,
