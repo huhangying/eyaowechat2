@@ -6,7 +6,7 @@ export interface Booking {
   _id?: string;
   doctor: string; // id
   schedule?: Schedule; // id
-  user?: User; // id
+  user?: User;
   status: number;
   created?: Date;
   score?: number;

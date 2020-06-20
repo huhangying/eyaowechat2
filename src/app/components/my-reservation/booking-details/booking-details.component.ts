@@ -60,6 +60,7 @@ export class BookingDetailsComponent implements OnInit {
       tap((result: OriginBooking) => {
         if (result?._id) {
           // send wechat msg
+          booking.user = this.user;
           this.bookingService.sendBookingCancellation(booking, this.doctor).subscribe();
           this.message.success('您的预约已经成功取消！');
           this.dialogRef.close(result);
