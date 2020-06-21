@@ -17,4 +17,7 @@ export interface User {
 
   department?: string;
   title?: string;
+
+  msgInQueue?: number;
+  updated?: Date;
 }

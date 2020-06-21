@@ -90,4 +90,9 @@ export class WeixinService {
       of(this.secret) :
       this.api.get<WechatSecret>('hospital/wechat/auth/' + hid);
   }
+
+  //////////////////////////////////////
+  triggerResendMsg(openid: string) {
+    this.api.get('wechat/resend-msg/' + openid).subscribe();
+  }
 }
