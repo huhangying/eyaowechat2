@@ -94,6 +94,12 @@ const routes: Routes = [
     resolve: { user: UserResolver }
   },
   {
+    path: 'survey-start', // for link entry
+    component: MySurveysComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
+  },
+  {
     path: 'diagnose-history',
     component: DiagnoseHistoryComponent,
     canActivate: [AuthGuard],

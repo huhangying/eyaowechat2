@@ -7,9 +7,14 @@ import { BookingService } from 'src/app/services/booking.service';
 import { Schedule } from 'src/app/models/schedule.model';
 import { Observable, Subject } from 'rxjs';
 import * as moment from 'moment';
-import { tap, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { tap, distinctUntilChanged, takeUntil, map } from 'rxjs/operators';
 import { MessageService } from 'src/app/core/services/message.service';
 import { OriginBooking, Booking } from 'src/app/models/booking.model';
+import { SurveyService } from 'src/app/services/survey.service';
+import { Survey, SurveyReqest } from 'src/app/models/survey/survey.model';
+import { WeixinService } from 'src/app/services/weixin.service';
+import { environment } from 'src/environments/environment';
+import { AppStoreService } from 'src/app/core/store/app-store.service';
 
 @Component({
   selector: 'app-book',
@@ -41,6 +46,9 @@ export class BookComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private core: CoreService,
     private bookingService: BookingService,
+    private surveyService: SurveyService,
+    private wxService: WeixinService,
+    private appStore: AppStoreService,
     private cd: ChangeDetectorRef,
     private message: MessageService,
   ) {
@@ -148,6 +156,7 @@ export class BookComponent implements OnInit, OnDestroy {
       doctor: this.doctor._id,
       user: this.user._id,
       schedule: schedule._id,
+      date: schedule.date,
       status: 1, //1: 预约完成,可用状态
       created: new Date(),
     }).pipe(
@@ -162,26 +171,75 @@ export class BookComponent implements OnInit, OnDestroy {
           });
 
           this.message.success('预约成功！');
-        
+
           // send user booking message
           const booking: Booking = {
             _id: result._id,
             doctor: this.doctor._id,
             schedule: schedule,
+            date: schedule.date,
             user: this.user,
             status: result.status
           };
-          
-          this.bookingService.sendBookingConfirmation(booking, this.doctor).pipe(
-            tap(_ => {
-              // console.log(_);
-            })
-          ).subscribe();
+
+          this.bookingService.sendBookingConfirmation(booking, this.doctor).subscribe();
+
+          // 发送初诊问卷或复诊问卷
+          if (booking) {
+            const surveyType = this.isFirstVisit ? 1 : 2; // 1: 初诊; 2: 复诊问卷
+            // check if a survey has been sent
+            this.surveyService.getPendingSurveysByUserAndType(this.doctor._id, this.user._id, surveyType).pipe(
+              tap(results => {
+                // 取初诊或复诊问卷, 如果没有的话,
+                // 1. create a survey
+                // 2. send user a message
+                if (!results?.length) {
+
+                  // cread survey from template
+                  // const surveys = [];
+                  this.surveyService.getByDepartmentIdAndType(this.doctor.department?._id, surveyType).pipe(
+                    tap(results => {
+                      if (!results?.length) return;
+                      // create surveys from template
+                      const surveys = results.map(async _ => {
+                        const newSurvey: SurveyReqest = {
+                          ..._,
+                          surveyTemplate: _._id,
+                          user: this.user._id,
+                          doctor: this.doctor._id,
+                          finished: false,
+                          availableBy: new Date(moment().add(30, 'days').format()) //todo: general util function
+                        };
+                        delete newSurvey._id;
+                        // create survey
+                        return await this.surveyService.addSurvey(newSurvey).toPromise();
+                      });
+                      console.log(surveys);
+                      //
+                      const surveyName = surveyType === 1 ? '初诊问卷' : '复诊问卷';
+                      this.wxService.sendUserMsg(
+                        this.user.link_id,
+                        surveyName,
+                        `请填写${surveyName}， 谢谢配合！`,
+                        `${environment.wechatServer}survey-start?openid=${this.user.link_id}&state=${this.appStore.hid}&doctorid=${this.doctor._id}&type=${surveyType}&date=${moment().toISOString()}`,
+                        ''
+                      ).subscribe();
+                    })
+                  ).subscribe();
+                }
+              })
+            ).subscribe();
+          }
 
           this.cd.markForCheck();
         }
       })
     ).subscribe();
+  }
+
+  get isFirstVisit() {
+    if (!this.user?.visitedDepartments?.length) return true;
+    return !this.user.visitedDepartments.find(_ => _ === this.doctor.department?._id);
   }
 
 }

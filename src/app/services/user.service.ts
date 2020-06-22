@@ -24,6 +24,11 @@ export class UserService {
     );
   }
 
+  isFirstVisit(departmentid: string) {
+    if (!this.user?.visitedDepartments?.length) return true;
+    return !this.user.visitedDepartments.find(_ => _ === departmentid);
+  }
+
   get user() { return this.appStore.user; }
   get openid() { return this.appStore.token?.openid; }
 }

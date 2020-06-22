@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../core/services/api.service';
-import { Survey } from '../models/survey/survey.model';
+import { Survey, SurveyReqest } from '../models/survey/survey.model';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { SurveyGroup } from '../models/survey/survey-group.model';
 import { CoreService } from '../core/services/core.service';
+import { SurveyTemplate } from '../models/survey/survey-template.model';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,10 @@ export class SurveyService {
     return this.api.get<Survey>('survey/' + id);
   }
 
+  addSurvey(survey: SurveyReqest) {
+    return this.api.post<SurveyReqest>('survey', survey);
+  }
+
   saveSurvey(survey: Survey) {
     return this.api.patch<Survey>('survey/' + survey._id, survey);
   }
@@ -70,6 +75,20 @@ export class SurveyService {
       default:
         return '';
     }
+  }
+
+  // 以下用于发送病患问卷
+
+  getPendingSurveysByUserAndType(doctorId: string, patientId: string, surveyType: number) {
+    return this.api.get<Survey[]>(`surveys/${doctorId}/${patientId}/${surveyType}/0`); // 0 means unfinished(pending)
+  }
+
+  getByDepartmentIdAndType(department: string, type: number) {
+    return this.api.get<SurveyTemplate[]>(`surveytemplates/${department}/type/${type}`);
+  }
+
+  getMySurveysStart(userid: string, doctorid: string, type: number, date: string): Observable<Survey[]> {
+    return this.api.get<Survey[]>(`mysurveys/${userid}/${doctorid}/${type}/${date}`);
   }
 
 }

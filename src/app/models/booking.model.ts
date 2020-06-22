@@ -6,6 +6,7 @@ export interface Booking {
   _id?: string;
   doctor: string; // id
   schedule?: Schedule; // id
+  date?: Date; // same as in schedule
   user?: User;
   status: number;
   created?: Date;
@@ -16,6 +17,7 @@ export interface OriginBooking {
   _id?: string;
   doctor: string; // id
   schedule?: string; // id
+  date?: Date; // same as in schedule
   user?: string; // id
   status: number;
   created?: Date;

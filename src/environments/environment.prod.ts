@@ -4,4 +4,5 @@ export const environment = {
   // apiUrl: 'http://192.168.87.250:3000/api/',
   socketUrl: 'http://192.168.87.250:3000',
   imageServer: 'http://timebox.i234.me/images/',
+  wechatServer: 'http://timebox.i234.me/wechat/'
 };
