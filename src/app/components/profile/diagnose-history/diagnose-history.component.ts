@@ -18,7 +18,7 @@ export class DiagnoseHistoryComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   user: User;
   diagnoses$: Observable<Diagnose[]>;
-
+  historyLoaded = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,10 +28,18 @@ export class DiagnoseHistoryComponent implements OnInit, OnDestroy {
   ) {
     this.route.data.pipe(
       distinctUntilChanged(),
-      tap(data => {
+      tap(async data => {
         this.user = data.user;
+        const {id} = this.route.snapshot.queryParams;
+        if (id) { // diagnose id
+          const diagnose = await this.diagnoseService.getDiagnoseById(id).toPromise();
+          if (diagnose?._id) {
+            this.goDetails(diagnose, 1); // 只显示门诊结论
+            return;
+          }
+        }
         if (this.user?._id) {
-          this.diagnoses$ = this.diagnoseService.getUserDiagnoseHistory(this.user._id);
+          this.loadDiagnose(this.user._id);
         }
       }),
       takeUntil(this.destroy$)
@@ -47,16 +55,26 @@ export class DiagnoseHistoryComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  goDetails(diagnose: Diagnose) {
+  loadDiagnose(userid: string) {
+    if (userid) {
+      this.diagnoses$ = this.diagnoseService.getUserDiagnoseHistory(userid);
+      this.historyLoaded = true;
+    }
+  }
+
+  goDetails(diagnose: Diagnose, mode: number) {
     this.dialog.open(DiagnoseDetailsComponent, {
       maxWidth: '100vw',
       panelClass: 'full-width-dialog',
       data: {
         diagnose: diagnose,
-        mode: 3
+        mode: mode
       }
     }).afterClosed().subscribe(() => {
       this.core.setTitle('门诊历史记录');
+      if (!this.historyLoaded && this.user?._id) {
+        this.loadDiagnose(this.user._id);
+      }
     });
   }
 
