@@ -34,10 +34,10 @@ export class MedicineService {
         return medicine_periods.split('|').map(value => {
           const items = value.split(':');
           return { name: items[0], value: +items[1] };
-        })
+        });
       }),
       tap(resutls => {
-        this.medicine_periods = resutls
+        this.medicine_periods = resutls;
       })
     );
   }
