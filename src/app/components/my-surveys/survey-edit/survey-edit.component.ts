@@ -27,6 +27,7 @@ export class SurveyEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) @Optional() @SkipSelf() public data: {
       surveyGroup: SurveyGroup,
       user: User,
+      title: string,
     },
   ) {
     this.surveys = [...data.surveyGroup.surveys];
@@ -63,7 +64,7 @@ export class SurveyEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.dialogRef.updateSize('100%', '100%');
-    this.core.setTitle(this.surveyService.getSurveyGroupNameByType(this.data.surveyGroup.type));
+    this.core.setTitle(this.data.title);
   }
 
   getQuestionType(type: number) {

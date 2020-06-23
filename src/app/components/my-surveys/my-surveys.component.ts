@@ -51,12 +51,14 @@ export class MySurveysComponent implements OnInit, OnDestroy {
   }
 
   goDetails(surveyGroup: SurveyGroup) {
+    const pageTitle = this.surveyService.getSurveyGroupNameByType(surveyGroup.type);
     this.dialog.open(SurveyEditComponent, {
       maxWidth: '100vw',
       panelClass: 'full-width-dialog',
       data: {
         surveyGroup: surveyGroup,
-        user: this.user
+        user: this.user,
+        title: pageTitle,
       }
     }).afterClosed().subscribe((gkey) => {
       if (gkey) { // 已完成

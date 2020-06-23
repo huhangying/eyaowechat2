@@ -18,6 +18,7 @@ export class SurveyStartComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   user: User;
   surveryGroup: SurveyGroup;
+  pageTitle: string;
   openid: string;
   hid: string;
   loaded =false;
@@ -31,11 +32,13 @@ export class SurveyStartComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.route.data.pipe(
       tap(data => {
         this.user = data.user;
         const { openid, doctorid, type, date, state } = this.route.snapshot.queryParams;
+        this.pageTitle = '我的' + this.surveyService.getSurveyGroupNameByType(+type);
+        this.core.setTitle(this.pageTitle);
         this.openid = openid;
         this.hid = state;
         if (this.user?._id) {
@@ -76,7 +79,8 @@ export class SurveyStartComponent implements OnInit, OnDestroy {
       panelClass: 'full-width-dialog',
       data: {
         surveyGroup: surveyGroup,
-        user: this.user
+        user: this.user,
+        title: this.pageTitle
       }
     }).afterClosed().subscribe((gkey) => {
       if (gkey) { // 已完成
