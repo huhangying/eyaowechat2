@@ -23,6 +23,7 @@ import { AuthMockGuard } from './core/services/auth-mock.guard';
 import { DoctorResolver } from './services/resolvers/doctor.resolver';
 import { ArticleComponent } from './components/public/article/article.component';
 import { SurveyStartComponent } from './components/my-surveys/survey-start/survey-start.component';
+import { ReservationComponent } from './components/public/reservation/reservation.component';
 
 
 const routes: Routes = [
@@ -131,6 +132,13 @@ const routes: Routes = [
     path: 'article',
     component: ArticleComponent,
   },
+  {
+    path: 'reservation',
+    component: ReservationComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
+  },
+
   {
     path: 'entry',
     component: EntryComponent,

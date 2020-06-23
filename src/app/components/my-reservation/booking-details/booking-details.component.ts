@@ -29,6 +29,7 @@ export class BookingDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) @Optional() @SkipSelf() public data: {
       booking: Booking,
       user: User,
+      noReturn?: boolean
     },
   ) {
     this.booking = data.booking;

@@ -35,6 +35,7 @@ import { AddFeedbackComponent } from './components/diagnose/feedback/add-feedbac
 import { LocalDatePipe } from './core/pipe/local-date.pipe';
 import { ArticleComponent } from './components/public/article/article.component';
 import { SurveyStartComponent } from './components/my-surveys/survey-start/survey-start.component';
+import { ReservationComponent } from './components/public/reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { SurveyStartComponent } from './components/my-surveys/survey-start/surve
     AddFeedbackComponent,
     ArticleComponent,
     SurveyStartComponent,
+    ReservationComponent,
   ],
   imports: [
     CommonModule,

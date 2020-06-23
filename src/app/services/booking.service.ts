@@ -31,6 +31,10 @@ export class BookingService {
     return this.api.patch<OriginBooking>('booking/' + booking._id, { status: 2 }); // 2: 取消预约
   }
 
+  getBookingById(id: string) {
+    return this.api.get<Booking>('booking/' + id);
+  }
+
   sendBookingConfirmation(booking: Booking, doctor: Doctor) {
     return this.api.post('wechat/send-booking-msg',
       this.buildBookingConfirmationMsg(booking, doctor, '您已经预约成功，详情如下', "请按照指示到相应位置科室就诊"));
@@ -45,6 +49,7 @@ export class BookingService {
   buildBookingConfirmationMsg(booking: Booking, doctor: Doctor, header: string, footer: string) {
     return {
       openid: booking.user?.link_id,
+      bookingid: booking._id,
       data: {
         header: {
           value: header

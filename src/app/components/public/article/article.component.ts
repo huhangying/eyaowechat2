@@ -28,17 +28,6 @@ export class ArticleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // let id = this.route.snapshot.paramMap.get('id');
-    // this.articleService.getArticleById(id).pipe(
-    //   tap(result => {
-    //     this.article = result;
-    //   })
-    // ).subscribe()
-
-    // this.article$ = this.route.paramMap.pipe(
-    //   switchMap((params: ParamMap) =>
-    //     this.articleService.getArticleById(params.get('id')))
-    // );
   }
 
 }

@@ -5,7 +5,7 @@ import { User } from './user.model';
 export interface Booking {
   _id?: string;
   doctor: string; // id
-  schedule?: Schedule; // id
+  schedule?: Schedule;
   date?: Date; // same as in schedule
   user?: User;
   status: number;
