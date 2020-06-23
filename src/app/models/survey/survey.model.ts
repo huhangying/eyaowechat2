@@ -15,6 +15,7 @@ export interface Survey {
   availableBy?: Date; // 有效期
   finished: boolean;
   createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface SurveyReqest {
@@ -31,4 +32,5 @@ export interface SurveyReqest {
   availableBy?: Date; // 有效期
   finished: boolean;
   createdAt?: Date;
+  updatedAt?: Date;
 }

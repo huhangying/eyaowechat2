@@ -142,7 +142,6 @@ export class BookComponent implements OnInit, OnDestroy {
       return date.date() === moment(schedule.date).date();
     });
     this.selectedDay = offset;
-
   }
 
   resetWeek() {
@@ -201,7 +200,9 @@ export class BookComponent implements OnInit, OnDestroy {
                     tap(results => {
                       if (!results?.length) return;
                       // create surveys from template
-                      const surveys = results.map(async _ => {
+                      const surveys = results.map(async (_: SurveyReqest) => {
+                        delete _.createdAt;
+                        delete _.updatedAt;
                         const newSurvey: SurveyReqest = {
                           ..._,
                           surveyTemplate: _._id,

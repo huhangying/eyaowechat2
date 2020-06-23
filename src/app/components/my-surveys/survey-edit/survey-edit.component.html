@@ -6,11 +6,11 @@
     </button>
   </div>
 </div>
-<div class="card px-3 py-2 mx-2 my-3">
+<div class="card px-3 py-3 mx-2 my-3">
   <div class="d-flex p-1">
     <div class="h6 pr-2">{{ questionIndex + 1}}. </div>    
     <div class="h6">{{ question.question }}
-      <span class="text-primary">{{ getQuestionType(question.answer_type) }}</span>
+      <span class="text-primary small">{{ getQuestionType(question.answer_type) }}</span>
     </div>
   </div>
   <ng-container *ngIf="question.answer_type === 0 || question.answer_type === 1">
