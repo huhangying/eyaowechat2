@@ -5,6 +5,13 @@
         <label class="item-label">姓名:</label>
         <input mat-input class="weui-input" type="text" formControlName="name" placeholder="请输入">
       </li>
+      <li class="list-group-item d-flex">
+        <label class="item-label">性别:</label>
+        <mat-radio-group class="weui-input" formControlName="gender">
+          <mat-radio-button value="M" class="pl-0">男</mat-radio-button>
+          <mat-radio-button value="F" class="pl-3">女</mat-radio-button>
+        </mat-radio-group>
+      </li>
       <li class="list-group-item d-flex align-items-center py-1">
         <span class="item-label">生日:</span>
         <button mat-button (click)="selectBirthdate()">
@@ -25,7 +32,7 @@
       </li>
     </ul>
   </div>
-  
+
   <div class="py-2 px-4">
     <button type="button" class="btn btn-primary btn-block" [disabled]="form.invalid" (click)="save()">
       保存

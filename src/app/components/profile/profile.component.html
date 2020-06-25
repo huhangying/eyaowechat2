@@ -6,7 +6,9 @@
     <div class="flex-fill w-100">
       <div class="border-bottom pb-2">
         <span class="h4 pr-3">{{ user.name }}</span>
-        {{ user.birthdate | localDate }}
+        <span *ngIf="user.birthdate">
+          {{ core.getAgeFromDob(user.birthdate) }} 岁
+        </span>
       </div>
       <div class="pt-2"><span class="item-label">门诊号: </span>{{ user.sin || '未设置' }}</div>
       <div class="pt-2"><span class="item-label">社保号: </span>{{ user.admissionNumber || '未设置' }}</div>

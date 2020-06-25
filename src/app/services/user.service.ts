@@ -24,6 +24,10 @@ export class UserService {
     );
   }
 
+  updateById(id: string, user: User) {
+    return this.api.patch('user/' + id, user);
+  }
+
   isFirstVisit(departmentid: string) {
     if (!this.user?.visitedDepartments?.length) return true;
     return !this.user.visitedDepartments.find(_ => _ === departmentid);

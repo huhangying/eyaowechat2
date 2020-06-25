@@ -56,4 +56,8 @@ export class CoreService {
     return [date.getFullYear(), date.getMonth() + 1, date.getDate()];
   }
 
+  getAgeFromDob(dob: Date) {
+    return moment().diff(moment(dob), 'years');
+  }
+
 }
