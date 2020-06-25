@@ -4,7 +4,9 @@
 
     <div class="text-muted px-3 pt-3">
       <div>预约科室: &nbsp;&nbsp; {{booking.schedule?.doctor.department?.name }}</div>
-      <div class="py-2">预约药师: &nbsp;&nbsp; {{booking.schedule?.doctor.name}}</div>
+      <div class="py-2">预约药师: &nbsp;&nbsp;
+        {{booking.schedule?.doctor.name}} {{booking.schedule?.doctor.title}}
+      </div>
       <div>预约时间: &nbsp;&nbsp;
         {{booking.created | localDate}} {{booking.schedule?.period.name}}
       </div>
