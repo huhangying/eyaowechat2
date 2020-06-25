@@ -33,37 +33,37 @@
       <div class="flex-fill text-center py-2" (click)="select(0, day0)"
         [ngClass]="day0 ? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 0">
         {{ getDay() }}
-        <div class="pt-2">日</div>
+        <div class="pt-2">一</div>
       </div>
       <div class="flex-fill text-center py-2" (click)="select(1, day1)"
         [ngClass]="day1? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 1">
         {{ getDay(1) }}
-        <div class="pt-2">一</div>
+        <div class="pt-2">二</div>
       </div>
       <div class="flex-fill text-center py-2" (click)="select(2, day2)"
         [ngClass]="day2 ? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 2">
         {{ getDay(2)  }}
-        <div class="pt-2">二</div>
+        <div class="pt-2">三</div>
       </div>
       <div class="flex-fill text-center py-2" (click)="select(3, day3)"
         [ngClass]="day3 ? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 3">
         {{ getDay(3)  }}
-        <div class="pt-2">三</div>
+        <div class="pt-2">四</div>
       </div>
       <div class="flex-fill text-center py-2" (click)="select(4, day4)"
         [ngClass]="day4 ? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 4">
         {{ getDay(4)  }}
-        <div class="pt-2">四</div>
+        <div class="pt-2">五</div>
       </div>
       <div class="flex-fill text-center py-2" (click)="select(5, day5)"
         [ngClass]="day5 ? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 5">
         {{ getDay(5)  }}
-        <div class="pt-2">五</div>
+        <div class="pt-2">六</div>
       </div>
       <div class="flex-fill text-center py-2" (click)="select(6, day6)"
         [ngClass]="day6 ? 'day-avaliable' : 'day-disabled'" [class.day-selected]="selectedDay === 6">
         {{ getDay(6)  }}
-        <div class="pt-2">六</div>
+        <div class="pt-2">日</div>
       </div>
       <div class="flex-fill text-right week-nav" (click)="nextWeek()">
         <button mat-icon-button color="primary">

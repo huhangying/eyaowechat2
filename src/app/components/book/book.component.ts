@@ -7,11 +7,11 @@ import { BookingService } from 'src/app/services/booking.service';
 import { Schedule } from 'src/app/models/schedule.model';
 import { Observable, Subject } from 'rxjs';
 import * as moment from 'moment';
-import { tap, distinctUntilChanged, takeUntil, map } from 'rxjs/operators';
+import { tap, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { MessageService } from 'src/app/core/services/message.service';
 import { OriginBooking, Booking } from 'src/app/models/booking.model';
 import { SurveyService } from 'src/app/services/survey.service';
-import { Survey, SurveyReqest } from 'src/app/models/survey/survey.model';
+import { SurveyReqest } from 'src/app/models/survey/survey.model';
 import { WeixinService } from 'src/app/services/weixin.service';
 import { environment } from 'src/environments/environment';
 import { AppStoreService } from 'src/app/core/store/app-store.service';
@@ -29,7 +29,7 @@ export class BookComponent implements OnInit, OnDestroy {
   schedules$: Observable<Schedule[]>;
   scheduleSelected = true;
   reservationNote: string;
-  today = moment();
+  currentStartWeekDay = moment().add(1, 'd').startOf('week'); // 从明天开始预约
   fromDate: moment.Moment;
   day0: boolean;
   day1: boolean;
@@ -41,6 +41,7 @@ export class BookComponent implements OnInit, OnDestroy {
   oneWeekSchedules: Schedule[];
   availableSchedules: Schedule[];
   selectedDay: number = -1;
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -68,14 +69,13 @@ export class BookComponent implements OnInit, OnDestroy {
         this.reservationNote = result?.replace(/\n/g, '<br>');
       });
     }
-
-    const today = moment();
-    this.fromDate = today.startOf('week');
+    
+    this.fromDate = this.currentStartWeekDay.clone();
     this.fetchSchedule();
   }
 
   ngOnInit(): void {
-    this.core.setTitle(this.doctor.name);
+    this.core.setTitle(this.doctor.name + '门诊预约');
   }
 
   ngOnDestroy() {
@@ -84,13 +84,19 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
   nextWeek() {
-    this.fromDate.add(7, 'd');
-    this.fetchSchedule();
+    // 只允许查看预约 7 天内
+    if (this.fromDate.isSameOrBefore(this.currentStartWeekDay)) {
+      this.fromDate.add(7, 'd');
+      this.fetchSchedule();
+    }
   }
 
   prevWeek() {
-    this.fromDate.subtract(7, 'd');
-    this.fetchSchedule();
+    // 只允许查看预约 7 天内
+    if (this.fromDate.isAfter(this.currentStartWeekDay)) {
+      this.fromDate.subtract(7, 'd');
+      this.fetchSchedule();
+    }
   }
 
   fetchSchedule() {
@@ -114,7 +120,7 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
   getDay(offset = 0) {
-    return this.fromDate.clone().add(offset, 'days').format('DD');
+    return this.fromDate.clone().add(offset, 'd').format('DD');
   }
 
   get yearMonth() {
@@ -126,6 +132,14 @@ export class BookComponent implements OnInit, OnDestroy {
       return false;
     }
     const date = this.fromDate.clone().add(offset, 'd');
+    // check if reaching min
+    if (date.isBefore(moment().add(-1, 'd'))) { //todo: allow book today, change -1 to 0 later
+      return false;
+    }
+    // check if reaching max
+    if (date.isAfter(moment().add(7, 'd'))) {
+      return false;
+    }
     return this.oneWeekSchedules.findIndex(schedule => {
       return date.date() === moment(schedule.date).date();
     }) > -1;
