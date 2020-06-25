@@ -23,7 +23,12 @@ export class EntryComponent implements OnInit {
   }
 
   nav(target: string) {
-    this.router.navigate([target], { queryParams: { openid: this.appStore.token?.openid, state: this.appStore.hid } });
+    this.router.navigate([target], {
+      queryParams: {
+        openid: this.appStore.token?.openid,
+        state: this.appStore.hid
+      }
+    });
   }
 
   refreshToken() {

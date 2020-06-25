@@ -65,8 +65,9 @@ export class CurrentDiagnoseComponent implements OnInit, OnDestroy {
     this.doctorService.doctor = this.diagnose.doctor;
     this.router.navigate([target], {
       queryParams: {
-        ...this.route.snapshot.queryParams,
-        doctorid: this.diagnose.doctor._id
+        openid: this.appStore.token?.openid || this.route.snapshot.queryParams?.openid,
+        state: this.appStore.hid || this.route.snapshot.queryParams?.state,
+        doctorid: this.diagnose.doctor?._id
       },
     });
   }
