@@ -32,8 +32,17 @@
   </ng-container>
 </div>
 
-<div class="fixed-bottom px-4 py-2" [class.d-none]="hideAddBtn">
-  <button type="button" class="btn btn-primary btn-block" (click)="add()">
-    新增
-  </button>
+<div class="fixed-bottom px-2 py-2" [class.d-none]="hideBtns">
+  <div class="d-flex">
+    <div class="w-50 pr-2">
+      <button type="button" class="btn btn-primary btn-block" (click)="back()">
+        返回
+      </button>
+    </div>
+    <div class="w-50">
+      <button type="button" class="btn btn-primary btn-block" (click)="add()">
+        新增
+      </button>
+    </div>
+  </div>
 </div>

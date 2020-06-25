@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CoreService } from 'src/app/core/services/core.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Doctor } from 'src/app/models/doctor.model';
 import { User } from 'src/app/models/user.model';
 import { Subject } from 'rxjs';
@@ -18,6 +18,7 @@ export class DoseCombinationComponent implements OnInit, OnDestroy {
 
   constructor(
     private core: CoreService,
+    private router: Router,
     private route: ActivatedRoute,
   ) {
     this.route.data.pipe(
@@ -37,6 +38,10 @@ export class DoseCombinationComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
+  }
+
+  back() {
+    this.router.navigate(['/current-diagnose'], { queryParams: this.route.snapshot.queryParams });
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Doctor } from 'src/app/models/doctor.model';
 import { MatDialog } from '@angular/material/dialog';
 import { CoreService } from 'src/app/core/services/core.service';
@@ -16,7 +16,8 @@ export class FeedbackComponent implements OnInit {
   @Input() type: number;
   @Input() doctor: Doctor;
   @Input() userid: string;
-  hideAddBtn = false;
+  @Output() close = new EventEmitter();
+  hideBtns = false;
   feedbacks$: Observable<UserFeedback[]>;
   
   constructor(
@@ -29,9 +30,13 @@ export class FeedbackComponent implements OnInit {
     this.feedbacks$ = this.feedbackServcie.getFeedbacksByType(this.type, this.userid);
   }
 
+  back() {
+    this.close.emit();
+  }
+
   add() {
     const currentTitle = this.core.getTitle();
-    this.hideAddBtn = true;
+    this.hideBtns = true;
     this.dialog.open(AddFeedbackComponent, {
       maxWidth: '100vw',
       panelClass: 'full-width-dialog',
@@ -42,7 +47,7 @@ export class FeedbackComponent implements OnInit {
       }
     }).afterClosed()
       .subscribe(() => {
-        this.hideAddBtn = false;
+        this.hideBtns = false;
         this.core.setTitle(currentTitle);
       });
   }
