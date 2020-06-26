@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import weui from 'weui.js';
 import { EMPTY } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,9 @@ import { EMPTY } from 'rxjs';
 export class MessageService {
 
   constructor(
-  ) { }
+    private snackBar: MatSnackBar,
+  ) {
+  }
 
   alert(msg: string) {
     weui.alert(msg);
@@ -33,6 +36,13 @@ export class MessageService {
   errorCatch(msg?: string) {
     this.error(msg);
     return EMPTY;
+  }
+
+  toast(msg: string) {
+    this.snackBar.open(msg, '', {
+      duration: 2000,
+      verticalPosition: 'top',
+    });
   }
 
 }

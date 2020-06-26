@@ -41,7 +41,7 @@ export class BookComponent implements OnInit, OnDestroy {
   oneWeekSchedules: Schedule[];
   availableSchedules: Schedule[];
   selectedDay: number = -1;
-  
+
 
   constructor(
     private route: ActivatedRoute,
@@ -69,7 +69,7 @@ export class BookComponent implements OnInit, OnDestroy {
         this.reservationNote = result?.replace(/\n/g, '<br>');
       });
     }
-    
+
     this.fromDate = this.currentStartWeekDay.clone();
     this.fetchSchedule();
   }
@@ -88,6 +88,8 @@ export class BookComponent implements OnInit, OnDestroy {
     if (this.fromDate.isSameOrBefore(this.currentStartWeekDay)) {
       this.fromDate.add(7, 'd');
       this.fetchSchedule();
+    } else {
+      this.message.toast('只能预约7天内的药师门诊');
     }
   }
 
@@ -96,6 +98,8 @@ export class BookComponent implements OnInit, OnDestroy {
     if (this.fromDate.isAfter(this.currentStartWeekDay)) {
       this.fromDate.subtract(7, 'd');
       this.fetchSchedule();
+    } else {
+      this.message.toast('只能预约7天内的药师门诊');
     }
   }
 
@@ -146,16 +150,16 @@ export class BookComponent implements OnInit, OnDestroy {
   }
 
   select(offset = 0, available = false) {
+    this.selectedDay = offset;
     if (!available) {
       this.availableSchedules = [];
-      this.selectedDay = -1;
+      // this.selectedDay = -1;
       return;
     }
     const date = this.fromDate.clone().add(offset, 'd');
     this.availableSchedules = this.oneWeekSchedules.filter(schedule => {
       return date.date() === moment(schedule.date).date();
     });
-    this.selectedDay = offset;
   }
 
   resetWeek() {

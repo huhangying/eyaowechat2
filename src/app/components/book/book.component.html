@@ -93,7 +93,7 @@
 
   <ng-container *ngIf="!availableSchedules?.length">
     <div class="alert alert-warning mx-2">
-      暂无可预约的门诊。
+      {{ selectedDay === -1 ? '请点击 &#8679; 日期选择预约。' : '暂无可预约的门诊。' }}
     </div>
   </ng-container>
 
