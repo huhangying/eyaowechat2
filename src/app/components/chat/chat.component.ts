@@ -12,6 +12,7 @@ import { User } from 'src/app/models/user.model';
 import { ChatService } from 'src/app/services/chat.service';
 import { CoreService } from 'src/app/core/services/core.service';
 import { ActivatedRoute } from '@angular/router';
+import *  as qqface from 'wx-qqface';
 
 @Component({
   selector: 'app-chat',
@@ -28,6 +29,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   myInput = '';
   errorMessage: string;
   returnMessage: string;
+  showEmoji = false;
+  qqfaces: string[] = qqface.codeMap;
 
   constructor(
     private route: ActivatedRoute,
@@ -126,6 +129,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   send() {
+    this.showEmoji = false;
     if (this.myInput.trim() === '') return; // avoid sending empty
     const chatMsg = {
       room: this.room,
@@ -141,6 +145,24 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chat.sendChat(chatMsg).subscribe();
     this.scrollBottom();
     this.myInput = '';
+  }
+
+  toggleEmoji() {
+    this.showEmoji = !this.showEmoji;
+    this.scrollBottom();
+  }
+
+  addEmoji(code: number) {
+    const emoji = '/:' + qqface.codeToText(code) + ' ';
+    this.myInput = this.myInput + emoji;
+  }
+
+  translateEmoji(text: string) {
+    const reg = new RegExp(('\\/:(' + qqface.textMap.join('|') + ')'), 'g');// ie. /:微笑
+    return text.replace(reg, (name) => {
+      const code = qqface.textMap.indexOf(name.substr(2)) + 1;
+      return code ? '<img src="assets/qqface/' + code + '.gif" />' : '';
+    });
   }
 
 }

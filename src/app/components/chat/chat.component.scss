@@ -81,5 +81,18 @@
             color: rgba(255, 255, 255, 0.5);
             font-size: 10px;
         }
+
+    }
+
+    ::ng-deep {
+        .qqface {
+            padding: 0.25rem 0;
+            text-align: center;
+            max-height: 10rem;
+            overflow: auto!important;
+        }
+        .chat-emoji-adjust {
+            margin-top: 10rem;
+        }
     }
 }

@@ -7,8 +7,7 @@
                     <span class="triangle"></span>
                     <img [src]="user?.icon" class="rounded-circle user_img_msg">
                 </div>
-                <div class="msg-data text-break">
-                    {{ chat.data }}
+                <div class="msg-data text-break" [innerHTML]="translateEmoji(chat.data)">
                 </div>
             </div>
         </ng-container>
@@ -17,32 +16,44 @@
             <div class="d-flex align-items-start flex-row">
                 <div class="img_cont_msg">
                     <span class="triangle"></span>
-                    <img [src]="doctor?.icon | imgPath"
-                        onerror="this.src='assets/images/default.svg';this.onerror='';"
+                    <img [src]="doctor?.icon | imgPath" onerror="this.src='assets/images/default.svg';this.onerror='';"
                         class="rounded-circle user_img_msg">
                 </div>
-                <div class="msg-data text-break">
-                    {{ chat.data }}
+                <div class="msg-data text-break" [innerHTML]="translateEmoji(chat.data)">
                 </div>
             </div>
         </ng-container>
 
         <div class="msg-time">{{chat.created | localDate: 'time'}}</div>
     </div>
-    <div id="chat-bottom" class="pb-5"></div>
+
+    <div id="chat-bottom" class="pb-5" [class.chat-emoji-adjust]="showEmoji"></div>
 </div>
 
-<div class="fixed-bottom text-muted bg-light d-flex">
-    <input matInput class="weui-input pl-2 align-self-center" autocomplete="off" placeholder="请输入..." cdkFocusInitial
-        (keyup.enter)="send()" [(ngModel)]="myInput">
-    <button mat-icon-button>
-        <mat-icon>mood</mat-icon>
-    </button>
-    <button mat-icon-button *ngIf="!myInput">
-        <mat-icon>image</mat-icon>
-    </button>
-    <button mat-icon-button *ngIf="!myInput">
-        <mat-icon>keyboard_voice</mat-icon>
-    </button>
-    <button mat-flat-button *ngIf="myInput" class="weui-btn weui-btn_mini weui-btn_primary" (click)="send()">发送</button>
+<div class="fixed-bottom text-muted bg-light">
+    <div class="d-flex">
+        <input matInput class="weui-input pl-2 align-self-center" autocomplete="off" placeholder="请输入..."
+            cdkFocusInitial (keyup.enter)="send()" [(ngModel)]="myInput">
+        <button mat-icon-button (click)="toggleEmoji()">
+            <mat-icon>mood</mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="!myInput">
+            <mat-icon>image</mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="false && !myInput">
+            <mat-icon>keyboard_voice</mat-icon>
+        </button>
+        <button mat-flat-button *ngIf="myInput" class="weui-btn weui-btn_mini weui-btn_primary"
+            (click)="send()">发送</button>
+    </div>
+
+    <div *ngIf="showEmoji">
+        <div class="qqface">
+            <ng-container *ngFor="let code of qqfaces">
+                <button mat-icon-button (click)="addEmoji(code)">
+                    <img [src]="'assets/qqface/' + code + '.gif'" />
+                </button>
+            </ng-container>
+        </div>
+    </div>
 </div>

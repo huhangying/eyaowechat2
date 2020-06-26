@@ -30,6 +30,7 @@
     "weixin-js-sdk": "^1.6.0",
     "weui": "^2.3.0",
     "weui.js": "^1.2.1",
+    "wx-qqface": "^0.2.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
