@@ -26,7 +26,6 @@ export class BookComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   doctor: Doctor;
   user: User;
-  schedules$: Observable<Schedule[]>;
   scheduleSelected = true;
   reservationNote: string;
   currentStartWeekDay = moment().add(1, 'd').startOf('week'); // 从明天开始预约
@@ -64,7 +63,6 @@ export class BookComponent implements OnInit, OnDestroy {
 
     if (this.doctor?._id) {
       // get schedules
-      this.schedules$ = this.bookingService.getSchedulesByDoctor(this.doctor._id);
       this.bookingService.getGlobalReservationNote().subscribe(result => {
         this.reservationNote = result?.replace(/\n/g, '<br>');
       });
@@ -159,7 +157,7 @@ export class BookComponent implements OnInit, OnDestroy {
     const date = this.fromDate.clone().add(offset, 'd');
     this.availableSchedules = this.oneWeekSchedules.filter(schedule => {
       return date.date() === moment(schedule.date).date();
-    });
+    })?.sort((a, b) => +a.period?.order - +b.period?.order);
   }
 
   resetWeek() {

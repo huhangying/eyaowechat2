@@ -2,8 +2,8 @@ import { Doctor } from './doctor.model';
 
 export interface Schedule {
   _id: string;
-  doctor: Doctor; // id
-  period: Period; // id
+  doctor: Doctor;
+  period: Period; 
   // period: Period;
   date: Date;
   limit?: number;
@@ -16,4 +16,5 @@ export interface Period {
   name: string;
   from?: number;
   to?: number;
+  order?: number;
 }
