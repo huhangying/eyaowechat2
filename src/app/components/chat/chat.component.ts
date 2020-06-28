@@ -13,6 +13,7 @@ import { ChatService } from 'src/app/services/chat.service';
 import { CoreService } from 'src/app/core/services/core.service';
 import { ActivatedRoute } from '@angular/router';
 import *  as qqface from 'wx-qqface';
+import { UploadService } from 'src/app/core/services/upload.service';
 
 @Component({
   selector: 'app-chat',
@@ -31,6 +32,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   returnMessage: string;
   showEmoji = false;
   qqfaces: string[] = qqface.codeMap;
+  dataType = ChatType;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +42,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private chat: ChatService,
     private core: CoreService,
+    private uploadService: UploadService,
   ) {
     this.route.data.pipe(
       distinctUntilChanged(),
@@ -132,17 +135,31 @@ export class ChatComponent implements OnInit, OnDestroy {
     ).subscribe();
   }
 
-  send() {
+  send(imgPath?: string) {
     this.showEmoji = false;
-    if (this.myInput.trim() === '') return; // avoid sending empty
-    const chatMsg = {
-      room: this.room,
-      sender: this.user._id,
-      senderName: this.user.name,
-      to: this.doctor._id,
-      type: ChatType.text,
-      data: this.myInput
-    };
+    let chatMsg;
+    if (imgPath) {
+      // Picture
+      chatMsg = {
+        room: this.room,
+        sender: this.user._id,
+        senderName: this.user.name,
+        to: this.doctor._id,
+        type: ChatType.picture,
+        data: imgPath
+      };
+    } else {
+      // Text
+      if (this.myInput.trim() === '') return; // avoid sending empty
+      chatMsg = {
+        room: this.room,
+        sender: this.user._id,
+        senderName: this.user.name,
+        to: this.doctor._id,
+        type: ChatType.text,
+        data: this.myInput
+      };
+    }
     this.chats.push(chatMsg);
 
     this.socketio.sendChat(this.room, chatMsg);
@@ -167,6 +184,27 @@ export class ChatComponent implements OnInit, OnDestroy {
       const code = qqface.textMap.indexOf(name.substr(2)) + 1;
       return code ? '<img src="assets/qqface/' + code + '.gif" />' : '';
     });
+  }
+
+  imageUpload(event) {
+    if (event.target.files?.length) {
+      const [file] = event.target.files;
+      const newfileName = `.${file.name.split('.').pop()}`; // _id.[ext]
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async () => {
+
+        const newFile = await this.uploadService.compressImg(file);
+        this.uploadService.uploadUserDir(this.user._id, 'chat', newFile, newfileName).pipe( 
+          tap((result: {path: string}) => {
+            if (result?.path) {
+              this.send(result.path);
+            }
+          })
+        ).subscribe();
+      };
+    }
   }
 
 }

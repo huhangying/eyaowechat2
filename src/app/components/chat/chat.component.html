@@ -7,7 +7,14 @@
                     <span class="triangle"></span>
                     <img [src]="user?.icon" class="rounded-circle user_img_msg">
                 </div>
-                <div class="msg-data text-break" [innerHTML]="translateEmoji(chat.data)">
+                <div class="msg-data" [ngSwitch]="chat.type">
+                    <div *ngSwitchCase="dataType.picture">
+                        <img [src]="chat.data | imgPath"
+                            onerror="this.src='assets/images/no-image.png';this.onerror='';"
+                            class="img-fluid img-thumbnail">
+                    </div>
+                    <div *ngSwitchDefault class="text-break" [innerHTML]="translateEmoji(chat.data)">
+                    </div>
                 </div>
             </div>
         </ng-container>
@@ -19,7 +26,14 @@
                     <img [src]="doctor?.icon | imgPath" onerror="this.src='assets/images/default.svg';this.onerror='';"
                         class="rounded-circle user_img_msg">
                 </div>
-                <div class="msg-data text-break" [innerHTML]="translateEmoji(chat.data)">
+                <div class="msg-data" [ngSwitch]="chat.type">
+                    <div *ngSwitchCase="dataType.picture">
+                        <img [src]="chat.data | imgPath"
+                            onerror="this.src='assets/images/no-image.png';this.onerror='';"
+                            class="img-fluid img-thumbnail">
+                    </div>
+                    <div *ngSwitchDefault class="text-break" [innerHTML]="translateEmoji(chat.data)">
+                    </div>
                 </div>
             </div>
         </ng-container>
@@ -37,12 +51,15 @@
         <button mat-icon-button (click)="toggleEmoji()">
             <mat-icon>mood</mat-icon>
         </button>
-        <button mat-icon-button *ngIf="!myInput">
-            <mat-icon>image</mat-icon>
-        </button>
-        <button mat-icon-button *ngIf="false && !myInput">
-            <mat-icon>keyboard_voice</mat-icon>
-        </button>
+        <ng-container *ngIf="!myInput">
+            <input hidden="true" type="file" accept="image/*" (change)="imageUpload($event)" #fileInput>
+            <button mat-icon-button (click)="fileInput.click()">
+                <mat-icon>image</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="false">
+                <mat-icon>keyboard_voice</mat-icon>
+            </button>
+        </ng-container>
         <button mat-flat-button *ngIf="myInput" class="weui-btn weui-btn_mini weui-btn_primary"
             (click)="send()">发送</button>
     </div>
