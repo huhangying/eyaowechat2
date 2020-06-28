@@ -99,6 +99,7 @@ export class AddFeedbackComponent implements OnInit, OnDestroy {
         this.avatar = reader.result;
         const formData = new FormData();
         formData.append('file', file, newfileName);// pass new file name in
+        this.cd.markForCheck();
         // this.uploadService.upload(formData).pipe(
         //   map(event => {
         //     switch (event.type) {
