@@ -22,7 +22,7 @@ export class UploadService {
           return resolve(file);
         }
       });
-    })
+    });
   }
 
   uploadUserDir(uid: string, type: string, file: Blob | File, fileName?: string) {
