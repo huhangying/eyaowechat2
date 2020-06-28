@@ -6,6 +6,7 @@ import { AddFeedbackComponent } from '../add-feedback/add-feedback.component';
 import { Observable } from 'rxjs';
 import { UserFeedback } from 'src/app/models/user-feedback.model';
 import { FeedbackService } from 'src/app/services/feedback.service';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-feedback',
@@ -15,7 +16,7 @@ import { FeedbackService } from 'src/app/services/feedback.service';
 export class FeedbackComponent implements OnInit {
   @Input() type: number;
   @Input() doctor: Doctor;
-  @Input() userid: string;
+  @Input() user: User;
   @Output() close = new EventEmitter();
   hideBtns = false;
   feedbacks$: Observable<UserFeedback[]>;
@@ -27,7 +28,7 @@ export class FeedbackComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.feedbacks$ = this.feedbackServcie.getFeedbacksByType(this.type, this.userid);
+    this.feedbacks$ = this.feedbackServcie.getFeedbacksByType(this.type, this.user._id);
   }
 
   back() {
@@ -42,7 +43,7 @@ export class FeedbackComponent implements OnInit {
       panelClass: 'full-width-dialog',
       data: {
         doctor: this.doctor,
-        userid: this.userid,
+        userid: this.user._id,
         type: this.type
       }
     }).afterClosed()
