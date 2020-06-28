@@ -13,10 +13,15 @@
             开始日期: {{ feedback.startDate ? (feedback.startDate | localDate): '未设置' }} -
             结束日期: {{ feedback.endDate ? (feedback.endDate | localDate): '未设置' }}
           </div>
+          <div *ngIf="feedback.upload">
+            <img [src]="feedback.upload | imgPath" onerror="this.src='assets/images/no-image.png';this.onerror='';"
+              class="img-fluid img-thumbnail">
+          </div>
         </div>
 
         <div *ngIf="feedback.status >= 2">
-          {{doctor.name + doctor.title}}回复： <span class="text-muted small">发送于 {{ feedback.createdAt | localDate: 'full'}}</span>
+          {{doctor.name + doctor.title}}回复： <span class="text-muted small">发送于
+            {{ feedback.createdAt | localDate: 'full'}}</span>
           <hr>
           <div class="mt-n1 mb-1">
             {{ feedback.name }}
@@ -35,7 +40,7 @@
 <div class="fixed-bottom px-2 py-2" [class.d-none]="hideBtns">
   <div class="d-flex">
     <div class="w-50 pr-2">
-      <button type="button" class="btn btn-primary btn-block" (click)="back()">
+      <button type="button" class="btn btn-light btn-block" (click)="back()">
         返回
       </button>
     </div>

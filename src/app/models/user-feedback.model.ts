@@ -7,7 +7,8 @@ export interface UserFeedback {
   how?: string;  // 如何用药, available only type==2
   startDate?: Date;
   endDate?: Date;
-  notes?: string;
+  notes?: string; // to remove
+  upload?: string;
   status?: number; // 0: after user sent; 1. after doctor read; 2: 药师回复
   createdAt?: Date;
 }

@@ -48,20 +48,34 @@
           附件图片:
         </div>
 
-        <!-- <ul class="weui-uploader__files" id="uploaderFiles"> -->
-        <img src="{{ avatar }}" onerror="this.src='assets/images/icon/default.svg';this.onerror='';"
-          class="avatar-image img-fluid img-thumbnail z-depth-1" alt="">
-        <!-- </ul> -->
-        <div class="weui-uploader__input-box">
+        <div *ngIf="avatar">
+          <img src="{{ avatar }}" onerror="this.src='assets/images/icon/default.svg';this.onerror='';"
+            class="avatar-image img-fluid img-thumbnail z-depth-1" alt="">
+          <div class="p-1 mb-4">
+            <button mat-fab color="primary" title="删除图片" (click)="removeUploaded()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="weui-uploader__input-box" *ngIf="!avatar">
           <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="false"
-            formControlName="notes" (change)="imageUpload($event)" />
+            (change)="imageUpload($event)" />
         </div>
       </div>
     </li>
   </ul>
 </div>
 <div class="fixed-bottom px-4 py-2">
-  <button type="button" class="btn btn-primary btn-block" [disabled]="form.invalid" (click)="submit()">
-    提交
-  </button>
+  <div class="d-flex">
+    <div class="w-50 pr-2">
+      <button type="button" class="btn btn-light btn-block" (click)="back()">
+        返回
+      </button>
+    </div>
+    <div class="w-50">
+      <button type="button" class="btn btn-primary btn-block" [disabled]="form.invalid" (click)="submit()">
+        提交
+      </button>
+    </div>
+  </div>
 </div>
