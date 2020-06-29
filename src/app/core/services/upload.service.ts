@@ -28,10 +28,14 @@ export class UploadService {
   uploadUserDir(uid: string, type: string, file: Blob | File, fileName?: string) {
     const formData = new FormData();
     formData.append('file', file, fileName);// pass new file name in
-    return this.api.post<{path: string}>(`upload/user/${uid}_${type + this.getRandomString(10)}`, formData, {
+    return this.api.post<{ path: string }>(`upload/user/${uid}_${type + this.getRandomString(10)}`, formData, {
       reportProgress: true,
       observe: 'events'
     });
+  }
+
+  removeFile(filePath: string) {
+    return this.api.post('upload/remove', { path: filePath });
   }
 
   getRandomString(length: number) {

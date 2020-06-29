@@ -130,7 +130,14 @@ export class AddFeedbackComponent implements OnInit, OnDestroy {
   }
 
   removeUploaded() {
-    
+    this.uploadService.removeFile(this.upload).pipe(
+      tap(result => {
+        this.avatar = null;
+        this.upload = '';
+        this.cd.markForCheck();
+        this.message.success('图片已删除');
+      })
+    ).subscribe();
   }
 
   back() {
