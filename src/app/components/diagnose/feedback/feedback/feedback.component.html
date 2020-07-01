@@ -40,18 +40,19 @@
                 <img [src]="doctor?.icon | imgPath" class="rounded-circle user_img_msg">
               </div>
               <div class="msg-data text-break">
-                {{doctor.name + doctor.title}}回复：
-                <div class="text-muted small">发送于
+                {{doctor.name + doctor.title}}：
+                <div class="text-muted small">回复于
                   {{ feedback.createdAt | localDate: 'full'}}
                 </div>
                 <hr class="my-2">
-                <div class="mb-1">
-                  {{ feedback.name }}
+                <div class="mb-1 text-break" [innerHTML]="translateEmoji(feedback.name)">
                 </div>
               </div>
             </div>
           </div>
         </ng-container>
+      </div>
+      <div id="chat-bottom" class="position-relative pb-5">
       </div>
     </ng-container>
 

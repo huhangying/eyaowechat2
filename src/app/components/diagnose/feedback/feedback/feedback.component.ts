@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { UserFeedback } from 'src/app/models/user-feedback.model';
 import { FeedbackService } from 'src/app/services/feedback.service';
 import { User } from 'src/app/models/user.model';
+import *  as qqface from 'wx-qqface';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-feedback',
@@ -28,7 +30,11 @@ export class FeedbackComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.feedbacks$ = this.feedbackServcie.getFeedbackHistoryByDoctorAndType(this.type, this.user._id, this.doctor._id);
+    this.feedbacks$ = this.feedbackServcie.getFeedbackHistoryByDoctorAndType(this.type, this.user._id, this.doctor._id).pipe(
+      tap(() => {
+        this.scrollBottom();
+      })
+    );
   }
 
   back() {
@@ -51,6 +57,21 @@ export class FeedbackComponent implements OnInit {
         this.hideBtns = false;
         this.core.setTitle(currentTitle);
       });
+  }
+
+  scrollBottom() {
+    setTimeout(() => {
+      const footer = document.getElementById('chat-bottom');
+      footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    });
+  }
+
+  translateEmoji(text: string) {
+    const reg = new RegExp(('\\/:(' + qqface.textMap.join('|') + ')'), 'g');// ie. /:微笑
+    return text.replace(reg, (name) => {
+      const code = qqface.textMap.indexOf(name.substr(2)) + 1;
+      return code ? '<img src="assets/qqface/' + code + '.gif" />' : '';
+    });
   }
 
 }
