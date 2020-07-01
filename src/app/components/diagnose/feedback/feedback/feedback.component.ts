@@ -28,7 +28,7 @@ export class FeedbackComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.feedbacks$ = this.feedbackServcie.getFeedbacksByType(this.type, this.user._id);
+    this.feedbacks$ = this.feedbackServcie.getFeedbackHistoryByDoctorAndType(this.type, this.user._id, this.doctor._id);
   }
 
   back() {

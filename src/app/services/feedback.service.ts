@@ -15,6 +15,10 @@ export class FeedbackService {
     return this.api.get<UserFeedback[]>(`feedbacks/user/${type}/${uid}`);
   }
 
+  getFeedbackHistoryByDoctorAndType(type: number, uid: string, did: string) {
+    return this.api.get<UserFeedback[]>(`feedbacks/user/${type}/${uid}/${did}`);
+  }
+
   createFeedback(feedback: UserFeedback) {
     return this.api.post<UserFeedback>('feedback', feedback);
   }
