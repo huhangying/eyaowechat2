@@ -126,6 +126,7 @@ export class AddFeedbackComponent implements OnInit, OnDestroy {
       tap((result: UserFeedback) => {
         if (result?._id) {
           this.message.success();
+          this.dialogRef.close(result);
         }
       })
     ).subscribe();

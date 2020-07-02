@@ -94,7 +94,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   scrollBottom() {
     this.cd.markForCheck();
     setTimeout(() => {
-      const footer = document.getElementById('chat-bottom');
+      const footer = document.getElementById('_bottom');
       footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
       this.cd.markForCheck();
     });

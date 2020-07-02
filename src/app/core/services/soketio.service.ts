@@ -3,6 +3,7 @@ import * as io from 'socket.io-client';
 import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
 import { Chat } from 'src/app/models/chat.model';
+import { UserFeedback } from 'src/app/models/user-feedback.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,8 @@ export class SocketioService {
   setupSocketConnection() {
     if (!this.socket) {
       this.socket = io(environment.socketUrl);
-      this.socket.emit('chat', 'Hello there from wechat.'); // test
+      // this.socket.emit('chat', 'Hello there from wechat.'); // test
     }
-  }
-
-  onChat(next) {
-    this.socket.on('chat', next);
   }
 
   onRoom(room, next) {
@@ -35,6 +32,11 @@ export class SocketioService {
     this.socket.emit('leaveRoom', room);
   }
 
+  // Chat
+  onChat(next) {
+    this.socket.on('chat', next);
+  }
+
   sendChat(room: string, chat: Chat) {
     this.socket.emit('chat', room, {
       ...chat,
@@ -42,14 +44,16 @@ export class SocketioService {
     });
   }
 
-  sendFeedback(type: number, doctor: string, user: string) {
-    this.socket.emit('feedback', {
-      type: type,
-      user: user,
-      to: doctor,
-      created: moment()
-    });
+  // Feedback
+  onFeedback(next) {
+    this.socket.on('feedback', next);
+  }
 
+  sendFeedback(room: string, feedback: UserFeedback) {
+    this.socket.emit('feedback', room, {
+      ...feedback,
+      createdAt: moment()
+    });
   }
 
 }

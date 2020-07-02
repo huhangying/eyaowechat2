@@ -1,66 +1,64 @@
 <div class="msg_card_body px-2 h-100 pb-2 mb-5">
-  <ng-container *ngIf="feedbacks$ | async; let feedbacks">
-    <ng-container *ngIf="feedbacks?.length">
-      <div *ngFor="let feedback of feedbacks" class="mx-2 my-3">
-        <ng-container *ngIf="feedback.status < 2">
-          <div class="sender">
-            <div class="d-flex align-items-end flex-row-reverse">
-              <div class="img_cont_msg">
-                <span class="triangle"></span>
-                <img [src]="user?.icon" class="rounded-circle user_img_msg">
-              </div>
-              <div class="msg-data text-break">
-                <span class="text-muted small">发送于 {{ feedback.createdAt | localDate: 'full'}}</span>
-                <hr class="my-2">
-                <div class="mb-2">
-                  {{feedback.name}}
-                </div>
-                {{feedback.how}}
-                <div class="text-muted small">
-                  开始日期: {{ feedback.startDate ? (feedback.startDate | localDate): '未设置' }}
-                </div>
-                <div class="text-muted small">
-                  结束日期: {{ feedback.endDate ? (feedback.endDate | localDate): '未设置' }}
-                </div>
-                <div *ngIf="feedback.upload">
-                  <img [src]="feedback.upload | imgPath"
-                    onerror="this.src='assets/images/no-image.png';this.onerror='';" class="img-fluid img-thumbnail">
-                </div>
-              </div>
+  <ng-container *ngIf="feedbacks?.length">
+    <div *ngFor="let feedback of feedbacks" class="mx-2 my-3">
+      <ng-container *ngIf="feedback.status < 2">
+        <div class="sender">
+          <div class="d-flex align-items-end flex-row-reverse">
+            <div class="img_cont_msg">
+              <span class="triangle"></span>
+              <img [src]="user?.icon" class="rounded-circle user_img_msg">
             </div>
-
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="feedback.status >= 2">
-          <div class="to">
-            <div class="d-flex align-items-start flex-row">
-              <div class="img_cont_msg">
-                <span class="triangle"></span>
-                <img [src]="doctor?.icon | imgPath" class="rounded-circle user_img_msg">
+            <div class="msg-data text-break">
+              <span class="text-muted small">发送于 {{ feedback.createdAt | localDate: 'full'}}</span>
+              <hr class="my-2">
+              <div class="mb-2">
+                {{feedback.name}}
               </div>
-              <div class="msg-data text-break">
-                {{doctor.name + doctor.title}}：
-                <div class="text-muted small">回复于
-                  {{ feedback.createdAt | localDate: 'full'}}
-                </div>
-                <hr class="my-2">
-                <div class="mb-1 text-break" [innerHTML]="translateEmoji(feedback.name)">
-                </div>
+              {{feedback.how}}
+              <div class="text-muted small">
+                开始日期: {{ feedback.startDate ? (feedback.startDate | localDate): '未设置' }}
+              </div>
+              <div class="text-muted small">
+                结束日期: {{ feedback.endDate ? (feedback.endDate | localDate): '未设置' }}
+              </div>
+              <div *ngIf="feedback.upload">
+                <img [src]="feedback.upload | imgPath" onerror="this.src='assets/images/no-image.png';this.onerror='';"
+                  class="img-fluid img-thumbnail">
               </div>
             </div>
           </div>
-        </ng-container>
-      </div>
-      <div id="chat-bottom" class="position-relative pb-5">
-      </div>
-    </ng-container>
 
-    <ng-container *ngIf="!feedbacks?.length">
-      <div class="px-3 py-2">
-        暂无反馈消息。
-      </div>
-    </ng-container>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="feedback.status >= 2">
+        <div class="to">
+          <div class="d-flex align-items-start flex-row">
+            <div class="img_cont_msg">
+              <span class="triangle"></span>
+              <img [src]="doctor?.icon | imgPath" class="rounded-circle user_img_msg">
+            </div>
+            <div class="msg-data text-break">
+              {{doctor.name + doctor.title}}：
+              <div class="text-muted small">回复于
+                {{ feedback.createdAt | localDate: 'full'}}
+              </div>
+              <hr class="my-2">
+              <div class="mb-1 text-break" [innerHTML]="translateEmoji(feedback.name)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+  <div id="_bottom" class="position-relative pb-5">
+  </div>
+
+  <ng-container *ngIf="!feedbacks?.length">
+    <div class="px-3 py-2">
+      暂无反馈消息。
+    </div>
   </ng-container>
 </div>
 
