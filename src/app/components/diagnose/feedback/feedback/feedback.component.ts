@@ -49,7 +49,7 @@ export class FeedbackComponent implements OnInit {
       panelClass: 'full-width-dialog',
       data: {
         doctor: this.doctor,
-        userid: this.user._id,
+        user: this.user,
         type: this.type
       }
     }).afterClosed()

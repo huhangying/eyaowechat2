@@ -10,6 +10,7 @@ import { tap, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { MessageService } from 'src/app/core/services/message.service';
 import { Subject } from 'rxjs';
 import { UploadService } from 'src/app/core/services/upload.service';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-add-feedback',
@@ -40,7 +41,7 @@ export class AddFeedbackComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<AddFeedbackComponent>,
     @Inject(MAT_DIALOG_DATA) @Optional() @SkipSelf() public data: {
       doctor: Doctor,
-      userid: string,
+      user: User,
       type: number // 1: adverse reaction 2.dose combination
     },
   ) {
@@ -102,7 +103,7 @@ export class AddFeedbackComponent implements OnInit, OnDestroy {
         this.cd.markForCheck();
 
         const newFile = await this.uploadService.compressImg(file);
-        this.uploadService.uploadUserDir(this.data.userid, this.type.toString(), newFile, newfileName).pipe( 
+        this.uploadService.uploadUserDir(this.data.user._id, this.type.toString(), newFile, newfileName).pipe( 
           tap((result: {path: string}) => {
             this.upload = result?.path;
           })
@@ -115,7 +116,8 @@ export class AddFeedbackComponent implements OnInit, OnDestroy {
     const feedback = {
       ...this.form.value,
       doctor: this.doctor._id,
-      user: this.data.userid,
+      user: this.data.user._id,
+      senderName: this.data.user.name,
       type: this.type,
       upload: this.upload,
       status: 0
