@@ -61,11 +61,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.room = this.doctor?._id;
     this.socketio.joinRoom(this.room);
 
-    this.socketio.onRoom(this.room, (msg) => {
-      this.chats.push(msg);
-      this.scrollBottom();
-    });
-
     this.socketio.onChat((msg) => {
       this.chats.push(msg);
       this.scrollBottom();

@@ -34,10 +34,6 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     private feedbackServcie: FeedbackService,
   ) {
     this.socketio.setupSocketConnection();
-    this.socketio.onRoom(this.room, (msg) => {
-      this.feedbacks.push(msg);
-      this.scrollBottom();
-    });
 
     this.socketio.onFeedback((msg) => {
       this.feedbacks.push(msg);
