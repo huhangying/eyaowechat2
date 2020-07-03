@@ -17,6 +17,8 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { ImgPathPipe } from './pipe/img-path.pipe';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { ImgClickViewDirective } from './directive/img-click-view.directive';
+import { ImageComponent } from './component/image/image.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     GenderPipe,
     SelectDoctorsComponent,
     ImgPathPipe,
+    ImgClickViewDirective,
+    ImageComponent,
 
   ],
   imports: [
@@ -55,7 +59,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     GenderPipe,
     ImgPathPipe,
     SelectDoctorsComponent,
-
+    ImgClickViewDirective,
   ],
   providers: [
     Title,

@@ -11,7 +11,7 @@
           {{ booking.schedule?.doctor.department?.name }}
         </div>
         <div>
-          <button mat-icon-button (click)="showMap(true)">
+          <button mat-icon-button appImgClickView imgTitle="门诊指示图" [imgSrc]="''">
             <mat-icon class="text-warning">location_on</mat-icon>
           </button>
         </div>
@@ -68,7 +68,7 @@
   </button>
 </div>
 
-<div class="model" [class.d-none]="!showDirection" class="fixed-top p-2">
+<!-- <div class="model" [class.d-none]="!showDirection" class="fixed-top p-2">
   <div class="card">
     <div class="card-body">
       <span>
@@ -82,4 +82,4 @@
       onerror="this.src='assets/images/noimage.jpg';this.onerror='';" class="card-img-top" alt="...">
 
   </div>
-</div>
+</div> -->

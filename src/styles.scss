@@ -18,3 +18,12 @@ body { margin: 0; font-family: "Helvetica Neue", "Microsoft Yahei-Regular","Micr
   padding: 0;
   background-color: #ededed;
 }
+
+.mat-dialog-container {
+  padding: 0!important;
+  mat-dialog-content  {
+    padding: 1rem 0;
+    margin: 0;
+    overflow-x: hidden;
+  }
+}

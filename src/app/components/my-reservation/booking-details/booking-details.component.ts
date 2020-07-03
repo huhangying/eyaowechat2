@@ -18,7 +18,7 @@ export class BookingDetailsComponent implements OnInit {
   booking: Booking;
   user: User;
   doctor: Doctor;
-  showDirection = false;
+  // showDirection = false;
 
   constructor(
     private core: CoreService,
@@ -51,10 +51,10 @@ export class BookingDetailsComponent implements OnInit {
     return this.bookingService.getStatusLabel(status);
   }
 
-  showMap(show: boolean) {
-    this.showDirection = show;
-    this.cd.markForCheck();
-  }
+  // showMap(show: boolean) {
+  //   this.showDirection = show;
+  //   this.cd.markForCheck();
+  // }
 
   cancelBook(booking: Booking) {
     return this.bookingService.cancelBooking(booking).pipe(

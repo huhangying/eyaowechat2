@@ -22,8 +22,8 @@
                 结束日期: {{ feedback.endDate ? (feedback.endDate | localDate): '未设置' }}
               </div>
               <div *ngIf="feedback.upload">
-                <img [src]="feedback.upload | imgPath" onerror="this.src='assets/images/no-image.png';this.onerror='';"
-                  class="img-fluid img-thumbnail">
+                <img [src]="feedback.upload | imgPath" appImgClickView
+                  onerror="this.src='assets/images/no-image.png';this.onerror='';" class="img-fluid img-thumbnail">
               </div>
             </div>
           </div>
@@ -36,7 +36,8 @@
           <div class="d-flex align-items-start flex-row">
             <div class="img_cont_msg">
               <span class="triangle"></span>
-              <img [src]="doctor?.icon | imgPath" class="rounded-circle user_img_msg">
+              <img [src]="doctor?.icon | imgPath" appImgClickView
+                onerror="this.src='assets/images/no-image.png';this.onerror='';" class="rounded-circle user_img_msg">
             </div>
             <div class="msg-data text-break">
               {{doctor.name + doctor.title}}：

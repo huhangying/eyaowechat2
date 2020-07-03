@@ -9,7 +9,7 @@
                 </div>
                 <div class="msg-data" [ngSwitch]="chat.type">
                     <div *ngSwitchCase="dataType.picture">
-                        <img [src]="chat.data | imgPath"
+                        <img [src]="chat.data | imgPath" appImgClickView
                             onerror="this.src='assets/images/no-image.png';this.onerror='';"
                             class="img-fluid img-thumbnail">
                     </div>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="msg-data" [ngSwitch]="chat.type">
                     <div *ngSwitchCase="dataType.picture">
-                        <img [src]="chat.data | imgPath"
+                        <img [src]="chat.data | imgPath" appImgClickView
                             onerror="this.src='assets/images/no-image.png';this.onerror='';"
                             class="img-fluid img-thumbnail">
                     </div>
