@@ -11,7 +11,7 @@
           {{ booking.schedule?.doctor.department?.name }}
         </div>
         <div>
-          <button mat-icon-button appImgClickView imgTitle="门诊指示图" [imgSrc]="''">
+          <button mat-icon-button appImgClickView imgTitle="门诊指示图" [imgSrc]="booking.schedule?.doctor.department?.direction">
             <mat-icon class="text-warning">location_on</mat-icon>
           </button>
         </div>
