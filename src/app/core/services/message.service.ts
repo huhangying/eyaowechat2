@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import weui from 'weui.js';
 import { EMPTY } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ErrorCodeService } from './error-code.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class MessageService {
 
   constructor(
     private snackBar: MatSnackBar,
+    private errorCode: ErrorCodeService,
   ) {
   }
 
@@ -33,8 +35,8 @@ export class MessageService {
     weui.topTips(msg || '操作失败', 3000);
   }
 
-  errorCatch(msg?: string) {
-    this.error(msg);
+  errorCatch(code?: string) {
+    this.error(this.errorCode.getMessageByErrorCode(code));
     return EMPTY;
   }
 

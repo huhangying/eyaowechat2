@@ -35,7 +35,7 @@ export class ApiInterceptor implements HttpInterceptor {
         // this.appStore.updateLoading(true);
         return next.handle(request).pipe(
             catchError(err => {
-                return this.message.errorCatch();
+                return this.message.errorCatch(err.error?.return);
             })
             // catchError((error: HttpErrorResponse) => {
             //     // handle error
