@@ -10,6 +10,7 @@
   }
   .msg_card_body {
     overflow-y: auto;
+    overflow-x: hidden;
     background: #7f7fd5;
     background: -webkit-linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5);
     background: linear-gradient(to right, #91eae4, #86a8e7, #7f7fd5);
