@@ -1,0 +1,49 @@
+{
+  "button": [
+    {
+      "name": "联系药师",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "在线咨询",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf73fbd0076a0e2c1&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fchat-select&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "预约门诊",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf73fbd0076a0e2c1&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fbook-select&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        }
+      ]
+    },
+    {
+      "name": "个人中心",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "我的药师团队",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf73fbd0076a0e2c1&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fmy-doctors&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "我的预约",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf73fbd0076a0e2c1&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fmy-reservation&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "个人中心",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf73fbd0076a0e2c1&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fprofile&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "当前门诊",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf73fbd0076a0e2c1&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fcurrent-diagnose&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        }
+      ]
+    },
+    {
+      "type": "view",
+      "name": "测试",
+      "url": "http://www.zhaoyaoshi885.cn/wechat/entry"
+    }
+  ]
+}
