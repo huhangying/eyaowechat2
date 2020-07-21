@@ -1,4 +1,15 @@
 :host {
+  .card-without-border {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    margin-left: 1px;
+  }
   .avartor {
     max-width: 80px;
 
@@ -7,5 +18,16 @@
       width: 60px;
       border: 1.5px solid #f5f6fa;
     }
+  }
+ 
+  .focus {
+    background-color: #ffc107;
+    color: #fff;
+    min-height: 24px;
+  }
+  .not-focus {
+    background-color: #ffc107;
+    color: #fff;
+    min-height: 24px;
   }
 }

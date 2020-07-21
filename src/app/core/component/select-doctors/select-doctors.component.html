@@ -1,35 +1,42 @@
-<div class="py-2">
+<div [class.py-2]="pageType < 4">
   <ng-container *ngIf="doctors | async; let doctorList">
 
     <ng-container *ngIf="doctorList?.length">
-      <div *ngFor="let doctor of doctorList" class="card my-3 p-3">
-        <div class="d-flex">
-          <div class="flex-fill pr-3 pt-2 avartor">
+      <div *ngFor="let doctor of doctorList" [ngClass]="pageType < 4 ? 'card my-3': 'card-without-border'">
+        <div class="d-flex p-2">
+          <div class="flex-fill pr-2 pt-2 avartor" (click)="goDetails(doctor)">
             <img src="{{doctor.icon | imgPath}}" onerror="this.src='assets/images/default.svg';this.onerror='';"
               class="rounded-circle img_msg">
+              <div *ngIf="pageType === 4" class="py-2">
+                <mat-chip-list>
+                  <mat-chip class="small" [ngClass]="checkDoctorFocus(doctor._id) ? 'focus': 'not-focus'">
+                    {{checkDoctorFocus(doctor._id) ? '已关注': '未关注'}}
+                  </mat-chip>
+                </mat-chip-list>
+              </div>
           </div>
           <div class="flex-fill">
             <div class="d-flex justify-content-between">
-              <div class="">
+              <div class="pt-1">
                 <div class="d-flex align-items-baseline flex-wrap">
                   <div class="h6 font-weight-bold pr-2">{{doctor.name}}</div>
                   <div class="text-muted small">{{doctor.title}}</div>
                 </div>
                 {{doctor.department.name}}
               </div>
-              <div style="width: 6rem" class="text-right">
+              <div style="width: 6rem" class="text-right" *ngIf="pageType <= 4">
                 <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-2"
-                  (click)="goChat(doctor)"> 在线咨询 </button>
+                  (click)="goDetails(doctor)"> 在线咨询 </button>
                 <button *ngIf="pageType === 2" class="weui-btn weui-btn_mini weui-btn_warn px-2"
-                  (click)="goBook(doctor)"> 预约门诊 </button>
+                  (click)="goDetails(doctor)"> 预约门诊 </button>
                 <button *ngIf="pageType === 3 || pageType === 4" class="weui-btn weui-btn_mini weui-btn_warn px-3"
-                  (click)="goDoctorDetails(doctor)"> 详情 </button>
+                  (click)="goDetails(doctor)"> 详情 </button>
               </div>
             </div>
 
             <div class="pt-2">
-              <b>擅长:</b>
-              <span class="pl-3 text-muted">{{doctor.expertise}}</span>
+              擅长:
+              <span class="pl-2 text-muted">{{doctor.expertise}}</span>
             </div>
           </div>
         </div>

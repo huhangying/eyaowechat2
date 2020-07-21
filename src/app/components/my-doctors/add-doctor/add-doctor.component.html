@@ -1,8 +1,4 @@
-<div class="pt-5 px-2 position-absolute w-100">
-  <app-select-doctors [pageType]="4" [doctors]="doctors$" [user]="user"></app-select-doctors>
-</div>
-
-<mat-accordion>
+<!-- <mat-accordion>
   <mat-expansion-panel [expanded]="opened" (opened)="setExpansionStatus(true)">
     <mat-expansion-panel-header>
       请选择药学专科门诊
@@ -15,4 +11,18 @@
       </mat-selection-list>
     </ng-container>
   </mat-expansion-panel>
-</mat-accordion>
+</mat-accordion> -->
+
+<div class="d-flex">
+  <div class="">
+    <ul class="list-group list-group-flush" *ngIf="departments$ | async; let departments">
+      <li class="list-group-item dep-item" [class.active]="dep._id === selectedDepartment"
+        *ngFor="let dep of departments" (click)="selectDepartment(dep._id)">
+        {{dep.name}}
+      </li>
+    </ul>
+  </div>
+  <div class="flex-grow-1">
+    <app-select-doctors [pageType]="4" [doctors]="doctors$" [myDoctors]="myDoctors" [user]="user"></app-select-doctors>
+  </div>
+</div>

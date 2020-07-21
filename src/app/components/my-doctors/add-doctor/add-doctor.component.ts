@@ -19,7 +19,9 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
   user: User;
   departments$: Observable<Department[]>;
   doctors$: Observable<Doctor[]>;
-  opened: false;
+  // opened: false;
+  selectedDepartment: string;
+  myDoctors: Doctor[];
 
   constructor(
     private route: ActivatedRoute,
@@ -31,11 +33,25 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       tap(data => {
         this.user = data.user;
+
+        if (this.user) {
+          this.doctorService.getDoctorsByUser(this.user._id).subscribe(
+            results => {
+              this.myDoctors = results || [];
+              this.cd.markForCheck();
+            }
+          );
+        }
       }),
       takeUntil(this.destroy$)
     ).subscribe();
 
-    this.departments$ = this.doctorService.getDepartments();
+    this.departments$ = this.doctorService.getDepartments().pipe(
+      tap(deps => {
+        if (deps?.length) {}
+        this.selectDepartment(deps[0]._id);        
+      })
+    );
   }
 
   ngOnInit(): void {
@@ -47,14 +63,15 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  setExpansionStatus(status) {
-    this.opened = status;
-  }
+  // setExpansionStatus(status) {
+  //   this.opened = status;
+  // }
 
   selectDepartment(id: string) {
+    this.selectedDepartment = id;
     this.doctors$ = this.doctorService.getDoctorsByDepartmentId(id);
     // collapse
-    this.setExpansionStatus(false);
+    // this.setExpansionStatus(false);
     this.cd.markForCheck();
   }
 
