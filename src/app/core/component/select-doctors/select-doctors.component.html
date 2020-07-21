@@ -9,19 +9,20 @@
               class="rounded-circle img_msg">
           </div>
           <div class="flex-fill">
-            <div class="weui-flex">
-              <div class="weui-flex__item">
-                <span class="h5">{{doctor.name}}</span>
-                <span class="pl-2 text-muted">{{doctor.title}}</span>
-                <br>
+            <div class="d-flex justify-content-between">
+              <div class="">
+                <div class="d-flex align-items-baseline flex-wrap">
+                  <div class="h6 font-weight-bold pr-2">{{doctor.name}}</div>
+                  <div class="text-muted small">{{doctor.title}}</div>
+                </div>
                 {{doctor.department.name}}
               </div>
-              <div class="weui-flex__item text-right">
-                <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-4"
+              <div style="width: 6rem" class="text-right">
+                <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-2"
                   (click)="goChat(doctor)"> 在线咨询 </button>
-                <button *ngIf="pageType === 2" class="weui-btn weui-btn_mini weui-btn_warn px-4"
+                <button *ngIf="pageType === 2" class="weui-btn weui-btn_mini weui-btn_warn px-2"
                   (click)="goBook(doctor)"> 预约门诊 </button>
-                <button *ngIf="pageType === 3 || pageType === 4" class="weui-btn weui-btn_mini weui-btn_warn px-4"
+                <button *ngIf="pageType === 3 || pageType === 4" class="weui-btn weui-btn_mini weui-btn_warn px-3"
                   (click)="goDoctorDetails(doctor)"> 详情 </button>
               </div>
             </div>
