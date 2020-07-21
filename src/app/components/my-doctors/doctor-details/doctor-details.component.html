@@ -4,15 +4,18 @@
   <div class="py-3">
     <span class="h5">{{doctor.name}}</span>
     <span class="pl-3 text-muted">{{doctor.title}}</span>
+    <div class="pt-1">
+      {{doctor.department?.name}}
+    </div>
   </div>
   <ng-container *ngIf="relationshipExisted$ | async">
     <button mat-button type="button" class="btn btn-primary px-5" (click)="removeFocus()">
-      <mat-icon>star_border</mat-icon> 取消关注
+      <mat-icon class="mb-1">star_border</mat-icon> 取消关注
     </button>
   </ng-container>
   <ng-container *ngIf="!(relationshipExisted$ | async)">
-    <button mat-button type="button" class="btn btn-primary px-5" (click)="addFocus()">
-      <mat-icon>star_border</mat-icon> 增加关注
+    <button mat-raised-button type="button" class="btn btn-primary text-white px-5" (click)="addFocus()">
+      <mat-icon class="mb-1">star_border</mat-icon> 增加关注
     </button>
   </ng-container>
 </div>
@@ -22,9 +25,8 @@
     <mat-icon class="text-warning">schedule</mat-icon>
     <span class="section-title">工作时间</span>
   </div>
-  <p class="text-muted">
-    {{ doctor?.hours || '未设置' }}
-  </p>
+  <div class="text-muted text-wrap pb-2" [innerHTML]="doctor?.hours || '未设置'">
+  </div>
 </div>
 
 <div class="card px-3 pt-3 pb-1 m-2">
@@ -32,9 +34,8 @@
     <mat-icon class="text-warning">assignment</mat-icon>
     <span class="section-title">药师简介</span>
   </div>
-  <p class="text-muted">
-    {{ doctor?.bulletin || '未设置' }}
-  </p>
+  <div class="text-muted text-wrap pb-2" [innerHTML]="doctor?.bulletin || '未设置'">
+  </div>
 </div>
 
 <div class="card px-3 pt-3 pb-1 m-2">
@@ -42,9 +43,8 @@
     <mat-icon class="text-warning">verified</mat-icon>
     <span class="section-title">擅长领域</span>
   </div>
-  <p class="text-muted">
-    {{ doctor?.expertise || '未设置' }}
-  </p>
+  <div class="text-muted text-wrap pb-2" [innerHTML]="doctor?.expertise || '未设置'">
+  </div>
 </div>
 
 <div class="card px-3 pt-3 pb-1 m-2">
@@ -52,7 +52,6 @@
     <mat-icon class="text-warning">emoji_events</mat-icon>
     <span class="section-title">获奖情况</span>
   </div>
-  <p class="text-muted">
-    {{ doctor?.honor || '无' }}
-  </p>
+  <div class="text-muted text-wrap pb-2" [innerHTML]="doctor?.honor || '无'">
+  </div>
 </div>

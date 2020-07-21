@@ -6,14 +6,15 @@
         <div class="d-flex p-2">
           <div class="flex-fill pr-2 pt-2 avartor" (click)="goDetails(doctor)">
             <img src="{{doctor.icon | imgPath}}" onerror="this.src='assets/images/default.svg';this.onerror='';"
-              class="rounded-circle img_msg">
-              <div *ngIf="pageType === 4" class="py-2">
-                <mat-chip-list>
-                  <mat-chip class="small" [ngClass]="checkDoctorFocus(doctor._id) ? 'focus': 'not-focus'">
-                    {{checkDoctorFocus(doctor._id) ? '已关注': '未关注'}}
-                  </mat-chip>
-                </mat-chip-list>
-              </div>
+              class="rounded-circle img_msg" />
+            <div *ngIf="pageType === 4" class="py-2">
+              <mat-chip-list>
+                <mat-chip class="small" [ngClass]="checkDoctorFocus(doctor._id) ? 'focus': 'not-focus'"
+                  (click)="goDetails(doctor)">
+                  {{checkDoctorFocus(doctor._id) ? '已关注': '未关注'}}
+                </mat-chip>
+              </mat-chip-list>
+            </div>
           </div>
           <div class="flex-fill">
             <div class="d-flex justify-content-between">
