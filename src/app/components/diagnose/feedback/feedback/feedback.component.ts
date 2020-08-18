@@ -90,7 +90,7 @@ export class FeedbackComponent implements OnInit, OnDestroy {
   scrollBottom() {
     setTimeout(() => {
       const footer = document.getElementById('_bottom');
-      footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      footer?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     });
   }
 

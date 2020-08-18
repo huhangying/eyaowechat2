@@ -90,7 +90,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.cd.markForCheck();
     setTimeout(() => {
       const footer = document.getElementById('_bottom');
-      footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      footer?.scrollIntoView({ behavior: 'smooth', block: 'end' });
       this.cd.markForCheck();
     });
   }
