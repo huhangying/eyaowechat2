@@ -36,45 +36,46 @@ export class BookingService {
   }
 
   sendBookingConfirmation(booking: Booking, doctor: Doctor) {
-    return this.api.post('wechat/send-booking-msg',
-      this.buildBookingConfirmationMsg(booking, doctor, '您已经预约成功，详情如下', "请按照指示到相应位置科室就诊"));
+    return this.api.post('wechat/send-wechat-msg',
+      this.buildBookingConfirmationMsg('booking_success_template', booking, doctor, '您已经预约成功，详情如下', "请按照指示到相应位置科室就诊"));
   }
 
   sendBookingCancellation(booking: Booking, doctor: Doctor) {
-    return this.api.post('wechat/send-booking-msg',
-      this.buildBookingConfirmationMsg(booking, doctor, '您的预约已经取消，详情如下', ""));
+    return this.api.post('wechat/send-wechat-msg',
+      this.buildBookingConfirmationMsg('booking_cancel_template', booking, doctor, '您的预约已经取消，详情如下', ""));
   }
 
   // 
-  buildBookingConfirmationMsg(booking: Booking, doctor: Doctor, header: string, footer: string) {
+  buildBookingConfirmationMsg(templateId, booking: Booking, doctor: Doctor, header: string, footer: string) {
     return {
+      templateid: templateId,
       openid: booking.user?.link_id,
       bookingid: booking._id,
       data: {
-        header: {
+        first: {
           value: header
         },
-        doctor: {
+        keyword1: {
           value: `${doctor?.name} ${doctor?.title}`,
           color: "#173177"
         },
-        department: {
+        keyword2: {
           value: doctor?.department?.name,
           color: "#173177"
         },
-        datetime: {
+        keyword3: {
           value: `${this.localDate.transform(booking.schedule.date)} ${booking.schedule.period?.name}`,
           color: "#173177"
         },
-        address: {
+        keyword4: {
           value: doctor?.department?.address,
           color: "#173177"
         },
-        bookingid: {
+        keyword5: {
           value: booking._id,
           color: "#173177"
         },
-        footer: {
+        remark: {
           value: footer
         }
       }
