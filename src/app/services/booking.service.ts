@@ -31,6 +31,10 @@ export class BookingService {
     return this.api.patch<OriginBooking>('booking/' + booking._id, { status: 2 }); // 2: 取消预约
   }
 
+  setBookingStatus(booking: Booking, status: number) {
+    return this.api.patch<OriginBooking>('booking/' + booking._id, { status: status });
+  }
+
   getBookingById(id: string) {
     return this.api.get<Booking>('booking/' + id);
   }
