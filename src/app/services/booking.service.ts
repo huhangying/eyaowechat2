@@ -112,10 +112,12 @@ export class BookingService {
         return '您已取消预约';
       case BookingStatus.doctorCancelled:
         return '药师已取消预约';
-      case BookingStatus.userNotShow:
-        return '您未来门诊';
+      case BookingStatus.pending:
+        return '药师替换等待确认';
       case BookingStatus.finished:
         return '门诊已完成';
+      case BookingStatus.confirmFinished:
+        return '设置完成';
       default:
         return '';
     }

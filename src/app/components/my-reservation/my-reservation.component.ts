@@ -7,6 +7,7 @@ import { User } from 'src/app/models/user.model';
 import { Subject, Observable } from 'rxjs';
 import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
 import { AppStoreService } from 'src/app/core/store/app-store.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-my-reservation',
@@ -64,14 +65,16 @@ export class MyReservationComponent implements OnInit, OnDestroy {
   }
 
   get finishedBookings() {
+    const now = moment();
     return this.bookings ?
-      this.bookings.filter(_ => _.status > 1) :
+      this.bookings.filter(_ => _.status > 1 || now.isSameOrAfter(moment(_.schedule.date))) :
       [];
   }
 
   get currentBookings() {
+    const now = moment();
     return this.bookings ?
-      this.bookings.filter(_ => _.status === 1) :
+      this.bookings.filter(_ => _.status === 1 && now.isBefore(moment(_.schedule.date))) :
       [];
   }
 

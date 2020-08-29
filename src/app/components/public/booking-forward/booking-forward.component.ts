@@ -100,7 +100,7 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    this.redirectMyBookings();
+    this.redirectMyBookings(true);
   }
 
   redirectMyBookings(goFinished: boolean=false) {

@@ -35,10 +35,10 @@
       <div class="d-flex align-items-center justify-content-between">
         <div>
           <span class="item-label">预约状态:</span>
-          {{ getBookingStatus(booking.status) }}
+          {{ getBookingStatus(booking.status, booking.schedule.date) }}
         </div>
         <div>
-          <button mat-raised-button *ngIf="booking.status === 1" (click)="cancelBook(booking)">
+          <button mat-raised-button *ngIf="booking.status === 1 && !isBookingExpired(booking.schedule.date)" (click)="cancelBook(booking)">
             取消预约</button>
         </div>
       </div>
@@ -62,24 +62,8 @@
   </ul>
 </div>
 
-<div class="py-2 px-4" *ngIf="!data.noReturn">
+<div class="fixed-bottom p-3" *ngIf="!data.noReturn">
   <button type="button" class="btn btn-primary btn-block" (click)="close()">
     返回
   </button>
 </div>
-
-<!-- <div class="model" [class.d-none]="!showDirection" class="fixed-top p-2">
-  <div class="card">
-    <div class="card-body">
-      <span>
-        {{ booking.schedule?.doctor.department?.name }}门诊指示图
-      </span>
-      <span mat-raised-button class="float-right" (click)="showMap(false)">
-        <mat-icon>close</mat-icon>
-      </span>
-    </div>
-    <img [src]="booking.schedule?.doctor.department?.direction"
-      onerror="this.src='assets/images/noimage.jpg';this.onerror='';" class="card-img-top" alt="...">
-
-  </div>
-</div> -->

@@ -7,6 +7,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
 import { Doctor } from 'src/app/models/doctor.model';
 import { MessageService } from 'src/app/core/services/message.service';
+import * as moment from 'moment';
+import { BookingStatus } from 'src/app/core/enum/booking-status.enum';
 
 @Component({
   selector: 'app-booking-details',
@@ -18,6 +20,7 @@ export class BookingDetailsComponent implements OnInit {
   booking: Booking;
   user: User;
   doctor: Doctor;
+  now = moment();
   // showDirection = false;
 
   constructor(
@@ -47,10 +50,23 @@ export class BookingDetailsComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  getBookingStatus(status) {
+
+
+  getBookingStatus(status, bookingDate: Date) {
+    if ([BookingStatus.doctorCancelled, BookingStatus.userCancelled, BookingStatus.finished, BookingStatus.confirmFinished].indexOf(status) > -1) {
+      return this.bookingService.getStatusLabel(status);
+    }
+    // check expiry
+    if (this.isBookingExpired(bookingDate)) {
+      return '预约已过期';
+    }
     return this.bookingService.getStatusLabel(status);
   }
 
+  isBookingExpired(bookingDate: Date) {
+    return this.now.isSameOrAfter(moment(bookingDate));
+  }
+  
   // showMap(show: boolean) {
   //   this.showDirection = show;
   //   this.cd.markForCheck();
