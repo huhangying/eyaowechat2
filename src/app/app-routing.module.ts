@@ -24,6 +24,7 @@ import { DoctorResolver } from './services/resolvers/doctor.resolver';
 import { ArticleComponent } from './components/public/article/article.component';
 import { SurveyStartComponent } from './components/my-surveys/survey-start/survey-start.component';
 import { ReservationComponent } from './components/public/reservation/reservation.component';
+import { BookingForwardComponent } from './components/public/booking-forward/booking-forward.component';
 
 
 const routes: Routes = [
@@ -135,6 +136,12 @@ const routes: Routes = [
   {
     path: 'reservation',
     component: ReservationComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
+  },
+  {
+    path: 'booking-forward',
+    component: BookingForwardComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver }
   },

@@ -33,6 +33,7 @@ export class WeixinService {
     );
   }
 
+  //todo: remove
   getSignatureByUrl(url: string) {
     return this.api.get<Signature>('wechat/auth-signature/' + encodeURIComponent(url)).pipe(
       map(result => {
