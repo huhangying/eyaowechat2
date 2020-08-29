@@ -1,48 +1,65 @@
-<div class="card p-2 m-2 text-muted">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-      <mat-icon class="text-warning">assignment</mat-icon>
-      <span class="section-title h6">非常抱歉，{{booking.schedule.doctor.name}}{{booking.schedule.doctor.title}}在您预约的时间内不能坐诊,
-        特向您推荐替换药师，详情如下</span>
-    </li>
-    <li class="list-group-item pt-2 pb-1">
-      <div class="d-flex align-items-center justify-content-between">
-        <div>
-          <span class="item-label">预约科室:</span>
-          {{ forwardBooking.schedule?.doctor.department?.name }}
+<ng-container *ngIf="!expired">
+
+  <div class="card p-2 m-2 text-muted">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <mat-icon class="text-warning">assignment</mat-icon>
+        <span class="section-title h6">非常抱歉，{{booking.schedule.doctor.name}}{{booking.schedule.doctor.title}}在您预约的时间内不能坐诊,
+          特向您推荐替换药师，详情如下</span>
+      </li>
+      <li class="list-group-item pt-2 pb-1">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="item-label">预约科室:</span>
+            {{ forwardBooking.schedule?.doctor.department?.name }}
+          </div>
         </div>
+      </li>
+      <li class="list-group-item">
+        <span class="item-label">预约药师:</span>
+        {{ forwardBooking.schedule?.doctor.name}} {{ forwardBooking.schedule?.doctor.title}}
+      </li>
+      <li class="list-group-item">
+        <span class="item-label">预约时间:</span>
+        {{ forwardBooking.schedule.date | localDate}} {{ forwardBooking.schedule?.period.name }}
+      </li>
+      <li class="list-group-item">
+        <div>
+          <span class="item-label">预约地址:</span>
+          {{ forwardBooking.schedule?.doctor.department?.address }}
+        </div>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="p-2 m-2 text-muted">
+    * 请选择”确定替换药师”替换成原预约药师推荐的药师；您也可以选择“取消药师”，取消预约后，您可以回到“预约门诊”继续预约；
+  </div>
+  
+  <div class="fixed-bottom px-2 py-3">
+    <div class="d-flex">
+      <div class="w-50 pr-2">
+        <button  type="button" class="btn btn-primary btn-block" (click)="replaceBooking()">
+          确定替换药师</button>
       </div>
-    </li>
-    <li class="list-group-item">
-      <span class="item-label">预约药师:</span>
-      {{ forwardBooking.schedule?.doctor.name}} {{ forwardBooking.schedule?.doctor.title}}
-    </li>
-    <li class="list-group-item">
-      <span class="item-label">预约时间:</span>
-      {{ forwardBooking.created | localDate}} {{ forwardBooking.schedule?.period.name }}
-    </li>
-    <li class="list-group-item">
-      <div>
-        <span class="item-label">预约地址:</span>
-        {{ forwardBooking.schedule?.doctor.department?.address }}
+      <div class="w-50">
+        <button  type="button" class="btn btn-light btn-block" (click)="cancelBooking()">
+          取消预约</button>
       </div>
-    </li>
-  </ul>
-</div>
-
-<div class="p-2 m-2 text-muted">
-  * 请选择”确定替换药师”替换成原预约药师推荐的药师；您也可以选择“取消药师”，取消预约后，您可以回到“预约门诊”继续预约；
-</div>
-
-<div class="fixed-bottom px-2 py-3">
-  <div class="d-flex">
-    <div class="w-50 pr-2">
-      <button  type="button" class="btn btn-primary btn-block" (click)="replaceBooking()">
-        确定替换药师</button>
-    </div>
-    <div class="w-50">
-      <button  type="button" class="btn btn-light btn-block" (click)="cancelBooking()">
-        取消预约</button>
     </div>
   </div>
-</div>
+</ng-container>
+
+<ng-container *ngIf="expired">
+  <div class="m-2">
+    <div class="alert alert-warning">
+      该预约已经失效。
+    </div>
+  </div>
+
+  <div class="fixed-bottom px-2 py-3">
+    <button type="button" class="btn btn-primary btn-block" (click)="close()">
+      返回
+    </button>
+  </div>
+</ng-container>

@@ -17,6 +17,7 @@ export class MyReservationComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   user: User;
   bookings: Booking[];
+  selectedTabIndex: 0|1;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +35,16 @@ export class MyReservationComponent implements OnInit, OnDestroy {
               this.bookings = results || [];
             })
           ).subscribe();
+        }
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
+
+    // set default tab selection
+    this.route.queryParams.pipe(
+      tap(params => {
+        if (params?.finished) {
+          this.selectedTabIndex = params.finished === 'true' ? 1 : 0;
         }
       }),
       takeUntil(this.destroy$)
