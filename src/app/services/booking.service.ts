@@ -6,6 +6,7 @@ import { Schedule } from '../models/schedule.model';
 import { map } from 'rxjs/operators';
 import { LocalDatePipe } from '../core/pipe/local-date.pipe';
 import { Doctor } from '../models/doctor.model';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -121,5 +122,9 @@ export class BookingService {
       default:
         return '';
     }
+  }
+
+  isBookingExpired(now: Date, bookingDate: Date, offset = 0) {
+    return moment(now).isSameOrAfter(moment(bookingDate).clone().add(offset + 1, 'd')); //当天的预约不算成过期
   }
 }

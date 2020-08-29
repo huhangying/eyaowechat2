@@ -7,7 +7,6 @@ import { tap, takeUntil } from 'rxjs/operators';
 import { Booking } from 'src/app/models/booking.model';
 import { User } from 'src/app/models/user.model';
 import { MessageService } from 'src/app/core/services/message.service';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-booking-forward',
@@ -20,6 +19,7 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
   booking: Booking;
   forwardBooking: Booking;
   user: User;
+  now = new Date();
 
   constructor(
     private router: Router,
@@ -36,9 +36,8 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
           const forward_booking = await this.bookingService.getBookingById(bookingIds[1]).toPromise();
 
           // check if forward_booking expiry
-          const date = moment(forward_booking.schedule.date);
-          // 不能替换今天的预约
-          if (date.isBefore(moment())) { 
+          // 如果不能替换今天的预约， 0 改成 -1 ??? 
+          if (this.bookingService.isBookingExpired(this.now, forward_booking.schedule.date, 0)) { 
             this.expired = true;
             return;
           }
