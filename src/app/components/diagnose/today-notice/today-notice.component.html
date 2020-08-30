@@ -1,23 +1,30 @@
-<ng-container *ngIf="currentPrescription?.length">
-  <div class="px-3 pt-3">
-    门诊处方
-  </div>
-
-  <div class="card mx-2 my-3 p-2" *ngFor="let med of currentPrescription">
-    <div class="border-bottom p-2">
-      <span class="text-warning">{{ med.name }}</span>
-      <span class="text-muted pl-3">({{ med.capacity}}{{med.unit}}*{{med.quantity}})</span>
+<ng-container  *ngIf="!data.noticeOnly">
+  <ng-container *ngIf="currentPrescription?.length">
+    <div class="px-3 pt-3">
+      门诊处方
     </div>
-    <div class="p-2">
-      <span class="text-muted pr-2">服用方式: </span>{{ med.usage}}, {{ showDosageInstruction(med.dosage, med.unit)}}
+  
+    <div class="card mx-2 my-3 p-2" *ngFor="let med of currentPrescription">
+      <div class="border-bottom p-2">
+        <span class="text-warning">{{ med.name }}</span>
+        <span class="text-muted pl-3">({{ med.capacity}}{{med.unit}}*{{med.quantity}})</span>
+      </div>
+      <div class="p-2">
+        <span class="text-muted pr-2">服用方式: </span>{{ med.usage}}, {{ showDosageInstruction(med.dosage, med.unit)}}
+      </div>
     </div>
-  </div>
-</ng-container>
-
+  </ng-container>
+  
+  <ng-container *ngIf="!currentPrescription?.length">
+    <div class="px-3 py-4">
+      没有当日用药提醒。
+    </div>
+  </ng-container>
+</ng-container >
 
 <ng-container *ngIf="currentNotices?.length">
   <div class="px-3 pt-2">
-    监测计划
+    门诊提醒
   </div>
 
   <div class="card mx-2 my-3 px-2 py-3" *ngFor="let notice of currentNotices">
@@ -27,13 +34,8 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="!currentPrescription?.length">
-  <div class="px-3 py-4">
-    没有当日用药提醒。
-  </div>
-</ng-container>
 
-<div class="fixed-bottom px-4 py-2">
+<div class="fixed-bottom px-4 py-2" *ngIf="!data.noticeOnly">
   <button type="button" class="btn btn-primary btn-block" (click)="close()">
     返回
   </button>

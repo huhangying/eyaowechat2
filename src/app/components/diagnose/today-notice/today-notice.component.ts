@@ -21,20 +21,30 @@ export class TodayNoticeComponent implements OnInit {
     private medicineService: MedicineService,
     public dialogRef: MatDialogRef<TodayNoticeComponent>,
     @Inject(MAT_DIALOG_DATA) @Optional() @SkipSelf() public data: {
-      diagnose: Diagnose
+      diagnose: Diagnose;
+      noticeOnly?: boolean;
     }
-  ) {
-    this.currentPrescription = data.diagnose?.prescription?.filter(_ => {
-      return this.core.isInToday(_.startDate, _.endDate);
-    });
-    this.currentNotices = data.diagnose?.notices?.filter(_ => {
-      return this.core.isInToday(_.startDate, _.endDate, _.days_to_start, _.during);
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.dialogRef.updateSize('100%', '100%');
-    this.core.setTitle('当日用药提醒');
+    if (!this.data.noticeOnly) {
+      this.core.setTitle('当日用药提醒');
+    } else {
+      this.core.setTitle('门诊提醒');
+    }
+
+    if (!this.data?.noticeOnly) {
+      this.currentPrescription = this.data.diagnose?.prescription?.filter(_ => {
+        return this.core.isInToday(_.startDate, _.endDate);
+      });
+      this.currentNotices = this.data.diagnose?.notices?.filter(_ => {
+        return this.core.isInToday(_.startDate, _.endDate, _.days_to_start, _.during);
+      });
+    } else {
+      // 显示所有的门诊提醒
+      this.currentNotices = this.data.diagnose?.notices;
+    }
   }
 
   close() {
