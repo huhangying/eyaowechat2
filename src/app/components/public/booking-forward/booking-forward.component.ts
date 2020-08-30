@@ -33,21 +33,24 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
         const { id } = this.route.snapshot.queryParams;
         const bookingIds = id.split('|');
         if (bookingIds.length > 1) { // booking id and forward booking id
+          this.user = data.user;
           const forward_booking = await this.bookingService.getBookingById(bookingIds[1]).toPromise();
+          if (forward_booking?._id) {
+            this.forwardBooking = forward_booking;
+          }
 
           // check if forward_booking expiry
           // 如果不能替换今天的预约， 0 改成 -1 ??? 
-          if (this.bookingService.isBookingExpired(this.now, forward_booking.schedule.date, 0)) { 
+          if (this.bookingService.isBookingExpired(this.now, forward_booking.schedule.date, 0)) {
             this.expired = true;
             return;
           }
 
-          const booking = await this.bookingService.getBookingById(bookingIds[0]).toPromise();
-          if (booking?._id && forward_booking?._id) {
-            this.user = data.user;
-            this.booking = booking;
-            this.forwardBooking = forward_booking;
-            return;
+          if (bookingIds[0]) {
+            const booking = await this.bookingService.getBookingById(bookingIds[0]).toPromise();
+            if (booking?._id) {
+              this.booking = booking;
+            }
           }
         } else {
           this.expired = true;
@@ -68,7 +71,7 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
 
   replaceBooking() {
     // 取消原booking
-    this.bookingService.cancelBooking(this.booking).subscribe();
+    this.booking && this.bookingService.cancelBooking(this.booking).subscribe();
 
     // 设置替换booking： status = 1
     this.bookingService.setBookingStatus(this.forwardBooking, 1).subscribe(
@@ -80,11 +83,11 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
         }
       }
     );;
-    
+
   }
   cancelBooking() {
     // 取消原booking
-    this.bookingService.cancelBooking(this.booking).subscribe();
+    this.booking && this.bookingService.cancelBooking(this.booking).subscribe();
 
     // 设置替换booking: status = 0
     this.bookingService.setBookingStatus(this.forwardBooking, 0).subscribe(
@@ -102,7 +105,7 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
     this.redirectMyBookings(true);
   }
 
-  redirectMyBookings(goFinished: boolean=false) {
+  redirectMyBookings(goFinished: boolean = false) {
     this.router.navigate(['/my-reservation'], {
       queryParams: {
         openid: this.route.snapshot.queryParams.openid,
@@ -110,6 +113,12 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
         finished: goFinished
       }
     });
+  }
+
+  originalBookingDoctorLabel(booking: Booking) {
+    return booking?.schedule?.doctor ?
+      (booking.schedule.doctor.name + ' ' + booking.schedule.doctor.title) :
+      '原预约药师';
   }
 
 }
