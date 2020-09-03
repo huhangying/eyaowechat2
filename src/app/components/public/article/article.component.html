@@ -3,9 +3,9 @@
     {{article?.title}}
   </div>
   <div class="text-muted text-center small py-2">
-    {{ article.doctor }} 发送于 {{ article.createdAt | localDate}}
+    {{ article.doctor_name || '' }} 发送于 {{ article.createdAt | localDate}}
   </div>
-  <div *ngIf="article?.title_image">
+  <div *ngIf="article?.title_image" class="text-center">
     <img [src]="article.title_image | imgPath" onerror="this.src='assets/images/no-image.png';this.onerror='';"
       alt="标题图片" class="img-fluid img-thumbnail">
   </div>
