@@ -47,6 +47,10 @@
               <hr class="my-2">
               <div class="mb-1 text-break" [innerHTML]="translateEmoji(feedback.name)">
               </div>
+              <div *ngIf="feedback.upload">
+                <img [src]="feedback.upload | imgPath" appImgClickView
+                  onerror="this.src='assets/images/no-image.png';this.onerror='';" class="img-fluid img-thumbnail">
+              </div>
             </div>
           </div>
         </div>
