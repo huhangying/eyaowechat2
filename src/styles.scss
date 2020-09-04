@@ -1,11 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: "Helvetica Neue", "Microsoft Yahei-Regular","Microsoft Yahei", lucida, sans-serif; background-color: #ededed;}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", "Microsoft Yahei-Regular", "Microsoft Yahei", lucida, sans-serif;
+  background-color: #ededed;
+}
 
 .item-label {
   float: left;
   width: 5.5rem;
+}
+.item-label.required::after {
+  color: red;
+  content: "*" !important;
+  padding-left: 0.25rem;
 }
 
 .section-title {
@@ -20,8 +32,8 @@ body { margin: 0; font-family: "Helvetica Neue", "Microsoft Yahei-Regular","Micr
 }
 
 .mat-dialog-container {
-  padding: 0!important;
-  mat-dialog-content  {
+  padding: 0 !important;
+  mat-dialog-content {
     padding: 1rem 0;
     margin: 0;
     overflow-x: hidden;
