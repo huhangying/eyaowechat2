@@ -38,6 +38,7 @@ import { SurveyStartComponent } from './components/my-surveys/survey-start/surve
 import { ReservationComponent } from './components/public/reservation/reservation.component';
 import { BookingForwardComponent } from './components/public/booking-forward/booking-forward.component';
 import { DiagnoseNoticeComponent } from './components/public/diagnose-notice/diagnose-notice.component';
+import { ConsultComponent } from './components/consult/consult.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { DiagnoseNoticeComponent } from './components/public/diagnose-notice/dia
     ReservationComponent,
     BookingForwardComponent,
     DiagnoseNoticeComponent,
+    ConsultComponent,
   ],
   imports: [
     CommonModule,
