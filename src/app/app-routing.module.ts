@@ -26,6 +26,7 @@ import { SurveyStartComponent } from './components/my-surveys/survey-start/surve
 import { ReservationComponent } from './components/public/reservation/reservation.component';
 import { BookingForwardComponent } from './components/public/booking-forward/booking-forward.component';
 import { DiagnoseNoticeComponent } from './components/public/diagnose-notice/diagnose-notice.component';
+import { ConsultComponent } from './components/consult/consult.component';
 
 
 const routes: Routes = [
@@ -48,8 +49,14 @@ const routes: Routes = [
     resolve: { user: UserResolver }
   },
   {
-    path: 'chat',
+    path: 'chat', // 免费
     component: ChatComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver, doctor: DoctorResolver }
+  },
+  {
+    path: 'consult', // 收费
+    component: ConsultComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver, doctor: DoctorResolver }
   },
