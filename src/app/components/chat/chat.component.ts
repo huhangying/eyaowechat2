@@ -56,7 +56,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.core.setTitle(this.doctor.name);
+    this.core.setTitle(this.doctor.name + this.doctor.title);
 
     this.room = this.doctor?._id;
     this.socketio.joinRoom(this.room);

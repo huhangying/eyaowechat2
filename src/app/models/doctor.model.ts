@@ -1,4 +1,5 @@
 import { Department } from './department.model';
+import { ConsultServicePrice } from './consult/doctor-consult.model';
 
 export interface Doctor {
   _id: string;
@@ -10,11 +11,13 @@ export interface Doctor {
   cell?: string;// to remove
   gender?: string;
   hours?: string;
-  expertise?:  string;
+  expertise?: string;
   bulletin?: string;
   honor?: string;
   icon?: string;
   status?: number;  // 0: idle, 1: busy; 2: away; 3: offline
+
+  prices?: ConsultServicePrice[];
 }
 
 export interface DoctorWrap {

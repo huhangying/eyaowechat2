@@ -1,7 +1,6 @@
 export interface DoctorConsult {
   doctor_id: string;
   tags?: string;  //自定义标签
-  prices?: ConsultServicePrice[];
 
   commentCount?: number;
   score?: number;  // 总体评分

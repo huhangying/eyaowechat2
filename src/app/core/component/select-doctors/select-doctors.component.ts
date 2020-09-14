@@ -7,6 +7,7 @@ import { User } from 'src/app/models/user.model';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { AppStoreService } from '../../store/app-store.service';
 import { tap } from 'rxjs/operators';
+import { ConsultServicePrice } from '../../../models/consult/doctor-consult.model';
 
 @Component({
   selector: 'app-select-doctors',
@@ -62,5 +63,10 @@ export class SelectDoctorsComponent implements OnInit {
   // return true if doctor has been focused
   checkDoctorFocus(doctorId: string) {
     return this.myDoctors?.findIndex(_ => _._id === doctorId) > -1;
+  }
+
+  getServicePriceByType(servicePrices: ConsultServicePrice[], type: number) {
+    if (!servicePrices?.length) return null;
+    return servicePrices.find(sp => sp.type === type);
   }
 }
