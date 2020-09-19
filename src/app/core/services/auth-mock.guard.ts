@@ -21,14 +21,23 @@ export class AuthMockGuard implements CanActivate {
     next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     // mock appStore: token, hid and apiToken
+    
+    // this.appStore.updateToken({
+    //   openid: 'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA',
+    //   expires_in: 7200,
+    //   access_token: 'access_token',
+    //   scope: 'SCOPE',
+    //   refresh_token: 'refresh_token'
+    // });
+    // this.appStore.udpateHid(1);
     this.appStore.updateToken({
-      openid: 'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA',
+      openid: 'oEMw9sx4qgx5ygtJuN2MoJ9jQ4eg',
       expires_in: 7200,
       access_token: 'access_token',
       scope: 'SCOPE',
       refresh_token: 'refresh_token'
     });
-    this.appStore.udpateHid(1);
+    this.appStore.udpateHid(2);
 
     return this.canGetApiTokenByOpenid(this.appStore.hid, this.appStore.token.openid);
   }

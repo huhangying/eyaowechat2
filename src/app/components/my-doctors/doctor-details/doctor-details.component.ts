@@ -1,28 +1,39 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CoreService } from 'src/app/core/services/core.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Doctor } from 'src/app/models/doctor.model';
 import { DoctorService } from 'src/app/services/doctor.service';
-import { Observable, of, Subject } from 'rxjs';
+import { ConsultService } from 'src/app/services/consult.service';
+import { Subject } from 'rxjs';
 import { MessageService } from 'src/app/core/services/message.service';
 import { tap, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { ConsultServicePrice } from 'src/app/models/consult/doctor-consult.model';
+import { AppStoreService } from 'src/app/core/store/app-store.service';
 
 @Component({
   selector: 'app-doctor-details',
   templateUrl: './doctor-details.component.html',
-  styleUrls: ['./doctor-details.component.scss']
+  styleUrls: ['./doctor-details.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DoctorDetailsComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   doctor: Doctor;
   userid: string;
-  relationshipExisted$: Observable<boolean>;
+  relationExisted: boolean;
+  openid: string;
+  state: string;
+  tags: string[];
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private core: CoreService,
+    private appStore: AppStoreService,
     private doctorService: DoctorService,
+    private consultService: ConsultService,
     private message: MessageService,
+    private cd: ChangeDetectorRef,
   ) {
     this.route.data.pipe(
       distinctUntilChanged(),
@@ -32,8 +43,29 @@ export class DoctorDetailsComponent implements OnInit, OnDestroy {
       }),
       takeUntil(this.destroy$)
     ).subscribe();
+
+    this.route.queryParams.pipe(
+      tap(result => {
+        this.openid = result.openid;
+        this.state = result.state;
+      })
+    ).subscribe();
+
     if (this.doctor?._id && this.userid) {
-      this.relationshipExisted$ = this.doctorService.checkRelationshipExisted(this.doctor._id, this.userid);
+      this.doctorService.checkRelationshipExisted(this.doctor._id, this.userid).pipe(
+        tap(rsp => {
+          this.relationExisted = rsp;
+          this.cd.markForCheck();
+        })
+      ).subscribe();
+      
+      // get doctor consult
+      this.consultService.getDoctorConsultByDoctorId(this.doctor._id).pipe(
+        tap(result => {
+          this.tags = result?.tags?.split('|').filter(_ => _);
+          this.cd.markForCheck();
+        })
+      ).subscribe();
     }
   }
 
@@ -50,11 +82,12 @@ export class DoctorDetailsComponent implements OnInit, OnDestroy {
     this.doctorService.addRelationship(this.doctor._id, this.userid).pipe(
       tap(result => {
         if (result) {
-          this.relationshipExisted$ = of(true);
+          this.relationExisted = true;
           this.message.success('关注成功！');
         } else {
           this.message.error();
         }
+        this.cd.markForCheck();
       }),
     ).subscribe();
   }
@@ -65,12 +98,39 @@ export class DoctorDetailsComponent implements OnInit, OnDestroy {
       this.doctorService.removeRelationship(this.doctor._id, this.userid).pipe(
         tap(result => {
           if (result) {
-            this.relationshipExisted$ = of(false)
+            this.relationExisted = false;
           } else {
             this.message.error();
           }
+          this.cd.markForCheck();
         }),
       ).subscribe();
+    });
+  }
+
+  getServicePriceByType(servicePrices: ConsultServicePrice[], type: number) {
+    if (!servicePrices?.length) return null;
+    return servicePrices.find(sp => sp.type === type);
+  }
+
+  ////////////////
+  goChat() {
+    this.router.navigate(['/chat'], {
+      queryParams: {
+        doctorid: this.doctor._id,
+        openid: this.appStore.token?.openid || this.openid,
+        state: this.appStore.hid || this.state
+      }
+    });
+  }
+
+  goConsult(type = 0) {
+    this.router.navigate(['/consult'], {
+      queryParams: {
+        doctorid: this.doctor._id,
+        openid: this.appStore.token?.openid || this.openid,
+        state: this.appStore.hid || this.state
+      }
     });
   }
 
