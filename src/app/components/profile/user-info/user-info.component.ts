@@ -59,8 +59,6 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   }
 
   selectBirthdate() {
-    console.log(this.birthdate);
-
     weui.datePicker({
       start: 1920,
       defaultValue: this.birthdate ? this.core.date2WeuiDate(this.birthdate) : [1980, 1, 1],
