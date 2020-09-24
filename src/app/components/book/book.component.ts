@@ -231,8 +231,7 @@ export class BookComponent implements OnInit, OnDestroy {
                         // create survey
                         return await this.surveyService.addSurvey(newSurvey).toPromise();
                       });
-                      console.log(surveys);
-                      //
+
                       const surveyName = surveyType === 1 ? '初诊问卷' : '复诊问卷';
                       this.wxService.sendUserMsg(
                         this.user.link_id,
