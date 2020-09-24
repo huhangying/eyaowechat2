@@ -42,7 +42,7 @@ export class UserInfoComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       tap(data => {
         this.user = data.user;
-        this.birthdate = new Date(this.user.birthdate);
+        this.birthdate = this.user.birthdate && new Date(this.user.birthdate);
         this.form.patchValue(this.user);
       }),
       takeUntil(this.destroy$)
