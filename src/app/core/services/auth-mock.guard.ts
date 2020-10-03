@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AppStoreService } from '../store/app-store.service';
 import { WeixinService } from 'src/app/services/weixin.service';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,23 +22,26 @@ export class AuthMockGuard implements CanActivate {
     next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     // mock appStore: token, hid and apiToken
-    
-    // this.appStore.updateToken({
-    //   openid: 'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA',
-    //   expires_in: 7200,
-    //   access_token: 'access_token',
-    //   scope: 'SCOPE',
-    //   refresh_token: 'refresh_token'
-    // });
-    // this.appStore.udpateHid(1);
-    this.appStore.updateToken({
-      openid: 'oEMw9sx4qgx5ygtJuN2MoJ9jQ4eg',
-      expires_in: 7200,
-      access_token: 'access_token',
-      scope: 'SCOPE',
-      refresh_token: 'refresh_token'
-    });
-    this.appStore.udpateHid(2);
+    // if (environment.production) {
+    //   this.appStore.updateToken({
+    //     openid: 'oCVHLwIa5VtXx1eBHBQ2VsAtf5rA',
+    //     expires_in: 7200,
+    //     access_token: 'access_token',
+    //     scope: 'SCOPE',
+    //     refresh_token: 'refresh_token'
+    //   });
+    //   this.appStore.udpateHid(1);
+    // } else {
+      this.appStore.updateToken({
+        openid: 'oEMw9s_QeV2wdIxf2G7R59Kwu09s', // maggie
+        // openid: 'oEMw9sx4qgx5ygtJuN2MoJ9jQ4eg', // harry
+        expires_in: 7200,
+        access_token: 'access_token',
+        scope: 'SCOPE',
+        refresh_token: 'refresh_token'
+      });
+      this.appStore.udpateHid(2);
+    // }    
 
     return this.canGetApiTokenByOpenid(this.appStore.hid, this.appStore.token.openid);
   }
