@@ -41,12 +41,12 @@ export class BookingService {
   }
 
   sendBookingConfirmation(booking: Booking, doctor: Doctor) {
-    return this.api.post('wechat/send-wechat-msg',
+    return this.api.post('wechat/send-wechat-template-msg',
       this.buildBookingConfirmationMsg('booking_success_template', booking, doctor, '您已经预约成功，详情如下', "请按照指示到相应位置科室就诊"));
   }
 
   sendBookingCancellation(booking: Booking, doctor: Doctor) {
-    return this.api.post('wechat/send-wechat-msg',
+    return this.api.post('wechat/send-wechat-template-msg',
       this.buildBookingConfirmationMsg('booking_cancel_template', booking, doctor, '您的预约已经取消，详情如下', ""));
   }
 
