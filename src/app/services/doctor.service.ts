@@ -26,13 +26,15 @@ export class DoctorService {
 
   getDoctorsByUser(userid: string) {
     return this.api.get<{ doctor: Doctor }[]>('relationships/get-doctors/user/' + userid).pipe(
-      map(doc => doc.map(_ => _.doctor))
+      map(docs => docs.map(_ => _.doctor)),
+      map(docs => this.uniqify(docs, '_id'))
     );
   }
 
   getScheduleDoctorsByUser(userid: string) {
     return this.api.get<{ doctor: Doctor, apply: boolean }[]>('relationships/get-schedule-doctors/user/' + userid).pipe(
-      map(doc => doc.filter(_ => _.apply).map(_ => _.doctor))
+      map(doc => doc.filter(_ => _.apply).map(_ => _.doctor)),
+      map(docs => this.uniqify(docs, '_id'))
     );
   }
 
@@ -59,5 +61,9 @@ export class DoctorService {
 
   getDoctorsByDepartmentId(departmentid: string) {
     return this.api.get<Doctor[]>('doctors/department/' + departmentid);
+  }
+
+  private uniqify(array, key) {
+    return array.reduce((prev, curr) => prev.find(a => a[key] === curr[key]) ? prev : prev.push(curr) && prev, []);
   }
 }

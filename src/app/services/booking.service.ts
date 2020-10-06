@@ -42,16 +42,19 @@ export class BookingService {
 
   sendBookingConfirmation(booking: Booking, doctor: Doctor) {
     return this.api.post('wechat/send-wechat-template-msg',
-      this.buildBookingConfirmationMsg('booking_success_template', booking, doctor, '您已经预约成功，详情如下', "请按照指示到相应位置科室就诊"));
+      this.buildBookingConfirmationMsg('booking_success_template', booking, doctor, '您已经预约成功，详情如下', "请按照指示到相应位置科室就诊",
+      doctor._id, booking.user.name));
   }
 
   sendBookingCancellation(booking: Booking, doctor: Doctor) {
     return this.api.post('wechat/send-wechat-template-msg',
-      this.buildBookingConfirmationMsg('booking_cancel_template', booking, doctor, '您的预约已经取消，详情如下', ""));
+      this.buildBookingConfirmationMsg('booking_cancel_template', booking, doctor, '您的预约已经取消，详情如下', "",
+      doctor._id, booking.user.name));
   }
 
   // 
-  buildBookingConfirmationMsg(templateId, booking: Booking, doctor: Doctor, header: string, footer: string) {
+  buildBookingConfirmationMsg(templateId, booking: Booking, doctor: Doctor, header: string, footer: string,
+    doctorid: string, username: string) {
     return {
       templateid: templateId,
       openid: booking.user?.link_id,
@@ -83,7 +86,9 @@ export class BookingService {
         remark: {
           value: footer
         }
-      }
+      },
+      doctorid,
+      username
     };
   }
 

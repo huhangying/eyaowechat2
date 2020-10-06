@@ -238,7 +238,9 @@ export class BookComponent implements OnInit, OnDestroy {
                         surveyName,
                         `请填写${surveyName}， 谢谢配合！`,
                         `${environment.wechatServer}survey-start?openid=${this.user.link_id}&state=${this.appStore.hid}&doctorid=${this.doctor._id}&type=${surveyType}&date=${moment().toISOString()}`,
-                        ''
+                        '',
+                        this.doctor._id,
+                        this.user.name
                       ).subscribe();
                     })
                   ).subscribe();

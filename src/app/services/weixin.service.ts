@@ -97,14 +97,17 @@ export class WeixinService {
     this.api.get('wechat/resend-msg/' + openid).subscribe();
   }
 
-  sendUserMsg(openid: string, title: string, description: string, url: string, picUrl: string) {
+  sendUserMsg(openid: string, title: string, description: string, url: string, picUrl: string,
+    doctorid: string, username: string) {
     return this.api.post('wechat/send-client-msg/' + openid, {
       article: {
         title: title,
         description: description,
         url: url,
         picurl: picUrl
-      }
+      },
+      doctorid,
+      username
     });
   }
 }
