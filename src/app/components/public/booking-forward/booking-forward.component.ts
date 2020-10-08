@@ -54,6 +54,9 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
             const booking = await this.bookingService.getBookingById(bookingIds[0]).toPromise();
             if (booking?._id) {
               this.booking = booking;
+              // 建立发送noti的通道
+              this.room = this.booking.doctor; // room id is doctor id
+              this.socketio.joinRoom(this.room);
             }
           }
         } else {
@@ -68,15 +71,14 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.core.setTitle('确定替换药师');
-
-    this.room = this.booking.doctor; // room id is doctor id
-    this.socketio.joinRoom(this.room);
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
-    this.socketio.leaveRoom(this.room);
+    if (this.room) {
+      this.socketio.leaveRoom(this.room);
+    }
   }
 
   replaceBooking() {
