@@ -4,9 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CoreService } from 'src/app/core/services/core.service';
 import { BookingService } from 'src/app/services/booking.service';
 import { tap, takeUntil } from 'rxjs/operators';
-import { Booking } from 'src/app/models/booking.model';
+import { Booking, OriginBooking } from 'src/app/models/booking.model';
 import { User } from 'src/app/models/user.model';
 import { MessageService } from 'src/app/core/services/message.service';
+import { SocketioService } from 'src/app/core/services/soketio.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-booking-forward',
@@ -20,6 +22,7 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
   forwardBooking: Booking;
   user: User;
   now = new Date();
+  room: string;
 
   constructor(
     private router: Router,
@@ -27,6 +30,7 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
     private core: CoreService,
     private bookingService: BookingService,
     private message: MessageService,
+    private socketio: SocketioService,
   ) {
     this.route.data.pipe(
       tap(async data => {
@@ -58,20 +62,30 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
       }),
       takeUntil(this.destroy$)
     ).subscribe();
+
+    this.socketio.setupSocketConnection();
   }
 
   ngOnInit(): void {
     this.core.setTitle('确定替换药师');
+
+    this.room = this.booking.doctor; // room id is doctor id
+    this.socketio.joinRoom(this.room);
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
+    this.socketio.leaveRoom(this.room);
   }
 
   replaceBooking() {
     // 取消原booking
-    this.booking && this.bookingService.cancelBooking(this.booking).subscribe();
+    this.booking && this.bookingService.cancelBooking(this.booking).subscribe(
+      booking => {
+        this.sendBookingCancelNotification(booking, this.user.name);
+      }
+    );
 
     // 设置替换booking： status = 1
     this.bookingService.setBookingStatus(this.forwardBooking, 1).subscribe(
@@ -87,7 +101,11 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
   }
   cancelBooking() {
     // 取消原booking
-    this.booking && this.bookingService.cancelBooking(this.booking).subscribe();
+    this.booking && this.bookingService.cancelBooking(this.booking).subscribe(
+      booking => {
+        this.sendBookingCancelNotification(booking, this.user.name);
+      }
+    );
 
     // 设置替换booking: status = 0
     this.bookingService.setBookingStatus(this.forwardBooking, 0).subscribe(
@@ -119,6 +137,18 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
     return booking?.schedule?.doctor ?
       (booking.schedule.doctor.name + ' ' + booking.schedule.doctor.title) :
       '原预约药师';
+  }
+
+  // send notification direct to doctor side
+  sendBookingCancelNotification(booking: OriginBooking, username: string) {
+    const noti = {
+      patientId: booking.user,
+      type: 3,
+      name: `${username} 取消了${moment(booking.date).format('LL')}预约`,
+      count: 1,
+      created: booking.created
+    };
+    this.socketio.sendNotification(this.room, noti);
   }
 
 }

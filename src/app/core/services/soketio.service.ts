@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
 import { Chat } from 'src/app/models/chat.model';
 import { UserFeedback } from 'src/app/models/user-feedback.model';
+import { Notification } from '../../models/io/notification.model';
 
 @Injectable({
   providedIn: 'root'
@@ -52,4 +53,10 @@ export class SocketioService {
     });
   }
 
+  // send notification to doctor directly
+  sendNotification(room: string, noti: Notification) {
+    this.socket.emit('notification', room, {
+      ...noti
+    });
+  }
 }
