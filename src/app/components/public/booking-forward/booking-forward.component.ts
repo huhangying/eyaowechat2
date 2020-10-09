@@ -34,6 +34,8 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
     private message: MessageService,
     private socket: SocketioService,
   ) {
+    this.socket.setupSocketConnection();
+
     this.route.data.pipe(
       tap(async data => {
         const { id } = this.route.snapshot.queryParams;
@@ -62,8 +64,7 @@ export class BookingForwardComponent implements OnInit, OnDestroy {
 
               this.booking = booking;
               // 建立发送noti的通道
-              if (this.socket.joinRoom)
-                this.room = this.booking.doctor; // room id is doctor id
+              this.room = this.booking.doctor; // room id is doctor id
               this.socket.joinRoom(this.room);
             }
           }

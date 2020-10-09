@@ -12,22 +12,22 @@
         <div class="d-flex align-items-center justify-content-between">
           <div>
             <span class="item-label">预约科室:</span>
-            {{ forwardBooking.schedule?.doctor.department?.name }}
+            {{ forwardBooking?.schedule?.doctor.department?.name }}
           </div>
         </div>
       </li>
       <li class="list-group-item">
         <span class="item-label">预约药师:</span>
-        {{ forwardBooking.schedule?.doctor.name}} {{ forwardBooking.schedule?.doctor.title}}
+        {{ forwardBooking?.schedule?.doctor.name}} {{ forwardBooking?.schedule?.doctor.title}}
       </li>
       <li class="list-group-item">
         <span class="item-label">预约时间:</span>
-        {{ forwardBooking.schedule.date | localDate}} {{ forwardBooking.schedule?.period.name }}
+        {{ forwardBooking?.schedule.date | localDate}} {{ forwardBooking?.schedule?.period.name }}
       </li>
       <li class="list-group-item">
         <div>
           <span class="item-label">预约地址:</span>
-          {{ forwardBooking.schedule?.doctor.department?.address }}
+          {{ forwardBooking?.schedule?.doctor.department?.address }}
         </div>
       </li>
     </ul>
