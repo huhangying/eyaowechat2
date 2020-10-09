@@ -28,6 +28,12 @@ export class SocketioService {
     this.socket.emit('leaveRoom', room);
   }
 
+  disconnect() {
+    if (this.socket?.connected) {
+      this.socket.emit('disconnect');
+    }
+  }
+
   // Chat
   onChat(next) {
     this.socket.on('chat', next);
