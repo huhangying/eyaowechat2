@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
 import { Chat } from 'src/app/models/chat.model';
 import { UserFeedback } from 'src/app/models/user-feedback.model';
-import { Notification } from '../../models/io/notification.model';
+import { OriginBooking } from 'src/app/models/booking.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,6 @@ export class SocketioService {
   setupSocketConnection() {
     if (!this.socket) {
       this.socket = io(environment.socketUrl);
-      // this.socket.emit('chat', 'Hello there from wechat.'); // test
     }
   }
 
@@ -53,10 +52,22 @@ export class SocketioService {
     });
   }
 
-  // send notification to doctor directly
-  sendNotification(room: string, noti: Notification) {
-    this.socket.emit('notification', room, {
-      ...noti
-    });
+  // Booking
+  onBooking(next) {
+    this.socket.on('booking', next);
   }
+
+  sendBooking(room: string, originBooking: OriginBooking, username: string) {
+    // convert OriginBooking to Booking
+    const booking = {
+      ...originBooking,
+      user: {
+        _id: originBooking._id,
+        name: username
+      },
+      created: moment()
+    }
+    this.socket.emit('booking', room, booking);
+  }
+
 }

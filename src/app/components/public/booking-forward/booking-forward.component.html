@@ -1,4 +1,4 @@
-<ng-container *ngIf="!expired">
+<ng-container *ngIf="!expired && !done">
 
   <div class="card p-2 m-2 text-muted">
     <ul class="list-group list-group-flush">
@@ -51,10 +51,11 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="expired">
+<ng-container *ngIf="expired || done">
   <div class="mx-2 my-3">
     <div class="alert alert-warning">
-      该预约已经失效。
+      <span *ngIf="expired">该替换预约已经失效。 </span>
+      <span *ngIf="done">该替换预约已经处理。 </span>
     </div>
   </div>
 

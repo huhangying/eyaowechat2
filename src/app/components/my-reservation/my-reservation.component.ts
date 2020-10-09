@@ -66,7 +66,7 @@ export class MyReservationComponent implements OnInit, OnDestroy {
 
   get finishedBookings() {
     return this.bookings ?
-      this.bookings.filter(_ => !(_.status === 1 || _.status === 4) || this.bookingService.isBookingExpired(this.now, _.schedule.date)) :
+      this.bookings.filter(_ => ([2, 3, 5, 6].indexOf(_.status) > -1) || this.bookingService.isBookingExpired(this.now, _.schedule.date)) :
       [];
   }
 
