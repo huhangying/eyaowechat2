@@ -20,6 +20,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ImgClickViewDirective } from './directive/img-click-view.directive';
 import { ImageComponent } from './component/image/image.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { MouseWheelDirective } from './directive/mouse-wheel.directive';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MatChipsModule } from '@angular/material/chips';
     ImgPathPipe,
     ImgClickViewDirective,
     ImageComponent,
+    MouseWheelDirective,
 
   ],
   imports: [
@@ -63,6 +65,7 @@ import { MatChipsModule } from '@angular/material/chips';
     ImgPathPipe,
     SelectDoctorsComponent,
     ImgClickViewDirective,
+    MouseWheelDirective,
   ],
   providers: [
     Title,
