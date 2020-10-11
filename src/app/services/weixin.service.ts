@@ -33,21 +33,6 @@ export class WeixinService {
     );
   }
 
-  //todo: remove
-  getSignatureByUrl(url: string) {
-    return this.api.get<Signature>('wechat/auth-signature/' + encodeURIComponent(url)).pipe(
-      map(result => {
-        if (result) {
-          return {
-            ...result,
-            appid: this.secret.appid
-          }
-        }
-        return result;
-      })
-    );
-  }
-
   // get token by code
   getToken(code: string, hid: number) {
     if (this.secret?.appid && this.secret?.secret) { // has secret in service

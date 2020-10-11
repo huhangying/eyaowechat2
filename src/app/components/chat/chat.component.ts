@@ -99,7 +99,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   buildWechatObj() {
     this.wxService.getSignature(this.appStore.token.openid).pipe(
-      // this.wxService.getSignatureByUrl(location.href.split('#')[0]).pipe(
       tap(result => {
         if (result) {
           this.returnMessage = JSON.stringify(result);
