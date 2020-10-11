@@ -13,8 +13,10 @@ export class DialogService {
 
   viewImage(imgPath: string, title?: string) {
     return this.dialog.open(ImageComponent, {
-      // minWidth: '460px',
-      minWidth: '100vw',
+      minWidth: '200vw',
+      minHeight: '100vh',
+      // maxWidth: '300vw',
+      maxHeight: '200vh',
       data: {
         title: title,
         imgPath: imgPath

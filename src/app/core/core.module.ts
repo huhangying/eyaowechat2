@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Title } from '@angular/platform-browser';
+import { HammerGestureConfig, Title } from '@angular/platform-browser';
 import { LocalDatePipe } from './pipe/local-date.pipe';
 import { GenderPipe } from './pipe/gender.pipe';
 import { SelectDoctorsComponent } from './component/select-doctors/select-doctors.component';
@@ -21,6 +21,18 @@ import { ImgClickViewDirective } from './directive/img-click-view.directive';
 import { ImageComponent } from './component/image/image.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MouseWheelDirective } from './directive/mouse-wheel.directive';
+import { HammerModule} from '@angular/platform-browser';
+
+// @Injectable()
+// export class HammerConfig extends HammerGestureConfig {
+//   overrides = <any> {
+//       // I will only use the swap gesture so 
+//       // I will deactivate the others to avoid overlaps
+//       'pinch': { enable: false },
+//       'pan': { enable: true },
+//       'rotate': { enable: false }
+//   }
+// }
 
 @NgModule({
   declarations: [
@@ -46,6 +58,7 @@ import { MouseWheelDirective } from './directive/mouse-wheel.directive';
     MatDatepickerModule,
     MatSnackBarModule,
     MatChipsModule,
+    HammerModule,
   ],
   exports: [
     MatIconModule,
@@ -59,6 +72,7 @@ import { MouseWheelDirective } from './directive/mouse-wheel.directive';
     MatDatepickerModule,
     MatSnackBarModule,
     MatChipsModule,
+    HammerModule,
 
     LocalDatePipe,
     GenderPipe,
@@ -73,6 +87,7 @@ import { MouseWheelDirective } from './directive/mouse-wheel.directive';
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
     { provide: MAT_DATE_LOCALE, useValue: 'zh-CN' },
+    // { provide: HammerGestureConfig, useClass: HammerConfig },
   ]
 })
 export class CoreModule { }

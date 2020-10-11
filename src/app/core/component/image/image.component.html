@@ -1,11 +1,24 @@
-<button type="button" class="close px-2 position-fixed" style="right: 0;" mat-dialog-close aria-label="Close">
+<div class="pl-3 py-2 position-fixed w-100" style="left: 0; background-color: aliceblue; opacity: 0.75"
+  *ngIf="data.title || true">
+  {{data.title}}
+  {{marginLeft}}, {{marginTop}} [{{scale}}] = {{imgWidth}}
+</div>
+<button type="button" class="close px-3 position-fixed" style="right: 0.25rem; top: 0.25rem" mat-dialog-close
+  aria-label="Close">
   <span aria-hidden="true">&times;</span>
 </button>
-<div class="pl-2 pt-2">
-  {{data.title || ''}}
-</div>
-<div class="">
-  <img appMouseWheel [src]="data.imgPath | imgPath" onerror="this.src='assets/images/none.png';this.onerror='';"
-  [style.width.px]="imgWidth" (mouseWheelUp)="mouseWheelUpFunc()" (mouseWheelDown)="mouseWheelDownFunc()"
-  alt="" class="mx-auto d-block">
+
+<div class="d-flex justify-content-center align-items-center" [style.height.px]="winHeight">
+  <img [src]="data.imgPath | imgPath" onerror="this.src='assets/images/none.png';this.onerror='';"
+    [style.width.px]="imgWidth*scale" [style.margin-left.px]="marginLeft" [style.margin-top.px]="marginTop" alt=""
+    (panleft)="onPanLeft($event)" (panright)="onPanRight($event)" (panup)="onPanUp($event)"
+    (pandown)="onPanDown($event)">
+  <div class="align-self-end position-fixed mb-2">
+    <button mat-icon-button color="primary" class="" (click)="zoomin()">
+      <mat-icon class="h3 m-2">add_box</mat-icon>
+    </button>
+    <button mat-icon-button color="primary" class="" (click)="zoomout()">
+      <mat-icon class="h3 m-2">indeterminate_check_box</mat-icon>
+    </button>
+  </div>
 </div>
