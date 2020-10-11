@@ -14,10 +14,10 @@
     (panleft)="onPanLeft($event)" (panright)="onPanRight($event)" (panup)="onPanUp($event)"
     (pandown)="onPanDown($event)">
   <div class="align-self-end position-fixed mb-2">
-    <button mat-icon-button color="primary" class="" (click)="zoomin()">
+    <button mat-icon-button color="primary" (click)="zoomin()">
       <mat-icon class="h3 m-2">add_box</mat-icon>
     </button>
-    <button mat-icon-button color="primary" class="" (click)="zoomout()">
+    <button mat-icon-button color="primary" (click)="zoomout()">
       <mat-icon class="h3 m-2">indeterminate_check_box</mat-icon>
     </button>
   </div>
