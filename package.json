@@ -6,8 +6,8 @@
     "start": "ng serve --port=3200",
     "start:35": "ng serve --host 192.168.87.35 --port=3200",
     "build": "ng build",
-    "build:prod": "npm run build --prod --aot",
-    "build:dev": "npm run build --dev --aot",
+    "build:prod": "ng build --prod --aot",
+    "build:dev": "ng build --configuration dev",
     "lint": "ng lint"
   },
   "private": true,
