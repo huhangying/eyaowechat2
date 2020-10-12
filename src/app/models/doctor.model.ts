@@ -20,6 +20,3 @@ export interface Doctor {
   prices?: ConsultServicePrice[];
 }
 
-export interface DoctorWrap {
-  doctor: Doctor;
-}

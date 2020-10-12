@@ -7,6 +7,8 @@ import { Observable, Subject } from 'rxjs';
 import { Department } from 'src/app/models/department.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
+import weui from 'weui.js';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-add-doctor',
@@ -23,10 +25,15 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
   selectedDepartment: string;
   myDoctors: Doctor[];
 
+  searchForm: FormGroup;
+  filteredDoctors$: Observable<Doctor[]>;
+  searchSubmitted: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private core: CoreService,
     private doctorService: DoctorService,
+    private fb: FormBuilder,
     private cd: ChangeDetectorRef,
   ) { 
     this.route.data.pipe(
@@ -52,10 +59,26 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
         this.selectDepartment(deps[0]._id);        
       })
     );
+
+    this.searchForm = this.fb.group({
+      name: [''],
+    });
   }
+
+  get nameCtrl() { return this.searchForm.get('name'); }
 
   ngOnInit(): void {
     this.core.setTitle('选择我的药师');
+    weui.searchBar('#searchBar');
+
+    this.nameCtrl.valueChanges.pipe(
+      tap(value => {
+        if (!value) {}
+        this.searchReset();
+        this.cd.markForCheck();
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe();
   }
   
   ngOnDestroy() {
@@ -72,6 +95,19 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
     this.doctors$ = this.doctorService.getDoctorsByDepartmentId(id);
     // collapse
     // this.setExpansionStatus(false);
+    this.cd.markForCheck();
+  }
+
+  searchDoctors() {
+    if (this.nameCtrl.value) {
+      this.searchSubmitted = true;
+      this.filteredDoctors$ = this.doctorService.searchDoctorsByName(this.nameCtrl.value);
+      this.cd.markForCheck();
+    }
+  }
+
+  searchReset() {
+    this.searchSubmitted = false;
     this.cd.markForCheck();
   }
 

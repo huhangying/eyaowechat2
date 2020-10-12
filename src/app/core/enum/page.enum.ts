@@ -3,5 +3,6 @@ export enum PageType {
     book = 2,
     myDoctors = 3,
     addDoctor = 4,
-    advise = 5,
+    searchDoctors = 5,
+    advise = 6,
 }

@@ -12,17 +12,40 @@
     </ng-container>
   </mat-expansion-panel>
 </mat-accordion> -->
-
-<div class="d-flex">
-  <div class="">
-    <ul class="list-group list-group-flush" *ngIf="departments$ | async; let departments">
-      <li class="list-group-item dep-item" [class.active]="dep._id === selectedDepartment"
-        *ngFor="let dep of departments" (click)="selectDepartment(dep._id)">
-        {{dep.name}}
-      </li>
-    </ul>
-  </div>
-  <div class="flex-grow-1">
-    <app-select-doctors [pageType]="4" [doctors]="doctors$" [myDoctors]="myDoctors" [user]="user"></app-select-doctors>
-  </div>
+<div class="weui-search-bar" id="searchBar">
+  <form class="weui-search-bar__form" [formGroup]="searchForm">
+    <div class="weui-search-bar__box">
+      <i class="weui-icon-search"></i>
+      <input mat-input type="search" class="weui-search-bar__input" placeholder="搜索药师名" required=""
+        formControlName="name" (keydown.enter)="searchDoctors()">
+      <a href="javascript:" class="weui-icon-clear mt-n2 mr-2" (click)="searchReset()"></a>
+    </div>
+    <label class="weui-search-bar__label pt-2">
+      <i class="weui-icon-search" (click)="searchReset()"></i>
+      <span>搜索药师</span>
+    </label>
+  </form>
+  <a href="javascript:" class="weui-search-bar__cancel-btn" (click)="searchReset()">取消</a>
 </div>
+
+<ng-container *ngIf="searchSubmitted">
+  <app-select-doctors [pageType]="5" [doctors]="filteredDoctors$" [myDoctors]="myDoctors" [user]="user">
+  </app-select-doctors>
+</ng-container>
+
+<ng-container *ngIf="!searchSubmitted">
+  <div class="d-flex">
+    <div class="">
+      <ul class="list-group list-group-flush" *ngIf="departments$ | async; let departments">
+        <li class="list-group-item dep-item" [class.active]="dep._id === selectedDepartment"
+          *ngFor="let dep of departments" (click)="selectDepartment(dep._id)">
+          {{dep.name}}
+        </li>
+      </ul>
+    </div>
+    <div class="flex-grow-1">
+      <app-select-doctors [pageType]="4" [doctors]="doctors$" [myDoctors]="myDoctors" [user]="user">
+      </app-select-doctors>
+    </div>
+  </div>
+</ng-container>

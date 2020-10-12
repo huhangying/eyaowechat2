@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../core/services/api.service';
-import { Doctor, DoctorWrap } from '../models/doctor.model';
+import { Doctor } from '../models/doctor.model';
 import { map } from 'rxjs/operators';
 import { Department } from '../models/department.model';
 import { AppStoreService } from '../core/store/app-store.service';
@@ -22,6 +22,10 @@ export class DoctorService {
 
   getDoctorById(id: string) {
     return this.api.get<Doctor>('doctor/brief/' + id);
+  }
+
+  searchDoctorsByName(name: string) {
+    return this.api.get<Doctor[]>('doctors/search/' + name);
   }
 
   getDoctorsByUser(userid: string) {

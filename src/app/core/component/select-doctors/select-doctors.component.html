@@ -7,7 +7,7 @@
           <div class="flex-fill pr-2 pt-2 avartor" (click)="goDetails(doctor)">
             <img src="{{doctor.icon | imgPath}}" onerror="this.src='assets/images/default.svg';this.onerror='';"
               class="rounded-circle img_msg" />
-            <div *ngIf="pageType === 4" class="py-2">
+            <div *ngIf="[4, 5].indexOf(pageType) > -1" class="py-2">
               <mat-chip-list>
                 <mat-chip class="small" [ngClass]="checkDoctorFocus(doctor._id) ? 'focus': 'not-focus'"
                   (click)="goDetails(doctor)">
@@ -23,14 +23,14 @@
                   <div class="h6 font-weight-bold pr-2">{{doctor.name}}</div>
                   <div class="text-muted small">{{doctor.title}}</div>
                 </div>
-                {{doctor.department.name}}
+                {{doctor.department?.name}}
               </div>
-              <div style="width: 6rem" class="text-right" *ngIf="pageType <= 4">
+              <div style="width: 6rem" class="text-right" *ngIf="pageType <= 5">
                 <button *ngIf="pageType === 1" class="weui-btn weui-btn_mini weui-btn_warn px-2"
                   (click)="goDetails(doctor)"> 在线咨询 </button>
                 <button *ngIf="pageType === 2" class="weui-btn weui-btn_mini weui-btn_warn px-2"
                   (click)="goDetails(doctor)"> 预约门诊 </button>
-                <button *ngIf="pageType === 3 || pageType === 4" class="weui-btn weui-btn_mini weui-btn_warn px-3"
+                <button *ngIf="[3, 4, 5].indexOf(pageType) > -1" class="weui-btn weui-btn_mini weui-btn_warn px-3"
                   (click)="goDetails(doctor)"> 详情 </button>
               </div>
             </div>
@@ -53,7 +53,7 @@
     </ng-container>
 
     <ng-container *ngIf="!doctorList?.length">
-      <div class="px-3 py-4">
+      <div class="alert alert-warning px-3 py-3">
         <ng-container *ngIf="pageType === 1 || pageType === 3">
           没有关注的药师。请先关注新药师后选择。
         </ng-container>
@@ -62,6 +62,9 @@
         </ng-container>
         <ng-container *ngIf="pageType === 4">
           请选择药学专科后，再药师详情页面中增加关注。
+        </ng-container>
+        <ng-container *ngIf="pageType === 5">
+          没有发现您找的药师。
         </ng-container>
       </div>
     </ng-container>
