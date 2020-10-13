@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  width: 100%;
+  padding: 0.5rem;
+
+  .avartor {
+    max-width: 80px;
+
+    .img_msg {
+      height: 60px;
+      width: 60px;
+      border: 1.5px solid #f5f6fa;
+    }
+  }
+}

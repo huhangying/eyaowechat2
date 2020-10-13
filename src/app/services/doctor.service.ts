@@ -67,6 +67,13 @@ export class DoctorService {
     return this.api.get<Doctor[]>('doctors/department/' + departmentid);
   }
 
+  
+  // Hospital
+  getCustomerServiceInfo() {
+    return this.api.get<{ _id: string; csdoctor: Doctor }>('hospital/customer-service');
+  }
+
+  //--------------------------
   private uniqify(array, key) {
     return array.reduce((prev, curr) => prev.find(a => a[key] === curr[key]) ? prev : prev.push(curr) && prev, []);
   }

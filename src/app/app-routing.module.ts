@@ -21,6 +21,7 @@ import { DoseCombinationComponent } from './components/diagnose/feedback/dose-co
 import { AdverseReactionComponent } from './components/diagnose/feedback/adverse-reaction/adverse-reaction.component';
 import { AuthMockGuard } from './core/services/auth-mock.guard';
 import { DoctorResolver } from './services/resolvers/doctor.resolver';
+import { CustomerServiceDoctorResolver } from './services/resolvers/customer-service-doctor.resolver';
 import { ArticleComponent } from './components/public/article/article.component';
 import { SurveyStartComponent } from './components/my-surveys/survey-start/survey-start.component';
 import { ReservationComponent } from './components/public/reservation/reservation.component';
@@ -77,7 +78,10 @@ const routes: Routes = [
     path: 'add-doctor',
     component: AddDoctorComponent,
     canActivate: [AuthGuard],
-    resolve: { user: UserResolver }
+    resolve: { 
+      user: UserResolver,
+      csDoctor: CustomerServiceDoctorResolver
+     }
   },
   {
     path: 'my-reservation',    // <-

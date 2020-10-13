@@ -22,6 +22,7 @@ import { ImageComponent } from './component/image/image.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MouseWheelDirective } from './directive/mouse-wheel.directive';
 import { HammerModule} from '@angular/platform-browser';
+import { CustomerServiceComponent } from './component/select-doctors/customer-service/customer-service.component';
 
 // @Injectable()
 // export class HammerConfig extends HammerGestureConfig {
@@ -43,6 +44,7 @@ import { HammerModule} from '@angular/platform-browser';
     ImgClickViewDirective,
     ImageComponent,
     MouseWheelDirective,
+    CustomerServiceComponent,
 
   ],
   imports: [

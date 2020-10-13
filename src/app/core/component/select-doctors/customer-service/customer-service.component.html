@@ -1,0 +1,16 @@
+<div class="flex-fill pr-2 pt-2 avartor" (click)="goDetails(csDoctor)">
+  <img src="{{csIcon | imgPath}}" onerror="this.src='assets/images/default.svg';this.onerror='';"
+    class="rounded-circle img_msg" />
+</div>
+<div class="flex-fill">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="pt-2">
+      <div class="h6 font-weight-bold pr-2">客服药师</div>
+    </div>
+    <div style="min-width: 6rem" class="text-right">
+      <button class="weui-btn weui-btn_mini weui-btn_warn px-2" (click)="goDetails(csDoctor)"> 在线咨询
+      </button>
+    </div>
+  </div>
+  <div class="small pt-1" style="line-height: 0.9rem;">提供日常咨询等 ... </div>
+</div>

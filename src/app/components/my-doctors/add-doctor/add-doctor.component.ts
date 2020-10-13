@@ -6,7 +6,7 @@ import { DoctorService } from 'src/app/services/doctor.service';
 import { Observable, Subject } from 'rxjs';
 import { Department } from 'src/app/models/department.model';
 import { Doctor } from 'src/app/models/doctor.model';
-import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, tap, takeUntil, map } from 'rxjs/operators';
 import weui from 'weui.js';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -24,6 +24,7 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
   // opened: false;
   selectedDepartment: string;
   myDoctors: Doctor[];
+  csDoctor: Doctor; // 客服药师
 
   searchForm: FormGroup;
   filteredDoctors$: Observable<Doctor[]>;
@@ -35,11 +36,12 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
     private doctorService: DoctorService,
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
-  ) { 
+  ) {
     this.route.data.pipe(
       distinctUntilChanged(),
       tap(data => {
         this.user = data.user;
+        this.csDoctor = data.csDoctor;
 
         if (this.user) {
           this.doctorService.getDoctorsByUser(this.user._id).subscribe(
@@ -55,8 +57,8 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
 
     this.departments$ = this.doctorService.getDepartments().pipe(
       tap(deps => {
-        if (deps?.length) {}
-        this.selectDepartment(deps[0]._id);        
+        if (deps?.length) { }
+        this.selectDepartment(deps[0]._id);
       })
     );
 
@@ -73,14 +75,14 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
 
     this.nameCtrl.valueChanges.pipe(
       tap(value => {
-        if (!value) {}
+        if (!value) { }
         this.searchReset();
         this.cd.markForCheck();
       }),
       takeUntil(this.destroy$)
     ).subscribe();
   }
-  
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
@@ -92,7 +94,16 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
 
   selectDepartment(id: string) {
     this.selectedDepartment = id;
-    this.doctors$ = this.doctorService.getDoctorsByDepartmentId(id);
+    const customerServiceDoctor = this.csDoctor;
+    this.doctors$ = this.doctorService.getDoctorsByDepartmentId(id).pipe(
+      map(doctors => {
+        // 总是把客服药师放到首位
+        if (customerServiceDoctor?._id && customerServiceDoctor?.isCustomerService) {
+          doctors.unshift(customerServiceDoctor);
+        }
+        return doctors;
+      })
+    );
     // collapse
     // this.setExpansionStatus(false);
     this.cd.markForCheck();

@@ -18,5 +18,7 @@ export interface Doctor {
   status?: number;  // 0: idle, 1: busy; 2: away; 3: offline
 
   prices?: ConsultServicePrice[];
+
+  isCustomerService?: boolean; // 微信端专用!
 }
 
