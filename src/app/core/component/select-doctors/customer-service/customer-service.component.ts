@@ -21,12 +21,13 @@ export class CustomerServiceComponent implements OnInit {
     this.csIcon = 'assets/' + (this.csDoctor.gender === '男' ? 'male-cs.jpg' : (this.csDoctor.gender === '女' ? 'famale-cs.jpg' : 'cs.jpg'));
   }
 
-  goDetails(doctor: Doctor) {
+  goCsChatDetails(doctor: Doctor) {
     this.router.navigate(['/chat'], {
       queryParams: {
         doctorid: doctor._id,
         openid: this.openid,
-        state: this.state
+        state: this.state,
+        cs: true
       }
     });
   }

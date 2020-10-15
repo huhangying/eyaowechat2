@@ -26,6 +26,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   room: string;
   doctor: Doctor;
   user: User;
+  isCs: boolean;
+
   chats: Chat[];
   myInput = '';
   errorMessage: string;
@@ -49,6 +51,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       tap(data => {
         this.user = data.user;
         this.doctor = data.doctor;
+        this.isCs = !!route.snapshot.queryParams.cs; // 是否是客服药师
       }),
       takeUntil(this.destroy$)
     ).subscribe();
@@ -70,7 +73,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     });
 
     // get chat history
-    this.chat.getChatHistory(this.user._id, this.doctor._id).pipe(
+    const chatHistory$ = this.isCs ?
+      this.chat.getCsChatHistoryByPatient(this.user._id) :
+      this.chat.getChatHistory(this.user._id, this.doctor._id);
+    chatHistory$.pipe(
       tap((results: Chat[]) => {
         if (results?.length) {
           this.chats = results.sort((a, b) => (+new Date(a.created) - +new Date(b.created)));
@@ -142,7 +148,8 @@ export class ChatComponent implements OnInit, OnDestroy {
         senderName: this.user.name,
         to: this.doctor._id,
         type: ChatType.picture,
-        data: imgPath
+        data: imgPath,
+        cs: this.isCs
       };
     } else {
       // Text
@@ -153,12 +160,14 @@ export class ChatComponent implements OnInit, OnDestroy {
         senderName: this.user.name,
         to: this.doctor._id,
         type: ChatType.text,
-        data: this.myInput
+        data: this.myInput,
+        cs: this.isCs
       };
     }
     this.chats.push(chatMsg);
 
     this.socketio.sendChat(this.room, chatMsg);
+    
     this.chat.sendChat(chatMsg).subscribe();
     this.scrollBottom();
     this.myInput = '';
@@ -192,8 +201,8 @@ export class ChatComponent implements OnInit, OnDestroy {
       reader.onload = async () => {
 
         const newFile = await this.uploadService.compressImg(file);
-        this.uploadService.uploadUserDir(this.user._id, 'chat', newFile, newfileName).pipe( 
-          tap((result: {path: string}) => {
+        this.uploadService.uploadUserDir(this.user._id, 'chat', newFile, newfileName).pipe(
+          tap((result: { path: string }) => {
             if (result?.path) {
               this.send(result.path);
             }

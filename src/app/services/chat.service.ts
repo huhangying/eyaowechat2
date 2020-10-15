@@ -24,4 +24,9 @@ export class ChatService {
     return this.api.get<Chat[]>(`chats/unread/user/${patientId}`);
   }
 
+  // 病患客服历史消息
+  getCsChatHistoryByPatient(patientId: string) {
+    return this.api.get<Chat[]>(`cs-chats/history/user/${patientId}`);
+  }
+
 }

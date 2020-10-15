@@ -40,7 +40,8 @@ export class SocketioService {
   }
 
   sendChat(room: string, chat: Chat) {
-    this.socket.emit('chat', room, {
+    // 区分 chat 和 客服消息
+    this.socket.emit(!chat.cs ? 'chat' : 'customerService', room, {
       ...chat,
       created: moment()
     });
