@@ -5,7 +5,7 @@ import { AppStoreService } from '../../core/store/app-store.service';
 import { tap, catchError, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { EMPTY, Subject } from 'rxjs';
 import { WeixinService } from 'src/app/services/weixin.service';
-import { Chat, ChatType } from 'src/app/models/chat.model';
+import { Chat, ChatCommandType, ChatCommandTypeMap, ChatType } from 'src/app/models/chat.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { SocketioService } from 'src/app/core/services/soketio.service';
 import { User } from 'src/app/models/user.model';
@@ -167,7 +167,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chats.push(chatMsg);
 
     this.socketio.sendChat(this.room, chatMsg);
-    
+
     this.chat.sendChat(chatMsg).subscribe();
     this.scrollBottom();
     this.myInput = '';
@@ -189,6 +189,10 @@ export class ChatComponent implements OnInit, OnDestroy {
       const code = qqface.textMap.indexOf(name.substr(2)) + 1;
       return code ? '<img src="assets/qqface/' + code + '.gif" />' : '';
     });
+  }
+
+  translateCommand(cmd: ChatCommandType) {
+    return ChatCommandTypeMap[cmd];
   }
 
   imageUpload(event) {
