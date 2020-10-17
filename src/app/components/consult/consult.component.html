@@ -1,1 +1,88 @@
-<p>consult works!</p>
+<div class="card m-2" [formGroup]="form" id="form">
+  <ul class="list-group list-group-flush text-muted">
+    <li class="list-group-item py-1 d-flex align-items-center">
+      <div>
+        <img [src]="doctor?.icon | imgPath" onerror="this.src='assets/images/default.svg';this.onerror='';" width="50"
+          height="50" class="rounded-circle img-thumbnail1">
+      </div>
+      <div class="text- pl-3">
+        <div><span class="font-weight-bolder">{{ doctor?.name }}</span> {{doctor?.title}}</div>
+        <div>{{doctor?.department?.name}}</div>
+      </div>
+    </li>
+    <li class="list-group-item d-flex">
+      <span class="item-label required">咨询人</span>
+      <div class="px-2 py-0 w-100">
+        <input id="user-name" required class="weui-input" autocomplete="off" placeholder="请输入您的姓名"
+          formControlName="userName" (blur)="checkValidation()">
+      </div>
+    </li>
+    <li class="list-group-item d-flex">
+      <span class="item-label required">疾病类型</span>
+      <div class="px-2 py-0 w-100" (click)="selectDiseases()" id="disease-type">
+        <input id="disease-type" matInput required class="weui-input" autocomplete="off" placeholder="请选择疾病类型"
+          formControlName="diseaseType" (blur)="checkValidation('#disease-type')">
+        <span class="position-fixed ml-n3">
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </span>
+      </div>
+    </li>
+    <li class="list-group-item d-flex">
+      <div class="item-label">所在地</div>
+      <div class="px-2 py-0 w-100">
+        <input class="weui-input" autocomplete="off" placeholder="请输入省份，城市" formControlName="address">
+      </div>
+    </li>
+    <li class="list-group-item d-flex" *ngIf="type === 1">
+      <div class="item-label">手机号</div>
+      <div class="px-0 pt-2 w-100">
+        <input id="cell" type="tel" class="weui-input" required pattern="[0-9]{11}" placeholder="输入您现在的手机号"
+          emptyTips="请输入手机号" notMatchTips="请输入正确的手机号" formControlName="cell" (blur)="checkValidation()">
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="item-label required mb-2">问题描述</div>
+      <div class="p-0 w-100">
+        <textarea id="content" required class="weui-textarea" type="text" formControlName="content"
+          placeholder="请描述症状详情，症状出现时间，相关医生的诊断，用药情况等" rows="5" emptyTips="请输入问题描述"
+          (blur)="checkValidation()"></textarea>
+      </div>
+    </li>
+
+    <li class="list-group-item">
+      <div class="weui-uploaders">
+        <div class="weui-uploader__title pb-2">
+          上传图片 <span class="small text-muted">(检查报告/服用药物/症状部位等)</span>
+        </div>
+        <div *ngIf="avatar">
+          <img src="{{ avatar }}" onerror="this.src='assets/images/icon/default.svg';this.onerror='';"
+            class="avatar-image img-fluid img-thumbnail z-depth-1" alt="">
+          <div class="p-1 mb-4">
+            <button mat-fab color="primary" title="删除图片" (click)="removeUploaded()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="weui-uploader__input-box" *ngIf="!avatar">
+          <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="false"
+            (change)="imageUpload($event)" />
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="fixed-bottom px-4 py-2">
+  <div class="d-flex">
+    <!-- <div class="w-50 pr-2">
+      <button type="button" class="btn btn-light btn-block" (click)="back()">
+        返回
+      </button>
+    </div> -->
+    <div class="w-50">
+      <button type="button" class="btn btn-block" [ngClass]="form.invalid ? 'btn-light': 'btn-primary'"
+        [disabled]="form.invalid" (click)="submit()">
+        提交
+      </button>
+    </div>
+  </div>
+</div>
