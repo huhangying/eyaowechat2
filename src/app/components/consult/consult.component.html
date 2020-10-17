@@ -1,11 +1,11 @@
 <div class="card m-2" [formGroup]="form" id="form">
   <ul class="list-group list-group-flush text-muted">
     <li class="list-group-item py-1 d-flex align-items-center">
-      <div>
+      <div class="px-2">
         <img [src]="doctor?.icon | imgPath" onerror="this.src='assets/images/default.svg';this.onerror='';" width="50"
           height="50" class="rounded-circle img-thumbnail1">
       </div>
-      <div class="text- pl-3">
+      <div class="px-2">
         <div><span class="font-weight-bolder">{{ doctor?.name }}</span> {{doctor?.title}}</div>
         <div>{{doctor?.department?.name}}</div>
       </div>
@@ -78,10 +78,10 @@
         返回
       </button>
     </div> -->
-    <div class="w-50">
+    <div class="w-100 bg-light">
       <button type="button" class="btn btn-block" [ngClass]="form.invalid ? 'btn-light': 'btn-primary'"
         [disabled]="form.invalid" (click)="submit()">
-        提交
+        提交确认并支付{{'50'}}元
       </button>
     </div>
   </div>
