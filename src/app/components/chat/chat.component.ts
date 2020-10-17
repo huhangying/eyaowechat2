@@ -11,9 +11,10 @@ import { SocketioService } from 'src/app/core/services/soketio.service';
 import { User } from 'src/app/models/user.model';
 import { ChatService } from 'src/app/services/chat.service';
 import { CoreService } from 'src/app/core/services/core.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import *  as qqface from 'wx-qqface';
 import { UploadService } from 'src/app/core/services/upload.service';
+import { ConsultService } from 'src/app/services/consult.service';
 
 @Component({
   selector: 'app-chat',
@@ -27,6 +28,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   doctor: Doctor;
   user: User;
   isCs: boolean;
+  setCharged: boolean; // 药师设置收费flag
 
   chats: Chat[];
   myInput = '';
@@ -38,6 +40,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private appStore: AppStoreService,
     private wxService: WeixinService,
     private socketio: SocketioService,
@@ -45,6 +48,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private chat: ChatService,
     private core: CoreService,
     private uploadService: UploadService,
+    private consultService: ConsultService,
   ) {
     this.route.data.pipe(
       distinctUntilChanged(),
@@ -67,6 +71,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.socketio.onChat((msg: Chat) => {
       // filter by the doctor
       if (msg.sender === this.room) {
+        this.checkCommand(msg);
         this.chats.push(msg);
         this.scrollBottom();
       }
@@ -86,6 +91,17 @@ export class ChatComponent implements OnInit, OnDestroy {
         }
       })
     ).subscribe();
+
+    if (!this.isCs) {
+      // get 付费咨询 flag
+      this.consultService.getPendingConsultByDoctorIdAndUserId(this.doctor._id, this.user._id).pipe(
+        tap(result => {
+          this.setCharged = result?.setCharged;
+          this.cd.markForCheck();
+        }),
+        takeUntil(this.destroy$),
+      ).subscribe();
+    }
   }
 
   ngOnDestroy() {
@@ -213,6 +229,25 @@ export class ChatComponent implements OnInit, OnDestroy {
           })
         ).subscribe();
       };
+    }
+  }
+
+  //========================== 
+  goConsult() {
+    this.router.navigate(['/consult'], {
+      queryParams: {
+        doctorid: this.doctor._id,
+        openid: this.appStore.token?.openid || this.route.snapshot.queryParams?.openid,
+        state: this.appStore.hid || this.route.snapshot.queryParams?.state
+      }
+    });
+  }
+
+  checkCommand(msg: Chat) {
+    if (msg.type === ChatType.command) {
+      // charged ? ChatCommandType.setCharged : ChatCommandType.setFree;
+      this.setCharged = ChatCommandType.setCharged === msg.data;
+      this.cd.markForCheck();
     }
   }
 

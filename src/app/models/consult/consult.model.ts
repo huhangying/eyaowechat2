@@ -9,7 +9,8 @@ export interface Consult {
   upload: string;
 
   type: number;   // 0: 图文咨询； 1：电话咨询
-  finished: boolean;
+  setCharged?: boolean;  // 药师设置，if true 将阻止病患免费咨询
 
+  finished: boolean;
   updatedAt: Date;
 }
