@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Doctor } from 'src/app/models/doctor.model';
+import { DoctorService } from 'src/app/services/doctor.service';
 
 @Component({
   selector: 'app-customer-service',
@@ -15,10 +16,11 @@ export class CustomerServiceComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private doctorService: DoctorService,
   ) { }
 
   ngOnInit(): void {
-    this.csIcon = 'assets/' + (this.csDoctor.gender === '男' ? 'male-cs.jpg' : (this.csDoctor.gender === '女' ? 'famale-cs.jpg' : 'cs.jpg'));
+    this.csIcon = this.doctorService.getCsDoctorIcon(this.csDoctor.gender);
   }
 
   goCsChatDetails(doctor: Doctor) {

@@ -47,7 +47,10 @@ const routes: Routes = [
     path: 'chat-select',    // <-
     component: ChatSelectComponent,
     canActivate: [AuthGuard],
-    resolve: { user: UserResolver }
+    resolve: {
+      user: UserResolver,
+      csDoctor: CustomerServiceDoctorResolver
+    }
   },
   {
     path: 'chat', // 免费
@@ -78,10 +81,10 @@ const routes: Routes = [
     path: 'add-doctor',
     component: AddDoctorComponent,
     canActivate: [AuthGuard],
-    resolve: { 
+    resolve: {
       user: UserResolver,
       csDoctor: CustomerServiceDoctorResolver
-     }
+    }
   },
   {
     path: 'my-reservation',    // <-
@@ -118,8 +121,10 @@ const routes: Routes = [
     path: 'diagnose-history',
     component: DiagnoseHistoryComponent,
     canActivate: [AuthGuard],
-    resolve: { user: UserResolver,
-      medicinePeriods: MedicinePeriodsResolver }
+    resolve: {
+      user: UserResolver,
+      medicinePeriods: MedicinePeriodsResolver
+    }
   },
   //
   {

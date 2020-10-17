@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import *  as qqface from 'wx-qqface';
 import { UploadService } from 'src/app/core/services/upload.service';
 import { ConsultService } from 'src/app/services/consult.service';
+import { DoctorService } from 'src/app/services/doctor.service';
 
 @Component({
   selector: 'app-chat',
@@ -48,6 +49,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private chat: ChatService,
     private core: CoreService,
     private uploadService: UploadService,
+    private doctorService: DoctorService,
     private consultService: ConsultService,
   ) {
     this.route.data.pipe(
@@ -56,6 +58,9 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.user = data.user;
         this.doctor = data.doctor;
         this.isCs = !!route.snapshot.queryParams.cs; // 是否是客服药师
+        if (this.isCs) {
+          this.doctor.icon = this.doctorService.getCsDoctorIcon(this.doctor.gender);
+        }
       }),
       takeUntil(this.destroy$)
     ).subscribe();

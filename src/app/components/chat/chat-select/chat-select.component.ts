@@ -5,7 +5,7 @@ import { Doctor } from 'src/app/models/doctor.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoreService } from 'src/app/core/services/core.service';
 import { DoctorService } from 'src/app/services/doctor.service';
-import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, tap, takeUntil, map } from 'rxjs/operators';
 import { AppStoreService } from 'src/app/core/store/app-store.service';
 
 @Component({
@@ -17,6 +17,7 @@ export class ChatSelectComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   user: User;
   doctors$: Observable<Doctor[]>;
+  csDoctor: Doctor; // 客服药师
 
   constructor(
     private router: Router,
@@ -29,8 +30,19 @@ export class ChatSelectComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       tap(data => {
         this.user = data.user;
+        this.csDoctor = data.csDoctor;
+        
         if (this.user) {
-          this.doctors$ = this.doctorService.getDoctorsByUser(this.user._id);
+          this.doctors$ = this.doctorService.getDoctorsByUser(this.user._id).pipe(
+            map(doctors => {
+              // doctors = doctors || [];
+              // 总是把客服药师放到首位
+              if (this.csDoctor?._id && this.csDoctor?.isCustomerService) {
+                doctors.unshift(this.csDoctor);
+              }
+              return doctors;
+            })
+          );
         }
       }),
       takeUntil(this.destroy$)

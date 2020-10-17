@@ -67,6 +67,10 @@ export class DoctorService {
     return this.api.get<Doctor[]>('doctors/department/' + departmentid);
   }
 
+  getCsDoctorIcon(gender?: string) {
+    return 'assets/' + (gender === '男' ? 'male-cs.jpg' : (gender === '女' ? 'famale-cs.jpg' : 'cs.jpg'));
+  }
+
   
   // Hospital
   getCustomerServiceInfo() {
