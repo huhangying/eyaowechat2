@@ -21,6 +21,7 @@ import { DoseCombinationComponent } from './components/diagnose/feedback/dose-co
 import { AdverseReactionComponent } from './components/diagnose/feedback/adverse-reaction/adverse-reaction.component';
 import { AuthMockGuard } from './core/services/auth-mock.guard';
 import { DoctorResolver } from './services/resolvers/doctor.resolver';
+import { DoctorConsultResolver } from './services/resolvers/doctor-consult.resolver';
 import { CustomerServiceDoctorResolver } from './services/resolvers/customer-service-doctor.resolver';
 import { ArticleComponent } from './components/public/article/article.component';
 import { SurveyStartComponent } from './components/my-surveys/survey-start/survey-start.component';
@@ -62,7 +63,11 @@ const routes: Routes = [
     path: 'consult', // 收费
     component: ConsultComponent,
     canActivate: [AuthGuard],
-    resolve: { user: UserResolver, doctor: DoctorResolver }
+    resolve: {
+      user: UserResolver,
+      doctor: DoctorResolver,
+      doctorConsult: DoctorConsultResolver
+    }
   },
 
   {

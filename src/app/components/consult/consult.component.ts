@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, filter, tap, takeUntil } from 'rxjs/operators';
 import { CoreService } from 'src/app/core/services/core.service';
 import { MessageService } from 'src/app/core/services/message.service';
 import { UploadService } from 'src/app/core/services/upload.service';
 import { Consult } from 'src/app/models/consult/consult.model';
+import { DoctorConsult } from 'src/app/models/consult/doctor-consult.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { User } from 'src/app/models/user.model';
 import { ConsultService } from 'src/app/services/consult.service';
@@ -24,8 +24,9 @@ export class ConsultComponent implements OnInit, OnDestroy {
   form: FormGroup;
   doctor: Doctor;
   user: User;
-  consult: Consult;
+  doctorConsult: DoctorConsult;
   type: number;
+  diseaseTypes: string[];
   avatar: any;
   upload: string; // img path
 
@@ -43,6 +44,9 @@ export class ConsultComponent implements OnInit, OnDestroy {
       tap(data => {
         this.user = data.user;
         this.doctor = data.doctor;
+        this.doctorConsult = data.doctorConsult;
+        this.diseaseTypes = this.doctorConsult.disease_types.split('|');
+        this.diseaseTypes.push('其它');
       }),
       takeUntil(this.destroy$)
     ).subscribe();
@@ -74,16 +78,16 @@ export class ConsultComponent implements OnInit, OnDestroy {
   }
 
   selectDiseases() {
-    weui.picker([
-      '飞机票', '火车票', '汽车票'
-    ], {
-      defaultValue: [this.diseaseTypeCtrl.value],
-      onConfirm: (result) => {
-        this.diseaseTypeCtrl.patchValue(result[0].value);
-        this.cd.markForCheck();
-      },
-      id: 'disease-type'
-    });
+    weui.picker(
+      this.diseaseTypes,
+      {
+        defaultValue: [this.diseaseTypeCtrl.value],
+        onConfirm: (result) => {
+          this.diseaseTypeCtrl.patchValue(result[0].value);
+          this.cd.markForCheck();
+        },
+        id: 'disease-type'
+      });
   }
 
   imageUpload(event) {
@@ -110,6 +114,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
   submit() {
     const consult = {
       ...this.form.value,
+      disease_types: [this.diseaseTypeCtrl.value],
       doctor: this.doctor._id,
       user: this.user._id,
       type: this.type, //
