@@ -42,9 +42,9 @@ export class SelectDoctorsComponent implements OnInit {
   goDetails(doctor: Doctor) {
     this.doctorService.doctor = doctor;
     let redirectTarget = '/doctor-details';
-    if (this.pageType === 1) {
+    if (this.pageType === PageType.chat) {
       redirectTarget = '/chat';
-    } else if (this.pageType === 2) {
+    } else if (this.pageType === PageType.book) {
       redirectTarget = '/book';
     }
     this.router.navigate([redirectTarget], this.buildQueryParams(doctor._id));
@@ -55,7 +55,7 @@ export class SelectDoctorsComponent implements OnInit {
       queryParams: {
         doctorid: doctorid,
         openid: this.appStore.token?.openid || this.openid,
-        state: this.appStore.hid || this.state
+        state: this.appStore.hid || this.state,
       }
     }
   }
@@ -63,10 +63,5 @@ export class SelectDoctorsComponent implements OnInit {
   // return true if doctor has been focused
   checkDoctorFocus(doctorId: string) {
     return this.myDoctors?.findIndex(_ => _._id === doctorId) > -1;
-  }
-
-  getServicePriceByType(servicePrices: ConsultServicePrice[], type: number) {
-    if (!servicePrices?.length) return null;
-    return servicePrices.find(sp => sp.type === type);
   }
 }

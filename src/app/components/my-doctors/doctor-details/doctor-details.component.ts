@@ -7,7 +7,6 @@ import { ConsultService } from 'src/app/services/consult.service';
 import { Subject } from 'rxjs';
 import { MessageService } from 'src/app/core/services/message.service';
 import { tap, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { ConsultServicePrice } from 'src/app/models/consult/doctor-consult.model';
 import { AppStoreService } from 'src/app/core/store/app-store.service';
 
 @Component({
@@ -105,32 +104,6 @@ export class DoctorDetailsComponent implements OnInit, OnDestroy {
           this.cd.markForCheck();
         }),
       ).subscribe();
-    });
-  }
-
-  getServicePriceByType(servicePrices: ConsultServicePrice[], type: number) {
-    if (!servicePrices?.length) return null;
-    return servicePrices.find(sp => sp.type === type);
-  }
-
-  ////////////////
-  goChat() {
-    this.router.navigate(['/chat'], {
-      queryParams: {
-        doctorid: this.doctor._id,
-        openid: this.appStore.token?.openid || this.openid,
-        state: this.appStore.hid || this.state
-      }
-    });
-  }
-
-  goConsult(type = 0) {
-    this.router.navigate(['/consult'], {
-      queryParams: {
-        doctorid: this.doctor._id,
-        openid: this.appStore.token?.openid || this.openid,
-        state: this.appStore.hid || this.state
-      }
     });
   }
 

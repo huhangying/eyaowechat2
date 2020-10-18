@@ -23,6 +23,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MouseWheelDirective } from './directive/mouse-wheel.directive';
 import { HammerModule} from '@angular/platform-browser';
 import { CustomerServiceComponent } from './component/select-doctors/customer-service/customer-service.component';
+import { ConsultServicesComponent } from './component/select-doctors/consult-services/consult-services.component';
 
 // @Injectable()
 // export class HammerConfig extends HammerGestureConfig {
@@ -45,6 +46,7 @@ import { CustomerServiceComponent } from './component/select-doctors/customer-se
     ImageComponent,
     MouseWheelDirective,
     CustomerServiceComponent,
+    ConsultServicesComponent,
 
   ],
   imports: [
@@ -82,6 +84,7 @@ import { CustomerServiceComponent } from './component/select-doctors/customer-se
     SelectDoctorsComponent,
     ImgClickViewDirective,
     MouseWheelDirective,
+    ConsultServicesComponent,
   ],
   providers: [
     Title,

@@ -238,12 +238,13 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   //========================== 
-  goConsult() {
+  goConsult(type: number) {
     this.router.navigate(['/consult'], {
       queryParams: {
         doctorid: this.doctor._id,
         openid: this.appStore.token?.openid || this.route.snapshot.queryParams?.openid,
-        state: this.appStore.hid || this.route.snapshot.queryParams?.state
+        state: this.appStore.hid || this.route.snapshot.queryParams?.state,
+        type
       }
     });
   }

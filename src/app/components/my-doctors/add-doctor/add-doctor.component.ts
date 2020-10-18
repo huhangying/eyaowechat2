@@ -37,6 +37,7 @@ export class AddDoctorComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
   ) {
+    this.doctorService.doctor = null;
     this.route.data.pipe(
       distinctUntilChanged(),
       tap(data => {
