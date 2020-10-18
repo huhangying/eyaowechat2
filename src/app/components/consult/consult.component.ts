@@ -47,6 +47,12 @@ export class ConsultComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe();
 
+    this.route.queryParams.pipe(
+      tap(params => {
+        this.type = +params.type;
+      })
+    ).subscribe();
+
     this.form = this.fb.group({
       userName: ['', Validators.required],
       diseaseType: ['', Validators.required],
@@ -59,7 +65,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
   get diseaseTypeCtrl() { return this.form.get('diseaseType'); }
 
   ngOnInit(): void {
-    this.core.setTitle('药师咨询详情');
+    this.core.setTitle(this.type === 0 ? '药师图文咨询' : (this.type === 1 ? '药师电话咨询' : '药师咨询详情'));
   }
 
   ngOnDestroy() {
@@ -134,5 +140,9 @@ export class ConsultComponent implements OnInit, OnDestroy {
     // weui.form.validate(dq);
     weui.form.validate(selectedElement || '#form');
     this.cd.markForCheck();
+  }
+
+  getTypePrice(): number {
+    return this.doctor.prices.find(_ => _.type === this.type)?.amount;
   }
 }

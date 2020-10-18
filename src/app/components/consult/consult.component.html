@@ -34,9 +34,9 @@
       </div>
     </li>
     <li class="list-group-item d-flex" *ngIf="type === 1">
-      <div class="item-label">手机号</div>
-      <div class="px-0 pt-2 w-100">
-        <input id="cell" type="tel" class="weui-input" required pattern="[0-9]{11}" placeholder="输入您现在的手机号"
+      <div class="item-label required">手机号</div>
+      <div class="px-2 py-o w-100">
+        <input id="cell" type="tel" required class="weui-input" required pattern="[0-9]{11}" placeholder="输入您现在的手机号"
           emptyTips="请输入手机号" notMatchTips="请输入正确的手机号" formControlName="cell" (blur)="checkValidation()">
       </div>
     </li>
@@ -44,8 +44,7 @@
       <div class="item-label required mb-2">问题描述</div>
       <div class="p-0 w-100">
         <textarea id="content" required class="weui-textarea" type="text" formControlName="content"
-          placeholder="请描述症状详情，症状出现时间，相关医生的诊断，用药情况等" rows="5" emptyTips="请输入问题描述"
-          (blur)="checkValidation()"></textarea>
+          placeholder="请描述症状详情，症状出现时间，相关医生的诊断，用药情况等" rows="5" emptyTips="请输入问题描述" (blur)="checkValidation()"></textarea>
       </div>
     </li>
 
@@ -81,7 +80,7 @@
     <div class="w-100 bg-light">
       <button type="button" class="btn btn-block" [ngClass]="form.invalid ? 'btn-light': 'btn-primary'"
         [disabled]="form.invalid" (click)="submit()">
-        确认图文咨询并支付{{'50'}}元
+        确认并支付{{getTypePrice() | currency: 'CNY':'symbol-narrow'}}元
       </button>
     </div>
   </div>
