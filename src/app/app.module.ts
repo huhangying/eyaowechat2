@@ -39,6 +39,7 @@ import { ReservationComponent } from './components/public/reservation/reservatio
 import { BookingForwardComponent } from './components/public/booking-forward/booking-forward.component';
 import { DiagnoseNoticeComponent } from './components/public/diagnose-notice/diagnose-notice.component';
 import { ConsultComponent } from './components/consult/consult.component';
+import { WeixinPayComponent } from './components/consult/weixin-pay/weixin-pay.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { ConsultComponent } from './components/consult/consult.component';
     BookingForwardComponent,
     DiagnoseNoticeComponent,
     ConsultComponent,
+    WeixinPayComponent,
   ],
   imports: [
     CommonModule,

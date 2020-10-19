@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { Chat } from 'src/app/models/chat.model';
 import { UserFeedback } from 'src/app/models/user-feedback.model';
 import { OriginBooking } from 'src/app/models/booking.model';
+import { Consult } from 'src/app/models/consult/consult.model';
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,14 @@ export class SocketioService {
       created: moment()
     }
     this.socket.emit('booking', room, booking);
+  }
+
+  // Consult
+  sendConsult(room: string, consult: Consult) {
+    this.socket.emit('consult', room, {
+      ...consult,
+      createdAt: moment()
+    });
   }
 
 }

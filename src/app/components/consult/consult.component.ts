@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, filter, tap, takeUntil } from 'rxjs/operators';
 import { CoreService } from 'src/app/core/services/core.service';
 import { MessageService } from 'src/app/core/services/message.service';
+import { SocketioService } from 'src/app/core/services/soketio.service';
 import { UploadService } from 'src/app/core/services/upload.service';
 import { Consult } from 'src/app/models/consult/consult.model';
 import { DoctorConsult } from 'src/app/models/consult/doctor-consult.model';
@@ -12,6 +14,7 @@ import { Doctor } from 'src/app/models/doctor.model';
 import { User } from 'src/app/models/user.model';
 import { ConsultService } from 'src/app/services/consult.service';
 import weui from 'weui.js';
+import { WeixinPayComponent } from './weixin-pay/weixin-pay.component'
 
 @Component({
   selector: 'app-consult',
@@ -27,8 +30,11 @@ export class ConsultComponent implements OnInit, OnDestroy {
   doctorConsult: DoctorConsult;
   type: number;
   diseaseTypes: string[];
+  room: string;
+
   avatar: any;
   upload: string; // img path
+  hideBtns = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +42,8 @@ export class ConsultComponent implements OnInit, OnDestroy {
     private core: CoreService,
     private consultService: ConsultService,
     private uploadService: UploadService,
+    private socketio: SocketioService,
+    public dialog: MatDialog,
     private message: MessageService,
     private cd: ChangeDetectorRef,
   ) {
@@ -44,6 +52,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
       tap(data => {
         this.user = data.user;
         this.doctor = data.doctor;
+
         this.doctorConsult = data.doctorConsult;
         this.diseaseTypes = this.doctorConsult.disease_types.split('|');
         this.diseaseTypes.push('其它');
@@ -64,17 +73,23 @@ export class ConsultComponent implements OnInit, OnDestroy {
       cell: [''],
       content: ['', Validators.required],
     });
+
+    this.socketio.setupSocketConnection(); // it would be created later for performance
   }
 
   get diseaseTypeCtrl() { return this.form.get('diseaseType'); }
 
   ngOnInit(): void {
     this.core.setTitle(this.type === 0 ? '药师图文咨询' : (this.type === 1 ? '药师电话咨询' : '药师咨询详情'));
+
+    this.room = this.doctor?._id;
+    this.socketio.joinRoom(this.room);
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
+    this.socketio.leaveRoom(this.room);
   }
 
   selectDiseases() {
@@ -112,21 +127,43 @@ export class ConsultComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    const consult = {
-      ...this.form.value,
-      disease_types: [this.diseaseTypeCtrl.value],
-      doctor: this.doctor._id,
-      user: this.user._id,
-      type: this.type, //
-      upload: this.upload,
-    };
-    this.consultService.AddConsult(consult).pipe(
-      tap((result: Consult) => {
-        if (result?._id) {
-          this.message.success();
-        }
-      })
-    ).subscribe();
+    this.hideBtns = true;
+    this.dialog.open(WeixinPayComponent, {
+      maxWidth: '100vw',
+      panelClass: 'full-width-dialog',
+      data: {
+        doctor: this.doctor,
+        user: this.user,
+        type: this.type
+      }
+    }).afterClosed()
+      .subscribe((result) => {
+        this.hideBtns = false;
+        // this.core.setTitle(currentTitle);
+        // if (result?._id) { // add successfully
+        //   this.feedbacks.push(result);
+        //   this.socketio.sendFeedback(this.room, result);
+        //   this.scrollBottom();
+        // }
+        const consult = {
+          ...this.form.value,
+          disease_types: [this.diseaseTypeCtrl.value],
+          doctor: this.doctor._id,
+          user: this.user._id,
+          type: this.type, //
+          upload: this.upload,
+        };
+
+        this.consultService.AddConsult(consult).pipe(
+          tap((result: Consult) => {
+            if (result?._id) {
+              this.socketio.sendConsult(this.room, result);
+              this.message.success();
+            }
+          })
+        ).subscribe();
+      });
+
   }
 
   removeUploaded() {
