@@ -39,6 +39,10 @@ export class ConsultService {
     return this.api.post<Consult>('consult', data) as Observable<Consult>;
   }
 
+  deletePendingByDoctorIdAndUserId(doctorId: string, userId: string) {
+    return this.api.delete(`consult/delete-pending/${doctorId}/${userId}`);
+  }
+
   // doctor consult
 
   getDoctorConsultByDoctorId(doctorId: string) {

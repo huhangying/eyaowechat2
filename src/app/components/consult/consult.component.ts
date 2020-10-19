@@ -140,11 +140,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
       .subscribe((result) => {
         this.hideBtns = false;
         // this.core.setTitle(currentTitle);
-        // if (result?._id) { // add successfully
-        //   this.feedbacks.push(result);
-        //   this.socketio.sendFeedback(this.room, result);
-        //   this.scrollBottom();
-        // }
+
         const consult = {
           ...this.form.value,
           disease_types: [this.diseaseTypeCtrl.value],
@@ -158,6 +154,8 @@ export class ConsultComponent implements OnInit, OnDestroy {
           tap((result: Consult) => {
             if (result?._id) {
               this.socketio.sendConsult(this.room, result);
+              // 删除药师pending consult （type=null, finished: false）
+              this.consultService.deletePendingByDoctorIdAndUserId(this.doctor._id, this.user._id).subscribe();
               this.message.success();
             }
           })
