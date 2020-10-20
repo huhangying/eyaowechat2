@@ -54,7 +54,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
         this.doctor = data.doctor;
 
         this.doctorConsult = data.doctorConsult;
-        this.diseaseTypes = this.doctorConsult.disease_types.split('|');
+        this.diseaseTypes = this.doctorConsult?.disease_types?.split('|') || [];
         this.diseaseTypes.push('其它');
       }),
       takeUntil(this.destroy$)
@@ -73,6 +73,9 @@ export class ConsultComponent implements OnInit, OnDestroy {
       cell: [''],
       content: ['', Validators.required],
     });
+    if (this.type === 1) {
+      this.form.get('cell').setValidators([Validators.required]);
+    }
 
     this.socketio.setupSocketConnection(); // it would be created later for performance
   }

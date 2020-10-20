@@ -33,10 +33,10 @@
         <input class="weui-input" autocomplete="off" placeholder="请输入省份，城市" formControlName="address">
       </div>
     </li>
-    <li class="list-group-item d-flex" *ngIf="type === 1">
+    <li class="list-group-item d-flex" [class.d-none]="type === 0">
       <div class="item-label required">手机号</div>
       <div class="px-2 py-o w-100">
-        <input id="cell" type="tel" required class="weui-input" required pattern="[0-9]{11}" placeholder="输入您现在的手机号"
+        <input id="cell" type="tel" class="weui-input" required pattern="[0-9]{11}" placeholder="输入您现在的手机号"
           emptyTips="请输入手机号" notMatchTips="请输入正确的手机号" formControlName="cell" (blur)="checkValidation()">
       </div>
     </li>
