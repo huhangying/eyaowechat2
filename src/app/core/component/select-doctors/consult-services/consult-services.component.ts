@@ -48,6 +48,6 @@ export class ConsultServicesComponent implements OnInit {
 
   getServicePriceByType(servicePrices: ConsultServicePrice[], type: number) {
     if (!servicePrices?.length) return null;
-    return servicePrices.find(sp => sp.type === type);
+    return servicePrices.find(sp => sp && sp.type === type);
   }
 }
