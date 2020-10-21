@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, filter, tap, takeUntil } from 'rxjs/operators';
 import { CoreService } from 'src/app/core/services/core.service';
@@ -37,6 +37,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
   hideBtns = false;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private core: CoreService,
@@ -165,6 +166,8 @@ export class ConsultComponent implements OnInit, OnDestroy {
               // 删除药师pending consult （type=null, finished: false）
               this.consultService.deletePendingByDoctorIdAndUserId(this.doctor._id, this.user._id).subscribe();
               this.message.success();
+              // redirect to confirm page
+              this.goConsultConfirmed();
             }
           })
         ).subscribe();
@@ -191,5 +194,11 @@ export class ConsultComponent implements OnInit, OnDestroy {
 
   getTypePrice(): number {
     return this.doctor.prices.find(_ => _.type === this.type)?.amount;
+  }
+
+  goConsultConfirmed() {
+    this.router.navigate(['/consult-confirm'], {
+      queryParams: this.route.snapshot.queryParams,
+    });
   }
 }

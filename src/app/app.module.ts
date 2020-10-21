@@ -40,6 +40,8 @@ import { BookingForwardComponent } from './components/public/booking-forward/boo
 import { DiagnoseNoticeComponent } from './components/public/diagnose-notice/diagnose-notice.component';
 import { ConsultComponent } from './components/consult/consult.component';
 import { WeixinPayComponent } from './components/consult/weixin-pay/weixin-pay.component';
+import { ConsultConfirmedComponent } from './components/consult/consult-confirmed/consult-confirmed.component';
+import { ConsultRequestContentComponent } from './components/consult/consult-request-content/consult-request-content.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +77,8 @@ import { WeixinPayComponent } from './components/consult/weixin-pay/weixin-pay.c
     DiagnoseNoticeComponent,
     ConsultComponent,
     WeixinPayComponent,
+    ConsultConfirmedComponent,
+    ConsultRequestContentComponent,
   ],
   imports: [
     CommonModule,

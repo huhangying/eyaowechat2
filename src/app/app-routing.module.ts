@@ -29,6 +29,7 @@ import { ReservationComponent } from './components/public/reservation/reservatio
 import { BookingForwardComponent } from './components/public/booking-forward/booking-forward.component';
 import { DiagnoseNoticeComponent } from './components/public/diagnose-notice/diagnose-notice.component';
 import { ConsultComponent } from './components/consult/consult.component';
+import { ConsultConfirmedComponent } from './components/consult/consult-confirmed/consult-confirmed.component';
 
 
 const routes: Routes = [
@@ -60,7 +61,7 @@ const routes: Routes = [
     resolve: { user: UserResolver, doctor: DoctorResolver }
   },
   {
-    path: 'consult', // 收费
+    path: 'consult', // 收费咨询
     component: ConsultComponent,
     canActivate: [AuthGuard],
     resolve: {
@@ -68,6 +69,12 @@ const routes: Routes = [
       doctor: DoctorResolver,
       doctorConsult: DoctorConsultResolver
     }
+  },
+  {
+    path: 'consult-confirm', // 收费咨询确认
+    component: ConsultConfirmedComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver, doctor: DoctorResolver }
   },
 
   {

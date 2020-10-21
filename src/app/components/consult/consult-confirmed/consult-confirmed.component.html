@@ -1,0 +1,35 @@
+<div class="fixed-top weui-flex bg-white px-3 mb-5">
+  <div class="d-flex align-items-center py-2">
+    <span class="text-success pr-3">
+      <mat-icon>check_circle</mat-icon>
+    </span>
+    药师{{typeName()}}确认
+  </div>
+</div>
+
+<div class="pt-5">
+  <div class="card m-2 p-3">
+    您的{{typeName()}}已发送给{{doctor.name}}{{doctor.title}}!
+  </div>
+
+  <div class="card m-2">
+    <ng-container *ngIf="consult?._id">
+      <div class="px-4 py-2 mb-3">
+        <div class="card-title h6">
+          咨询内容
+        </div>
+        <app-consult-request-content [consult]="consult"></app-consult-request-content>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<div class="fixed-bottom px-2 py-2">
+  <div class="d-flex">
+    <div class="w-100 px-2">
+      <button type="button" class="btn btn-light btn-block" (click)="back()">
+        返回
+      </button>
+    </div>
+  </div>
+</div>
