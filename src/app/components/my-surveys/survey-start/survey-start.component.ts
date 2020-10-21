@@ -8,6 +8,7 @@ import { CoreService } from 'src/app/core/services/core.service';
 import { MatDialog } from '@angular/material/dialog';
 import { tap, takeUntil } from 'rxjs/operators';
 import { SurveyEditComponent } from '../survey-edit/survey-edit.component';
+import { AppStoreService } from 'src/app/core/store/app-store.service';
 
 @Component({
   selector: 'app-survey-start',
@@ -28,6 +29,7 @@ export class SurveyStartComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private core: CoreService,
     public dialog: MatDialog,
+    private appStore: AppStoreService,
     private surveyService: SurveyService,
   ) {
   }
@@ -86,8 +88,8 @@ export class SurveyStartComponent implements OnInit, OnDestroy {
       if (gkey) { // 已完成
         this.router.navigate(['/add-doctor'], {
           queryParams: {
-            openid: this.openid,
-            state: this.hid
+            openid: this.appStore.token?.openid ||this.openid,
+            state: this.appStore.hid || this.hid
           }
         });
       }

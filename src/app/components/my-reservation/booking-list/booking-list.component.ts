@@ -33,7 +33,7 @@ export class BookingListComponent implements OnInit {
       // redirect to 
       this.router.navigate(['/booking-forward'], {
         queryParams: {
-          openid: this.user.link_id,
+          openid: this.appStore.token?.openid ||this.user.link_id,
           state: this.appStore.hid,
           id: `|${booking._id}`
         }

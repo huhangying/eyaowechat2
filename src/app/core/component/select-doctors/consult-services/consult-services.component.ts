@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppStoreService } from 'src/app/core/store/app-store.service';
 import { ConsultServicePrice } from 'src/app/models/consult/doctor-consult.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { DoctorService } from 'src/app/services/doctor.service';
@@ -16,6 +17,7 @@ export class ConsultServicesComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private appStore: AppStoreService,
     private doctorService: DoctorService,
   ) { 
   }
@@ -28,8 +30,8 @@ export class ConsultServicesComponent implements OnInit {
     this.router.navigate(['/consult'], {
       queryParams: {
         doctorid: this.doctor._id,
-        openid: this.openid,
-        state: this.state,
+        openid: this.appStore.token?.openid || this.openid,
+        state: this.appStore.hid || this.state,
         type: (consultType === 0 || consultType === 1) ? consultType : undefined
       }
     });
@@ -40,8 +42,8 @@ export class ConsultServicesComponent implements OnInit {
     this.router.navigate(['/chat'], {
       queryParams: {
         doctorid: this.doctor._id,
-        openid: this.openid,
-        state: this.state,
+        openid: this.appStore.token?.openid || this.openid,
+        state: this.appStore.hid || this.state,
       }
     });
   }
