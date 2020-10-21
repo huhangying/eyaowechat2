@@ -30,6 +30,7 @@ import { BookingForwardComponent } from './components/public/booking-forward/boo
 import { DiagnoseNoticeComponent } from './components/public/diagnose-notice/diagnose-notice.component';
 import { ConsultComponent } from './components/consult/consult.component';
 import { ConsultConfirmedComponent } from './components/consult/consult-confirmed/consult-confirmed.component';
+import { ConsultReplyComponent } from './components/consult/consult-reply/consult-reply.component';
 
 
 const routes: Routes = [
@@ -73,6 +74,12 @@ const routes: Routes = [
   {
     path: 'consult-confirm', // 收费咨询确认
     component: ConsultConfirmedComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver, doctor: DoctorResolver }
+  },
+  {
+    path: 'consult-reply', // 药师收费咨询回复
+    component: ConsultReplyComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver, doctor: DoctorResolver }
   },
