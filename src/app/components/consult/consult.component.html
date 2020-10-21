@@ -13,15 +13,15 @@
     <li class="list-group-item d-flex">
       <span class="item-label required">咨询人</span>
       <div class="px-2 py-0 w-100">
-        <input id="user-name" required class="weui-input" autocomplete="off" placeholder="请输入您的姓名"
-          formControlName="userName" (blur)="checkValidation()">
+        <input class="weui-input" autocomplete="off" placeholder="请输入您的姓名" [class.input-error]="hasErrors('userName')"
+          formControlName="userName">
       </div>
     </li>
     <li class="list-group-item d-flex">
       <span class="item-label required">疾病类型</span>
-      <div class="px-2 py-0 w-100" (click)="selectDiseases()" id="disease-type">
-        <input id="disease-type" matInput required class="weui-input" autocomplete="off" placeholder="请选择疾病类型"
-          formControlName="diseaseType" (blur)="checkValidation('#disease-type')">
+      <div class="px-2 py-0 w-100" (click)="selectDiseases()">
+        <input matInput required class="weui-input" autocomplete="off" placeholder="请选择疾病类型"
+          formControlName="diseaseType" (blur)="checkValidation()">
         <span class="position-fixed ml-n3">
           <mat-icon>keyboard_arrow_right</mat-icon>
         </span>
@@ -33,18 +33,19 @@
         <input class="weui-input" autocomplete="off" placeholder="请输入省份，城市" formControlName="address">
       </div>
     </li>
-    <li class="list-group-item d-flex" [class.d-none]="type === 0">
+    <li class="list-group-item d-flex" *ngIf="type !== 0">
       <div class="item-label required">手机号</div>
       <div class="px-2 py-o w-100">
         <input id="cell" type="tel" class="weui-input" required pattern="[0-9]{11}" placeholder="输入您现在的手机号"
-          emptyTips="请输入手机号" notMatchTips="请输入正确的手机号" formControlName="cell" (blur)="checkValidation()">
+          [class.input-error]="hasErrors('cell')" emptyTips="请输入手机号" notMatchTips="请输入正确的手机号" formControlName="cell"
+          (blur)="checkValidation()">
       </div>
     </li>
     <li class="list-group-item">
       <div class="item-label required mb-2">问题描述</div>
       <div class="p-0 w-100">
-        <textarea id="content" required class="weui-textarea" type="text" formControlName="content"
-          placeholder="请描述症状详情，症状出现时间，相关医生的诊断，用药情况等" rows="5" emptyTips="请输入问题描述" (blur)="checkValidation()"></textarea>
+        <textarea class="weui-textarea" type="text" formControlName="content" [class.input-error]="hasErrors('content')"
+          placeholder="请描述症状详情，症状出现时间，相关医生的诊断，用药情况等" rows="5" emptyTips="请输入问题描述"></textarea>
       </div>
     </li>
 

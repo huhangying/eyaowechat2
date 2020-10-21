@@ -70,7 +70,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
       userName: ['', Validators.required],
       diseaseType: ['', Validators.required],
       address: [''],
-      cell: [''],
+      cell: [],
       content: ['', Validators.required],
     });
     if (this.type === 1) {
@@ -93,6 +93,11 @@ export class ConsultComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.unsubscribe();
     this.socketio.leaveRoom(this.room);
+  }
+
+  hasErrors(id: string) {
+    const control = this.form.get(id);
+    return control?.invalid && control?.touched;
   }
 
   selectDiseases() {
@@ -179,9 +184,8 @@ export class ConsultComponent implements OnInit, OnDestroy {
   }
 
   // validation
-  checkValidation(selectedElement?: string) {
-    // weui.form.validate(dq);
-    weui.form.validate(selectedElement || '#form');
+  checkValidation() {
+    weui.form.validate('#form');
     this.cd.markForCheck();
   }
 
