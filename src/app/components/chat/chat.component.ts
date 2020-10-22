@@ -121,7 +121,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       const footer = document.getElementById('_bottom');
       footer?.scrollIntoView({ behavior: 'smooth', block: 'end' });
       this.cd.markForCheck();
-    });
+    }, 200);
   }
 
   buildWechatObj() {

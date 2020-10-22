@@ -1,5 +1,52 @@
-<pre>
-  {{consult|json}}
-</pre>
+<div class="msg_card_body px-2 h-100 pb-2 mb-5">
+  <ng-container *ngIf="consults?.length">
+    <div *ngFor="let consult of consults" class="mx-2 my-3">
+      <ng-container *ngIf="consult.userName">
+        <div class="sender">
+          <div class="d-flex align-items-end flex-row-reverse">
+            <div class="img_cont_msg">
+              <span class="triangle"></span>
+              <img [src]="user?.icon" class="rounded-circle user_img_msg">
+            </div>
+            <div class="msg-data text-break" [id]="consult._id">
+              <app-consult-request-content [consult]="consult" [showType]="true"></app-consult-request-content>
+            </div>
+          </div>
 
-{{consults?.length}}
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!consult.userName">
+        <div class="to">
+          <div class="d-flex align-items-start flex-row">
+            <div class="img_cont_msg">
+              <span class="triangle"></span>
+              <img [src]="doctor?.icon | imgPath" appImgClickView
+                onerror="this.src='assets/images/no-image.png';this.onerror='';" class="rounded-circle user_img_msg">
+            </div>
+            <div class="msg-data text-break" [id]="consult._id">
+              {{doctor.name + doctor.title}}回复：
+              <app-consult-request-content [consult]="consult"></app-consult-request-content>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+  <div id="_bottom" class="position-relative pb-5">
+  </div>
+
+  <ng-container *ngIf="!consults?.length">
+    <div class="px-3 py-2">
+      暂无付费咨询消息。
+    </div>
+  </ng-container>
+</div>
+
+<div class="fixed-bottom px-2 py-2">
+  <div class="w-100 pr-2">
+    <button type="button" class="btn btn-light btn-block" (click)="back()">
+      返回
+    </button>
+  </div>
+</div>
