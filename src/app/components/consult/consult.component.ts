@@ -68,10 +68,10 @@ export class ConsultComponent implements OnInit, OnDestroy {
     ).subscribe();
 
     this.form = this.fb.group({
-      userName: ['', Validators.required],
+      userName: [this.user.name, Validators.required],
       diseaseType: ['', Validators.required],
       address: [''],
-      cell: [],
+      cell: [this.user.cell],
       content: ['', Validators.required],
     });
     if (this.type === 1) {
