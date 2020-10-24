@@ -61,7 +61,7 @@ export class ConsultFinishComponent implements OnInit {
       starSize: 25,
       showToolTip: true,
       rateCallback: (rating, done) => {
-        this.score = rating > 0 ? rating : 0;
+        this.score = (rating > 0) ? rating : 0;
         done();
       }
     });

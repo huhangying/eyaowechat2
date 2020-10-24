@@ -12,7 +12,7 @@
     <div class="card-title h6 pt-1">请对本次服务评分: </div>
     <div class="d-flex align-items-center">
       <div class="ml-5" id="rater"></div>
-      <div class="pl-4" *ngIf="score">{{score}} / 5</div>
+      <div class="pl-4" *ngIf="score > 0">{{score}} / 5</div>
     </div>
   </div>
 
