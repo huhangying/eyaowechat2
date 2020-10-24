@@ -68,8 +68,10 @@ export class ConsultFinishComponent implements OnInit {
 
     this.consultService.getDoctorConsultCommentByConsultId(this.consultId).pipe(
       tap(result => {
-        this.readonly = true;
-        this.populateForm(result);
+        if (result) {
+          this.readonly = true;
+          this.populateForm(result);
+        }
       })
     ).subscribe();
 
