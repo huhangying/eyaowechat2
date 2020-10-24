@@ -43,6 +43,7 @@ import { WeixinPayComponent } from './components/consult/weixin-pay/weixin-pay.c
 import { ConsultConfirmedComponent } from './components/consult/consult-confirmed/consult-confirmed.component';
 import { ConsultRequestContentComponent } from './components/consult/consult-request-content/consult-request-content.component';
 import { ConsultReplyComponent } from './components/consult/consult-reply/consult-reply.component';
+import { ConsultFinishComponent } from './components/consult/consult-finish/consult-finish.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { ConsultReplyComponent } from './components/consult/consult-reply/consul
     ConsultConfirmedComponent,
     ConsultRequestContentComponent,
     ConsultReplyComponent,
+    ConsultFinishComponent,
   ],
   imports: [
     CommonModule,

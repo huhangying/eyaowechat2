@@ -1,0 +1,49 @@
+<div class="weui-flex bg-white px-3">
+  <div class="d-flex align-items-center py-3">
+    <span class="text-success pr-3">
+      <mat-icon>verified</mat-icon>
+    </span>
+    感谢咨询！为了提供更好的服务，请为我们的药师评分和评价。{{consultId}}
+  </div>
+</div>
+
+<div [formGroup]="form">
+  <div class="card mx-2 my-3 p-3">
+    <div class="card-title h6 pt-1">请对本次服务评分: </div>
+    <div class="d-flex align-items-center">
+      <div class="ml-5" id="rater"></div>
+      <div class="pl-4" *ngIf="score">{{score}} / 5</div>
+    </div>
+  </div>
+
+  <div class="card m-2">
+    <div class="px-3 py-2 mb-3">
+      <div class="card-title h6 pt-3">
+        药师评价或建议
+      </div>
+      <mat-divider></mat-divider>
+      <div class="d-flex pt-3">
+        <div>
+          <mat-checkbox class="w-50" formControlName="preset1">建议非常有用</mat-checkbox>
+          <mat-checkbox class="w-50" formControlName="preset2">普及相关知识</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox class="w-50" formControlName="preset3">消除了疑惑</mat-checkbox>
+          <mat-checkbox class="w-50" formControlName="preset4">解答不厌其烦</mat-checkbox>
+        </div>
+      </div>
+      <textarea matInput class="weui-textarea mx-2 my-3" rows="7" formControlName="comment"
+        placeholder="请输入对药师服务评价或建议。"></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="fixed-bottom px-2 py-2">
+  <div class="d-flex">
+    <div class="w-100 px-2">
+      <button type="button" class="btn btn-primary btn-block" (click)="submit()">
+        提交
+      </button>
+    </div>
+  </div>
+</div>

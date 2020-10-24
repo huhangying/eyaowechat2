@@ -1,5 +1,5 @@
 export interface DoctorConsult {
-  doctor_id: string;
+  doctor: string;
   tags?: string;  //自定义标签
   disease_types?: string; // 咨询疾病类型
 

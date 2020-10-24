@@ -31,6 +31,7 @@ import { DiagnoseNoticeComponent } from './components/public/diagnose-notice/dia
 import { ConsultComponent } from './components/consult/consult.component';
 import { ConsultConfirmedComponent } from './components/consult/consult-confirmed/consult-confirmed.component';
 import { ConsultReplyComponent } from './components/consult/consult-reply/consult-reply.component';
+import { ConsultFinishComponent } from './components/consult/consult-finish/consult-finish.component';
 
 
 const routes: Routes = [
@@ -80,6 +81,12 @@ const routes: Routes = [
   {
     path: 'consult-reply', // 药师收费咨询回复
     component: ConsultReplyComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver, doctor: DoctorResolver }
+  },
+  {
+    path: 'consult-finish', // 药师收费咨询完成
+    component: ConsultFinishComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver, doctor: DoctorResolver }
   },

@@ -1,5 +1,5 @@
 export interface DoctorConsultComment {
-  doctor_id: string;
+  doctor: string;
   user: string; // id
   consult: string; // id
   consultType?: number; // helper: 0: 图文咨询； 1：电话咨询
