@@ -78,6 +78,10 @@ export class ConsultService {
 
   // doctor consult comment
 
+  getDoctorConsultCommentByConsultId(id: string) {
+    return this.api.get<DoctorConsultComment>('doctor-consult-comment/consult/' + id);
+  }
+
   getAllDoctorConsultComments(doctorId: string) {
     return this.api.get<DoctorConsultComment[]>('doctor-consult-comment/' +  doctorId);
   }
@@ -87,7 +91,7 @@ export class ConsultService {
   }
 
   addDoctorConsultComment(dcc: DoctorConsultComment) {
-    return this.api.post<DoctorConsultComment>('doctor-consult-comment', dcc);
+    return this.api.post<DoctorConsultComment>('doctor-consult-comment', dcc) as Observable<DoctorConsultComment>;
   }
 
   deleteDoctorConsultCommentById(id: string) {

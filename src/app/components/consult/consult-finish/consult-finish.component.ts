@@ -17,12 +17,13 @@ import { DoctorConsultComment } from 'src/app/models/consult/doctor-consult-comm
 })
 export class ConsultFinishComponent implements OnInit {
   consultId: string;
-  consult: Consult;
+  type: number;
   doctor: Doctor;
   user: User;
   score: number;
   form: FormGroup;
-  consultComment: DoctorConsultComment;
+  readonly = false;
+  doctorRater: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +35,7 @@ export class ConsultFinishComponent implements OnInit {
     this.route.queryParams.pipe(
       tap(params => {
         this.consultId = params.id;
+        this.type = +params.type;
       })
     ).subscribe();
 
@@ -41,12 +43,6 @@ export class ConsultFinishComponent implements OnInit {
       tap(data => {
         this.user = data.user;
         this.doctor = data.doctor;
-
-        this.consultService.getConsultById(this.consultId).pipe(
-          tap(result => {
-            this.consult = result;
-          })
-        ).subscribe();
       }),
     ).subscribe();
 
@@ -60,8 +56,8 @@ export class ConsultFinishComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    rater.default({
-      element: document.querySelector("#rater"), 
+    this.doctorRater = rater.default({
+      element: document.querySelector("#rater"),
       starSize: 25,
       showToolTip: true,
       rateCallback: (rating, done) => {
@@ -69,27 +65,64 @@ export class ConsultFinishComponent implements OnInit {
         done();
       }
     });
+
+    this.consultService.getDoctorConsultCommentByConsultId(this.consultId).pipe(
+      tap(result => {
+        this.readonly = true;
+        this.populateForm(result);
+      })
+    ).subscribe();
+
   }
 
-  checkValid() {
-    return this.score && this.form.dirty;
+  populateForm(comment: DoctorConsultComment) {
+    if (comment) {
+      this.form.patchValue({
+        preset1: comment.presetComments?.find(_ => _.type === 1).checked,
+        preset2: comment.presetComments?.find(_ => _.type === 2).checked,
+        preset3: comment.presetComments?.find(_ => _.type === 3).checked,
+        preset4: comment.presetComments?.find(_ => _.type === 4).checked,
+        comment: comment.comment,
+      });
+      this.score = comment.score;
+      this.doctorRater.setRating(this.score);
+      this.doctorRater.disable();
+
+      this.form.disable();
+    }
   }
 
   submit() {
     const data = this.form.value;
     if (!this.score && !data.preset1 && !data.preset2 && !data.preset3 && !data.preset4 && !data.comment) {
-      this.message.alert('请在提交前先评分和评价，谢谢。');
+      this.message.success('请在提交前先评分和评价，谢谢。');
       return;
     }
-    this.consultComment = {
+
+    const consultComment = {
       doctor: this.doctor._id,
       user: this.user._id,
-      consult: this.consult?._id,
-      consultType: this.consult.type,
+      consult: this.consultId,
+      consultType: this.type,
       score: this.score,
       comment: data.comment,
+      presetComments: [
+        { type: 1, checked: data.preset1 },
+        { type: 2, checked: data.preset2 },
+        { type: 3, checked: data.preset3 },
+        { type: 4, checked: data.preset4 },
+      ]
     }
 
-
+    // save
+    this.consultService.addDoctorConsultComment(consultComment).pipe(
+      tap(result => {
+        if (result?._id) {
+          this.message.toast('谢谢您的反馈！');
+          // disable
+          this.readonly = false;
+        }
+      })
+    ).subscribe();
   }
 }

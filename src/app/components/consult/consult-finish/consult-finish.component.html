@@ -3,7 +3,7 @@
     <span class="text-success pr-3">
       <mat-icon>verified</mat-icon>
     </span>
-    感谢咨询！为了提供更好的服务，请为我们的药师评分和评价。{{consultId}}
+    感谢咨询！为了提供更好的服务，请为我们的药师评分和评价。
   </div>
 </div>
 
@@ -41,7 +41,7 @@
   </div>
 </div>
 
-<div class="fixed-bottom px-2 py-2">
+<div class="fixed-bottom px-2 py-2" *ngIf="!readonly">
   <div class="d-flex">
     <div class="w-100 px-2">
       <button type="button" class="btn btn-primary btn-block" (click)="submit()">
