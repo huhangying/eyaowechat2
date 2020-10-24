@@ -17,12 +17,12 @@
           [class.input-error]="hasErrors('userName')" formControlName="userName">
       </div>
     </li>
-    <li class="list-group-item d-flex">
+    <li class="list-group-item d-flex align-items-center py-2">
       <span class="item-label required">疾病类型</span>
-      <div class="px-2 py-0" (click)="selectDiseases()">
+      <div class="px-2 py-0 d-flex align-items-center" (click)="selectDiseases()">
         <input required class="weui-cell_access weui-input" autocomplete="off" placeholder="请选择疾病类型"
           formControlName="diseaseType">
-        <span class="position-fixed ml-n3">
+        <span class="mb-n1">
           <mat-icon>keyboard_arrow_right</mat-icon>
         </span>
       </div>
