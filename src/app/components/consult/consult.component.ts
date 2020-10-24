@@ -168,7 +168,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
               this.consultService.deletePendingByDoctorIdAndUserId(this.doctor._id, this.user._id).subscribe();
               this.message.success();
               // redirect to confirm page
-              this.goConsultConfirmed();
+              this.goConsultConfirmed(result._id);
             }
           })
         ).subscribe();
@@ -197,9 +197,12 @@ export class ConsultComponent implements OnInit, OnDestroy {
     return this.doctor.prices.find(_ => _.type === this.type)?.amount;
   }
 
-  goConsultConfirmed() {
+  goConsultConfirmed(consultId: string) {
     this.router.navigate(['/consult-confirm'], {
-      queryParams: this.route.snapshot.queryParams,
+      queryParams: {
+        ...this.route.snapshot.queryParams,
+        id: consultId
+      }
     });
   }
 }

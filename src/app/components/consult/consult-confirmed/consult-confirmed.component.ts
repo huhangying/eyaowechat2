@@ -13,9 +13,10 @@ import { ConsultService } from 'src/app/services/consult.service';
 })
 export class ConsultConfirmedComponent implements OnInit {
   type: number;
+  consultId: string;
   consult: Consult;
   doctor: Doctor;
-  user: User;
+  // user: User;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,15 +25,16 @@ export class ConsultConfirmedComponent implements OnInit {
     this.route.queryParams.pipe(
       tap(params => {
         this.type = +params.type;
+        this.consultId = params.id;
       })
     ).subscribe();
 
     this.route.data.pipe(
       tap(data => {
-        this.user = data.user;
+        // this.user = data.user;
         this.doctor = data.doctor;
 
-        this.consultService.getPendingConsultRequest(this.doctor._id, this.user._id, 0).pipe(
+          this.consultService.getConsultById(this.consultId).pipe(
           tap(result => {
             this.consult = result;
           })

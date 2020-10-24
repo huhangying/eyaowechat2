@@ -31,9 +31,9 @@ export class ConsultService {
     return this.api.get<Consult>(`consult/get-pending/${doctorId}/${userId}`);
   }
 
-  getPendingConsultRequest(doctorId: string, userId: string, type: number) {
-    return this.api.get<Consult>(`consult/get-pending-request/${doctorId}/${userId}/${type}`);
-  }
+  // getPendingConsultRequest(doctorId: string, userId: string, type: number) {
+  //   return this.api.get<Consult>(`consult/get-pending-request/${doctorId}/${userId}/${type}`);
+  // }
 
   getAllConsultsByDoctorIdAndUserId(doctorId: string, userId: string) {
     return this.api.get<Consult[]>(`consults/get/${doctorId}/${userId}`);
