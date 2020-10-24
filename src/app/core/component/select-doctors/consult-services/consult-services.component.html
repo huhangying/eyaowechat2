@@ -11,7 +11,8 @@
       <div class="text-right">
         <span>{{textService?.amount | currency: 'CNY':'symbol-narrow'}}</span>
         <span class="small pr-1">/次</span>
-        <button mat-flat-button class="btn-round-small" color="primary" (click)="goConsult(0)">咨询</button>
+        <button mat-flat-button class="btn-round-small weui-btn weui-btn_mini weui-btn_warn bg-light"
+          (click)="goConsult(0)">咨询</button>
       </div>
     </div>
   </ng-container>
@@ -27,7 +28,8 @@
       <div class="text-right">
         <span>{{phoneService?.amount | currency: 'CNY':'symbol-narrow'}}</span>
         <span class="small pr-1">/{{phoneService.unit_count}}分钟</span>
-        <button mat-flat-button class="btn-round-small" color="primary" (click)="goConsult(1)">咨询</button>
+        <button mat-flat-button class="btn-round-small weui-btn weui-btn_mini weui-btn_warn bg-light"
+          (click)="goConsult(1)">咨询</button>
       </div>
     </div>
   </ng-container>
@@ -40,7 +42,8 @@
       </button>
     </div>
     <div class="text-right">
-      <button mat-flat-button class="btn-round-small" color="primary" (click)="goChat()">免费咨询</button>
+      <button mat-flat-button class="btn-round-small weui-btn weui-btn_mini weui-btn_warn bg-light"
+        (click)="goChat()">免费咨询</button>
     </div>
   </div>
 </div>
