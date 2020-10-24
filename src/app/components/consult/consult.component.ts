@@ -147,7 +147,14 @@ export class ConsultComponent implements OnInit, OnDestroy {
       }
     }).afterClosed()
       .subscribe((result) => {
-        this.hideBtns = false;
+        if (!result) {
+          this.message.error('支付失败或取消');
+          this.hideBtns = false;
+          this.cd.markForCheck();
+          return;
+        }
+
+        this.message.success('支付成功');
         // this.core.setTitle(currentTitle);
 
         const consult = {
@@ -199,7 +206,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
 
   goConsultConfirmed(consultId: string) {
     weui.form.validate('#form', error => {
-      if (!error) {}
+      if (!error) { return; }
       this.router.navigate(['/consult-confirm'], {
         queryParams: {
           ...this.route.snapshot.queryParams,

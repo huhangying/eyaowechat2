@@ -1,5 +1,5 @@
-<div class="card m-2 w-100" [formGroup]="form">
-
+<div class="card w-100 p-3 text-danger">
+  支付订单创建成功，{{remainMinute | number: '1.0-0'}}:{{(totalSecond % 60) | number: '2.0'}} 内支付有效！
 </div>
 <div class="fixed-bottom px-4 py-2">
   <div class="d-flex">
@@ -9,8 +9,8 @@
       </button>
     </div>
     <div class="w-50">
-      <button type="button" class="btn btn-block">
-        提交
+      <button type="button" class="btn btn-light btn-block" (click)="success()">
+        支付成功
       </button>
     </div>
   </div>
