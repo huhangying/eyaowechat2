@@ -19,7 +19,7 @@
   <div class="card m-2">
     <div class="px-3 py-2 mb-3">
       <div class="card-title h6 pt-3">
-        药师评价或建议
+        药师评价或建议:
       </div>
       <mat-divider></mat-divider>
       <div class="d-flex pt-3">
@@ -32,8 +32,11 @@
           <mat-checkbox class="w-50" formControlName="preset4">解答不厌其烦</mat-checkbox>
         </div>
       </div>
-      <textarea matInput class="weui-textarea mx-2 my-3" rows="7" formControlName="comment"
-        placeholder="请输入对药师服务评价或建议。"></textarea>
+      <div class="mx-2 my-3">
+        <label for="comment" class="text-secondary">您的评价:</label>
+        <textarea id="comment" class="weui-textarea" rows="7" formControlName="comment"
+          placeholder="请输入对药师服务评价或建议。"></textarea>
+      </div>
     </div>
   </div>
 </div>

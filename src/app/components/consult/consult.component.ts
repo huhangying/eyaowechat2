@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -68,13 +68,13 @@ export class ConsultComponent implements OnInit, OnDestroy {
     ).subscribe();
 
     this.form = this.fb.group({
-      userName: [this.user.name, Validators.required],
-      diseaseType: ['', Validators.required],
+      userName: [this.user.name],
+      diseaseType: [''],
       address: [''],
-      cell: [this.user.cell],
-      content: ['', Validators.required],
+      content: [''],
     });
     if (this.type === 1) {
+      this.form.addControl('cell', new FormControl(this.user.cell))
       this.form.get('cell').setValidators([Validators.required]);
     }
 
@@ -198,11 +198,14 @@ export class ConsultComponent implements OnInit, OnDestroy {
   }
 
   goConsultConfirmed(consultId: string) {
-    this.router.navigate(['/consult-confirm'], {
-      queryParams: {
-        ...this.route.snapshot.queryParams,
-        id: consultId
-      }
+    weui.form.validate('#form', error => {
+      if (!error) {}
+      this.router.navigate(['/consult-confirm'], {
+        queryParams: {
+          ...this.route.snapshot.queryParams,
+          id: consultId
+        }
+      });
     });
   }
 }
