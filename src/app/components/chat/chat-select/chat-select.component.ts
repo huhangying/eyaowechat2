@@ -61,8 +61,17 @@ export class ChatSelectComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  viewMyDoctors() {
-    this.router.navigate(['/my-doctors'], {
+  // viewMyDoctors() {
+  //   this.router.navigate(['/my-doctors'], {
+  //     queryParams: {
+  //       openid: this.appStore.token?.openid || this.route.snapshot.queryParams?.openid,
+  //       state: this.appStore.hid || this.route.snapshot.queryParams?.state
+  //     }
+  //   });
+  // }
+
+  addDoctor() {
+    this.router.navigate(['/add-doctor'], {
       queryParams: {
         openid: this.appStore.token?.openid || this.route.snapshot.queryParams?.openid,
         state: this.appStore.hid || this.route.snapshot.queryParams?.state
