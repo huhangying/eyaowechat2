@@ -54,20 +54,23 @@ export class AuthGuard implements CanActivate {
       tap(apiToken => {
         this.appStore.updateApiToken(apiToken);
       }),
-      concatMap( apiToken => {
+      concatMap(apiToken => {
         if (!apiToken) return of(false);
         return this.userService.getUserByOpenid(openid).pipe(
           tap(user => {
-            
-            if (user?.msgInQueue > 0) {
-              let today = new Date();
-              today.setHours(0, 0, 0);
-              if (user.updated < today) { // 在今天之前更新过！
-                // trigger resending msgs
-                this.wxService.triggerResendMsg(openid);
+            if (user) {
+              if (user.msgInQueue > 0) {
+                let today = new Date();
+                today.setHours(0, 0, 0);
+                if (user.updated < today) { // 在今天之前更新过！
+                  // trigger resending msgs
+                  this.wxService.resendFailedMsgInQueue(openid)
+                    // .pipe() // do nothing because user in store don't need care about msgInQueue field
+                    .subscribe();
+                }
               }
+              this.appStore.updateUser(user);
             }
-            this.appStore.updateUser(user);
           }),
           map(user => !!user)
         )

@@ -78,8 +78,8 @@ export class WeixinService {
   }
 
   //////////////////////////////////////
-  triggerResendMsg(openid: string) {
-    this.api.get('wechat/resend-msg/' + openid).subscribe();
+  resendFailedMsgInQueue(openid: string) {
+    return this.api.get('wechat/resend-msg/' + openid);
   }
 
   sendUserMsg(openid: string, title: string, description: string, url: string, picUrl: string,

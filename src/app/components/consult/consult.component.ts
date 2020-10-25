@@ -148,7 +148,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
     }).afterClosed()
       .subscribe((result) => {
         if (!result) {
-          this.message.error('支付失败或取消');
+          // this.message.error('支付失败或取消');
           this.hideBtns = false;
           this.cd.markForCheck();
           return;
