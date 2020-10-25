@@ -65,11 +65,11 @@ export class AuthGuard implements CanActivate {
                   // trigger resending msgs
                   this.wxService.resendFailedMsgInQueue(openid).pipe(
                     tap(rsp => {
-                      const msgInQueueCount = rsp?.changed || 0;
+                      const msgInQueueCount = user.msgInQueue - (rsp?.changed || 0);
                       // 总是更新user，以防止不断resend
                       this.userService.updateById(user._id, {
                         ...user,
-                        msgInQueue: msgInQueueCount,
+                        msgInQueue: msgInQueueCount > 0 ? msgInQueueCount : 0,
                         updated: new Date()
                       })
                         .subscribe(_user => {
