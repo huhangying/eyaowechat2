@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 import { AppStoreService } from '../store/app-store.service';
 import { WeixinService } from 'src/app/services/weixin.service';
 import { map, concatMap, tap } from 'rxjs/operators';
-import { MessageService } from './message.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Injectable({
@@ -16,7 +15,6 @@ export class AuthGuard implements CanActivate {
     private wxService: WeixinService,
     private appStore: AppStoreService,
     private userService: UserService,
-    private message: MessageService,
   ) {
   }
 
@@ -64,21 +62,22 @@ export class AuthGuard implements CanActivate {
                 if (new Date(user.updated).getTime() < today) { // 在今天之前更新过！
                   // trigger resending msgs
                   this.wxService.resendFailedMsgInQueue(openid).pipe(
-                    tap(rsp => {
-                      const msgInQueueCount = user.msgInQueue - (rsp?.changed || 0);
-                      // 总是更新user，以防止不断resend
-                      this.userService.updateById(user._id, {
-                        ...user,
-                        msgInQueue: msgInQueueCount > 0 ? msgInQueueCount : 0,
-                        updated: new Date()
-                      })
-                        .subscribe(_user => {
-                          if (_user) {
-                            // update user
-                            this.appStore.updateUser(user);
-                          }
-                        });
-                    })
+                    // 不需要更新 user table，因为后台自动更新 user 的 msgInQueue
+                    // tap(rsp => {
+                    //   const msgInQueueCount = user.msgInQueue - (rsp?.changed || 0);
+                    //   // 总是更新user，以防止不断resend
+                    //   this.userService.updateById(user._id, {
+                    //     ...user,
+                    //     msgInQueue: msgInQueueCount > 0 ? msgInQueueCount : 0,
+                    //     updated: new Date()
+                    //   })
+                    //     .subscribe(_user => {
+                    //       if (_user) {
+                    //         // update user
+                    //         this.appStore.updateUser(user);
+                    //       }
+                    //     });
+                    // })
                   ).subscribe();
                 }
               }
