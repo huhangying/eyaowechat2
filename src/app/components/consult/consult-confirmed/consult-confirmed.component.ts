@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs/operators';
+import { CoreService } from 'src/app/core/services/core.service';
 import { Consult } from 'src/app/models/consult/consult.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { User } from 'src/app/models/user.model';
 import { ConsultService } from 'src/app/services/consult.service';
+import { WeixinService } from 'src/app/services/weixin.service';
 
 @Component({
   selector: 'app-consult-confirmed',
@@ -19,8 +21,10 @@ export class ConsultConfirmedComponent implements OnInit {
   // user: User;
 
   constructor(
+    private core: CoreService,
     private route: ActivatedRoute,
     private consultService: ConsultService,
+    private wxService: WeixinService,
   ) {
     this.route.queryParams.pipe(
       tap(params => {
@@ -44,6 +48,7 @@ export class ConsultConfirmedComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.core.setTitle(`药师${this.typeName()}确认`);
   }
 
   typeName() {
@@ -51,7 +56,7 @@ export class ConsultConfirmedComponent implements OnInit {
   }
 
   back() {
-
+    this.wxService.closeWindow();
   }
 
 }

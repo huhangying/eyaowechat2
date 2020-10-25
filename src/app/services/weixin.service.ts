@@ -5,6 +5,7 @@ import { Signature } from '../models/signature.model';
 import { ApiService } from '../core/services/api.service';
 import { WechatResedRsp, WechatSecret } from '../models/wechat-secret.model';
 import { of } from 'rxjs';
+import wx from 'weixin-js-sdk';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class WeixinService {
   constructor(
     private api: ApiService,
   ) {
+  }
+
+  closeWindow() {
+    wx.closeWindow();
   }
 
   getSignature(openid: string) {

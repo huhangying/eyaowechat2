@@ -9,6 +9,7 @@ import * as rater from 'rater-js';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MessageService } from 'src/app/core/services/message.service';
 import { DoctorConsultComment } from 'src/app/models/consult/doctor-consult-comment.model';
+import { CoreService } from 'src/app/core/services/core.service';
 
 @Component({
   selector: 'app-consult-finish',
@@ -26,6 +27,7 @@ export class ConsultFinishComponent implements OnInit {
   doctorRater: any;
 
   constructor(
+    private core: CoreService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private consultService: ConsultService,
@@ -56,6 +58,8 @@ export class ConsultFinishComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.core.setTitle('药师咨询完成');
+
     this.doctorRater = rater.default({
       element: document.querySelector("#rater"),
       starSize: 25,
