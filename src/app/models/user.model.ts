@@ -3,12 +3,12 @@ export interface User {
   _id: string;
   user_id: string;
   link_id?: string;
-  cell: string;
+  cell?: string;
   name: string;
 
   role?: number;
   icon?: string;
-  gender: string;
+  gender?: string;
 
   birthdate?: Date;
   sin?: string;

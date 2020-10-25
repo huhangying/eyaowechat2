@@ -3,8 +3,7 @@ import { Token } from '../models/token.model';
 import { map, tap, switchMap, take } from 'rxjs/operators';
 import { Signature } from '../models/signature.model';
 import { ApiService } from '../core/services/api.service';
-import { Const } from '../models/const.model';
-import { WechatSecret } from '../models/wechat-secret.model';
+import { WechatResedRsp, WechatSecret } from '../models/wechat-secret.model';
 import { of } from 'rxjs';
 
 @Injectable({
@@ -79,7 +78,7 @@ export class WeixinService {
 
   //////////////////////////////////////
   resendFailedMsgInQueue(openid: string) {
-    return this.api.get('wechat/resend-msg/' + openid);
+    return this.api.get<WechatResedRsp>('wechat/resend-msg/' + openid);
   }
 
   sendUserMsg(openid: string, title: string, description: string, url: string, picUrl: string,

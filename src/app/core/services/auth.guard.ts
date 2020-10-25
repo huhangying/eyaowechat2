@@ -60,13 +60,26 @@ export class AuthGuard implements CanActivate {
           tap(user => {
             if (user) {
               if (user.msgInQueue > 0) {
-                let today = new Date();
-                today.setHours(0, 0, 0);
-                if (user.updated < today) { // 在今天之前更新过！
+                let today = new Date().setHours(0, 0, 0);
+                if (new Date(user.updated).getTime() < today) { // 在今天之前更新过！
                   // trigger resending msgs
-                  this.wxService.resendFailedMsgInQueue(openid)
-                    // .pipe() // do nothing because user in store don't need care about msgInQueue field
-                    .subscribe();
+                  this.wxService.resendFailedMsgInQueue(openid).pipe(
+                    tap(rsp => {
+                      const msgInQueueCount = rsp?.changed || 0;
+                      // 总是更新user，以防止不断resend
+                      this.userService.updateById(user._id, {
+                        ...user,
+                        msgInQueue: msgInQueueCount,
+                        updated: new Date()
+                      })
+                        .subscribe(_user => {
+                          if (_user) {
+                            // update user
+                            this.appStore.updateUser(user);
+                          }
+                        });
+                    })
+                  ).subscribe();
                 }
               }
               this.appStore.updateUser(user);
