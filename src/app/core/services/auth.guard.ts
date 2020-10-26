@@ -57,9 +57,9 @@ export class AuthGuard implements CanActivate {
         return this.userService.getUserByOpenid(openid).pipe(
           tap(user => {
             if (user) {
-              if (user.msgInQueue > 0) {
+              if (user.msgInQueue && user.msgInQueue > 0) {
                 let today = new Date().setHours(0, 0, 0);
-                if (new Date(user.updated).getTime() < today) { // 在今天之前更新过！
+                if (!user.resendDate || new Date(user.resendDate).getTime() < today) { // 在今天之前更新过！
                   // trigger resending msgs
                   this.wxService.resendFailedMsgInQueue(openid).pipe(
                     // 不需要更新 user table，因为后台自动更新 user 的 msgInQueue

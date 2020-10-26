@@ -17,7 +17,8 @@ export interface User {
 
   department?: string;
   title?: string;
+  updated?: Date;
 
   msgInQueue?: number;
-  updated?: Date;
+  resendDate?: Date;
 }
