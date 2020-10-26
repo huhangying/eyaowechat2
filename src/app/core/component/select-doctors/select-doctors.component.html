@@ -31,11 +31,11 @@
                   {{doctor.department?.name}}
                 </div>
                 <div style="width: 6rem" class="text-right" *ngIf="pageType <= 5">
-                  <!-- <button *ngIf="pageType === 1" class="btn-round-small weui-btn weui-btn_mini weui-btn_warn bg-light px-2"
-                    (click)="goDetails(doctor)"> 在线咨询 </button> -->
+                  <button *ngIf="pageType === 1 && !doctor.prices?.length" class="btn-round-small weui-btn weui-btn_mini weui-btn_warn bg-light px-2"
+                    (click)="goDetails(doctor)"> 在线咨询 </button>
                   <button *ngIf="pageType === 2" class="btn-round-small weui-btn weui-btn_mini weui-btn_warn bg-light px-2"
                     (click)="goDetails(doctor)"> 预约门诊 </button>
-                  <button *ngIf="[1, 3, 4, 5].indexOf(pageType) > -1"
+                  <button *ngIf="[3, 4, 5].indexOf(pageType) > -1 || (pageType === 1 && doctor.prices?.length)"
                     class="btn-round-small weui-btn weui-btn_mini weui-btn_warn bg-light px-3" (click)="goDetails(doctor)"> 详情 </button>
                 </div>
               </div>

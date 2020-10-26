@@ -22,6 +22,7 @@ export class SelectDoctorsComponent implements OnInit {
   openid: string;
   state: string;
 
+
   constructor(
     private router: Router,
     private doctorService: DoctorService,
@@ -42,9 +43,9 @@ export class SelectDoctorsComponent implements OnInit {
   goDetails(doctor: Doctor) {
     this.doctorService.doctor = doctor;
     let redirectTarget = '/doctor-details';
-    // if (this.pageType === PageType.chat) {
-    //   redirectTarget = '/chat';
-    // } else 
+    if (this.pageType === PageType.chat && !doctor.prices?.length) {
+      redirectTarget = '/chat';
+    } else 
     if (this.pageType === PageType.book) {
       redirectTarget = '/book';
     }
