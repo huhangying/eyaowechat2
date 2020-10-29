@@ -1,4 +1,4 @@
-<div class="pl-3 py-2 position-fixed w-100" style="left: 0; background-color: aliceblue; opacity: 0.75"
+<div class="pl-3 py-2 position-fixed w-100 " style="left: 0; background-color: aliceblue; opacity: 0.75"
   *ngIf="data.title">
   {{data.title}}
   <!-- {{marginLeft}}, {{marginTop}} [{{scale}}] = {{imgWidth}} -->
@@ -13,12 +13,12 @@
     [style.width.px]="imgWidth*scale" [style.margin-left.px]="marginLeft" [style.margin-top.px]="marginTop" alt=""
     (panleft)="onPanLeft($event)" (panright)="onPanRight($event)" (panup)="onPanUp($event)"
     (pandown)="onPanDown($event)">
-  <div class="align-self-end position-fixed mb-2">
+  <div class="align-self-end position-fixed mb-5">
     <button mat-icon-button color="primary" (click)="zoomin()">
-      <mat-icon class="h3 m-2">add_box</mat-icon>
+      <mat-icon class="h1 m-3">add_circle</mat-icon>
     </button>
-    <button mat-icon-button color="primary" (click)="zoomout()">
-      <mat-icon class="h3 m-2">indeterminate_check_box</mat-icon>
+    <button mat-icon-button color="primary" class="mx-3" (click)="zoomout()">
+      <mat-icon class="h1 m-3">remove_circle</mat-icon>
     </button>
   </div>
 </div>
