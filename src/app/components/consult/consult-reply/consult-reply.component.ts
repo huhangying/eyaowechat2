@@ -23,6 +23,7 @@ export class ConsultReplyComponent implements OnInit {
 
   openid: string;
   state: number;
+  isRejected: boolean;
 
   constructor(
     private core: CoreService,
@@ -38,6 +39,7 @@ export class ConsultReplyComponent implements OnInit {
         this.consultId = params.id;
         this.openid = params.openid;
         this.state = params.state;
+        this.isRejected = !!params.reject;
       })
     ).subscribe();
 
@@ -57,7 +59,11 @@ export class ConsultReplyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.core.setTitle('药师咨询回复');
+    if (!this.isRejected) {
+      this.core.setTitle('药师咨询回复');
+    } else {
+      this.core.setTitle('药师不能完成咨询');
+    }
   }
 
   scrollTo(consultid: string) {
