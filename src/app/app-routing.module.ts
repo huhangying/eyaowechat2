@@ -32,6 +32,7 @@ import { ConsultComponent } from './components/consult/consult.component';
 import { ConsultConfirmedComponent } from './components/consult/consult-confirmed/consult-confirmed.component';
 import { ConsultReplyComponent } from './components/consult/consult-reply/consult-reply.component';
 import { ConsultFinishComponent } from './components/consult/consult-finish/consult-finish.component';
+import { TodayReminderComponent } from './components/diagnose/today-reminder/today-reminder.component';
 
 
 const routes: Routes = [
@@ -171,6 +172,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     resolve: { user: UserResolver, doctor: DoctorResolver }
   },
+  {
+    path: 'today-reminder',    // <-
+    component: TodayReminderComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
+  },
+
   // shared
   {
     path: 'article',

@@ -6,12 +6,12 @@
         {
           "type": "view",
           "name": "在线咨询",
-          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fchat-select&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Ftimebox.i234.me%2Fwechat%2Fchat-select&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
         },
         {
           "type": "view",
           "name": "预约门诊",
-          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fbook-select&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Ftimebox.i234.me%2Fwechat%2Fbook-select&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
         }
       ]
     },
@@ -21,29 +21,34 @@
         {
           "type": "view",
           "name": "我的药师团队",
-          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fmy-doctors&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Ftimebox.i234.me%2Fwechat%2Fmy-doctors&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
         },
         {
           "type": "view",
           "name": "我的预约",
-          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fmy-reservation&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Ftimebox.i234.me%2Fwechat%2Fmy-reservation&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
         },
         {
           "type": "view",
           "name": "个人中心",
-          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fprofile&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Ftimebox.i234.me%2Fwechat%2Fprofile&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
         },
         {
           "type": "view",
           "name": "当前门诊",
-          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fcurrent-diagnose&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Ftimebox.i234.me%2Fwechat%2Fcurrent-diagnose&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "今日用药提醒",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxac12d83affdb4dd5&redirect_uri=http%3A%2F%2Ftimebox.i234.me%2Fwechat%2Ftoday-reminder&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
         }
       ]
     },
     {
       "type": "view",
       "name": "测试",
-      "url": "http://www.zhaoyaoshi885.cn/wechat/entry"
+      "url": "http://timebox.i234.me/wechat/entry"
     }
   ]
 }

@@ -1,0 +1,14 @@
+
+<ng-container *ngIf="!diagnose"> 
+  <div class="weui-flex bg-white px-4 py-2">
+    <div class="weui-flex__item py-2"> 没有今日用药提醒！ </div>
+  </div>
+  <div class="p-4 text-muted">
+    * 当日用药提醒功能需要在药师门诊以后激活。
+  </div>
+</ng-container>
+<ng-container *ngIf="!!diagnose">
+  <pre>
+    {{diagnose|json}}
+  </pre>
+</ng-container>
