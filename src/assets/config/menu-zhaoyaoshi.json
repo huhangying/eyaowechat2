@@ -37,6 +37,11 @@
           "type": "view",
           "name": "当前门诊",
           "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf73fbd0076a0e2c1&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fcurrent-diagnose&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "今日用药提醒",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf73fbd0076a0e2c1&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Ftoday-reminder&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
         }
       ]
     },
