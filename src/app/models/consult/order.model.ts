@@ -13,5 +13,7 @@ export interface Order {
   orderId: string;
   prepay_id?: string;
   status?: string;
+  startTime?: string; // order start time
+   
   createdAt?: Date;
 }

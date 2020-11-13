@@ -1,6 +1,9 @@
-<div class="card w-100 p-3 text-danger">
-  支付订单创建成功，{{remainMinute | number: '1.0-0'}}:{{(totalSecond % 60) | number: '2.0'}} 内支付有效！
-</div>
+<ng-container *ngIf="wxpayReady">
+  <div class="card w-100 p-3 text-danger">
+    支付订单创建成功，{{remainMinute | number: '1.0-0'}}:{{(totalSecond % 60) | number: '2.0'}} 内支付有效！
+  </div>
+</ng-container>
+
 <div class="fixed-bottom px-4 py-2">
   <div class="d-flex">
     <div class="w-50 pr-2">

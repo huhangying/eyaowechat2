@@ -24,6 +24,9 @@ export class WeixinPayComponent implements OnInit {
   totalSecond: number;
   remainMinute: number;
   orderId: string;
+  orderStartTime: string;
+  wxpayReady: boolean;
+
 
   constructor(
     private core: CoreService,
@@ -39,8 +42,10 @@ export class WeixinPayComponent implements OnInit {
     private message: MessageService,
     private cd: ChangeDetectorRef,
   ) {
-    // orderId format: [doctor id]|[yymmdd][ddddd]
-    this.orderId = `${data.doctor._id}|${new Date().toISOString().slice(2, 10).replace(/-/g, '')}${Math.floor(Math.random() * 10000)}`;
+    this.wxpayReady = false;
+    this.orderStartTime = new Date().toISOString().slice(0, 19).replace(/-|T|:/g, '')
+    // orderId format: ORD[type][yymmddhhmmss][dddddd]
+    this.orderId = `ORD${data.type}${this.orderStartTime}${Math.floor(Math.random() * 1000000)}`;
   }
 
   ngOnInit(): void {
@@ -65,6 +70,23 @@ export class WeixinPayComponent implements OnInit {
           });
 
           wx.ready((w) => {
+            // test, move to success() later
+            this.startCountdownTimer();
+            // save to transaction table
+            this.orderService.update({
+              openid: this.data.user.link_id,
+              doctor: this.data.doctor._id,
+              orderId: this.orderId,
+              userName: this.data.user.name,
+              doctorName: this.data.doctor.name,
+              consultType: this.data.type,
+              amount: this.data.amount,
+
+              prepay_id: result.prepay_id,
+              status: result.result_code,
+              startTime: this.orderStartTime,
+            }).subscribe();
+
             // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
             wx.chooseWXPay({
               timestamp: timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
@@ -86,14 +108,14 @@ export class WeixinPayComponent implements OnInit {
                   amount: this.data.amount,
 
                   prepay_id: result.prepay_id,
-                  status: result.result_code
+                  status: result.result_code, // res.
+                  startTime: this.orderStartTime,
                 }).subscribe();
 
 
                 if (res.err_msg == "get_brand_wcpay_request:ok") {
                   // 使用以上方式判断前端返回,微信团队郑重提示：
                   //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-
 
                 }
               }
@@ -109,6 +131,10 @@ export class WeixinPayComponent implements OnInit {
         }
       })
     ).subscribe();
+  }
+
+  startCountdownTimer() {
+    this.wxpayReady = true;
 
     this.totalSecond = 300; // 5 minutes
     this.remainMinute = Math.floor(this.totalSecond / 60);
@@ -117,20 +143,24 @@ export class WeixinPayComponent implements OnInit {
         this.totalSecond -= 1;
         this.remainMinute = Math.floor(this.totalSecond / 60);
         if (this.totalSecond <= 0) {
-          console.log('done');
+
           timer$.unsubscribe();
+          this.wxpayReady = false;
+          //todo:
         }
         this.cd.markForCheck();
       })
     ).subscribe()
-
   }
 
+
   back() {
+    this.wxpayReady = false;
     this.dialogRef.close(false);
   }
 
   success() {
+    this.wxpayReady = false;
     this.dialogRef.close(true);
   }
 
