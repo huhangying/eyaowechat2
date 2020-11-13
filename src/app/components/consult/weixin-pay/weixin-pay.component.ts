@@ -9,6 +9,7 @@ import { Doctor } from 'src/app/models/doctor.model';
 import { User } from 'src/app/models/user.model';
 import { WeixinPayResponse } from 'src/app/models/weixin-pay-response.model';
 import { WeixinService } from 'src/app/services/weixin.service';
+import { OrderService } from 'src/app/services/order.service';
 import wx from 'weixin-js-sdk';
 
 @Component({
@@ -22,6 +23,7 @@ export class WeixinPayComponent implements OnInit {
   // countdown timer
   totalSecond: number;
   remainMinute: number;
+  orderId: string;
 
   constructor(
     private core: CoreService,
@@ -33,22 +35,22 @@ export class WeixinPayComponent implements OnInit {
       amount: number; // 分
     },
     private wxService: WeixinService,
+    private orderService: OrderService,
     private message: MessageService,
     private cd: ChangeDetectorRef,
   ) {
-
+    // orderId format: [doctor id]|[yymmdd][ddddd]
+    this.orderId = `${data.doctor._id}|${new Date().toISOString().slice(2, 10).replace(/-/g, '')}${Math.floor(Math.random() * 10000)}`;
   }
 
   ngOnInit(): void {
     this.dialogRef.updateSize('100%', '100%');
     this.core.setTitle('微信支付');
 
-    const orderId = 'order' + Math.floor(Math.random() * 100000);
-    this.wxService.unifiedOrder(this.data.user.link_id, orderId, this.data.amount, 'consult service ... for ' + orderId).pipe(
+    this.wxService.unifiedOrder(this.data.user.link_id, this.orderId, this.data.amount, 'consult service ... for ' + this.orderId).pipe(
       tap((result: WeixinPayResponse) => {
-        console.log(result);
         if (result?.result_code !== 'SUCCESS') {
-          this.message.alert(result.err_code + ': ' + result.err_code_des);
+          this.message.error(result.err_code + ': ' + result.err_code_des);
           return;
         } else {
           const timestamp = Math.floor(new Date().getTime() / 1000) + '';
@@ -61,6 +63,7 @@ export class WeixinPayComponent implements OnInit {
             signature: result.sign,// 必填，签名
             jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表
           });
+
           wx.ready((w) => {
             // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
             wx.chooseWXPay({
@@ -72,10 +75,26 @@ export class WeixinPayComponent implements OnInit {
               success: (res) => {
                 // 支付成功后的回调函数
                 console.log('===>', res);
-                
+                // save to transaction table
+                this.orderService.update({
+                  openid: this.data.user.link_id,
+                  doctor: this.data.doctor._id,
+                  orderId: this.orderId,
+                  userName: this.data.user.name,
+                  doctorName: this.data.doctor.name,
+                  consultType: this.data.type,
+                  amount: this.data.amount,
+
+                  prepay_id: result.prepay_id,
+                  status: result.result_code
+                }).subscribe();
+
+
                 if (res.err_msg == "get_brand_wcpay_request:ok") {
                   // 使用以上方式判断前端返回,微信团队郑重提示：
                   //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+
+
                 }
               }
             });

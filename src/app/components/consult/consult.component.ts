@@ -176,6 +176,9 @@ export class ConsultComponent implements OnInit, OnDestroy {
               // 删除药师pending consult （type=null, finished: false）
               this.consultService.deletePendingByDoctorIdAndUserId(this.doctor._id, this.user._id).subscribe();
               this.message.success();
+
+              // save to order db
+
               // redirect to confirm page
               this.goConsultConfirmed(result._id);
             }
