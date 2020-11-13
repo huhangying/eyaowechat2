@@ -145,8 +145,7 @@ export class WeixinPayComponent implements OnInit {
         if (this.totalSecond <= 0) {
 
           timer$.unsubscribe();
-          this.wxpayReady = false;
-          //todo:
+          this.back();
         }
         this.cd.markForCheck();
       })
