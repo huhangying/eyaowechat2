@@ -4,6 +4,7 @@ import { map, tap, switchMap, take } from 'rxjs/operators';
 import { Signature } from '../models/signature.model';
 import { ApiService } from '../core/services/api.service';
 import { WechatResedRsp, WechatSecret } from '../models/wechat-secret.model';
+import { WeixinPayResponse } from '../models/weixin-pay-response.model';
 import { of } from 'rxjs';
 import wx from 'weixin-js-sdk';
 
@@ -99,4 +100,15 @@ export class WeixinService {
       username
     });
   }
+
+  //////////////////////////////// 微信支付
+  unifiedOrder(openid: string, orderId: string, amount: number, paymentTitle: string) {
+    return this.api.post<WeixinPayResponse>('wechat/pay-unified-order', {
+      out_trade_no: orderId,
+      body: paymentTitle,
+      total_fee: amount,
+      openid
+    });
+  }
+
 }

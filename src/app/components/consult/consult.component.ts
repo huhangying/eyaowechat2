@@ -35,6 +35,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
   avatar: any;
   upload: string; // img path
   hideBtns = false;
+  consultAmount: number;
 
   constructor(
     private router: Router,
@@ -143,7 +144,8 @@ export class ConsultComponent implements OnInit, OnDestroy {
       data: {
         doctor: this.doctor,
         user: this.user,
-        type: this.type
+        type: this.type,
+        amount: this.consultAmount * 100
       }
     }).afterClosed()
       .subscribe((result) => {
@@ -201,7 +203,8 @@ export class ConsultComponent implements OnInit, OnDestroy {
   }
 
   getTypePrice(): number {
-    return this.doctor.prices.find(_ => _.type === this.type)?.amount;
+    this.consultAmount = this.doctor.prices.find(_ => _.type === this.type)?.amount || 0;
+    return this.consultAmount;
   }
 
   goConsultConfirmed(consultId: string) {
