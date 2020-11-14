@@ -11,6 +11,7 @@ import { WeixinPayResponse } from 'src/app/models/weixin-pay-response.model';
 import { WeixinService } from 'src/app/services/weixin.service';
 import { OrderService } from 'src/app/services/order.service';
 import wx from 'weixin-js-sdk';
+import { Order } from 'src/app/models/consult/order.model';
 
 @Component({
   selector: 'app-weixin-pay',
@@ -110,7 +111,9 @@ export class WeixinPayComponent implements OnInit {
                   prepay_id: result.prepay_id,
                   status: result.result_code, // res.
                   startTime: this.orderStartTime,
-                }).subscribe();
+                }).subscribe(rsp => {
+                  this.success(rsp);
+                });
 
 
                 if (res.err_msg == "get_brand_wcpay_request:ok") {
@@ -158,9 +161,9 @@ export class WeixinPayComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
-  success() {
+  success(order: Order) {
     this.wxpayReady = false;
-    this.dialogRef.close(true);
+    this.dialogRef.close(order);
   }
 
 }

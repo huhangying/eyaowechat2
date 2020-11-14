@@ -10,9 +10,11 @@ import { SocketioService } from 'src/app/core/services/soketio.service';
 import { UploadService } from 'src/app/core/services/upload.service';
 import { Consult } from 'src/app/models/consult/consult.model';
 import { DoctorConsult } from 'src/app/models/consult/doctor-consult.model';
+import { Order } from 'src/app/models/consult/order.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { User } from 'src/app/models/user.model';
 import { ConsultService } from 'src/app/services/consult.service';
+import { OrderService } from 'src/app/services/order.service';
 import weui from 'weui.js';
 import { WeixinPayComponent } from './weixin-pay/weixin-pay.component'
 
@@ -43,6 +45,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private core: CoreService,
     private consultService: ConsultService,
+    private orderService: OrderService,
     private uploadService: UploadService,
     private socketio: SocketioService,
     public dialog: MatDialog,
@@ -156,6 +159,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
           return;
         }
 
+        const order = result as Order;
         this.message.success('支付成功');
         // this.core.setTitle(currentTitle);
 
@@ -178,6 +182,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
               this.message.success();
 
               // save to order db
+              this.orderService.update({...order, consultId: result._id, status: 'completed'}).subscribe();
 
               // redirect to confirm page
               this.goConsultConfirmed(result._id);
