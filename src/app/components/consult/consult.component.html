@@ -22,7 +22,8 @@
       <div class="px-2 py-0 d-flex align-items-center w-100" (click)="selectDiseases()">
         <input required class="weui-input" autocomplete="off" placeholder="请选择疾病类型" hidden
           formControlName="diseaseType">
-        <span class="w-75 text-center">{{diseaseTypeCtrl.value}}</span>
+        <span class="w-75 text-center" *ngIf="diseaseTypeCtrl.value">{{diseaseTypeCtrl.value}}</span>
+        <span class="w-75 text-center" *ngIf="!diseaseTypeCtrl.value" style="color:darkgray!important">请选择疾病类型</span>
         <span class="mb-n1">
           <mat-icon>keyboard_arrow_right</mat-icon>
         </span>
