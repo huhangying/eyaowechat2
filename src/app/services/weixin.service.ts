@@ -4,9 +4,10 @@ import { map, tap, switchMap, take } from 'rxjs/operators';
 import { Signature } from '../models/signature.model';
 import { ApiService } from '../core/services/api.service';
 import { WechatResedRsp, WechatSecret } from '../models/wechat-secret.model';
-import { WeixinPayResponse } from '../models/weixin-pay-response.model';
+import { WeixinPayResponse, WxJsapiResponse } from '../models/weixin-pay-response.model';
 import { of } from 'rxjs';
 import wx from 'weixin-js-sdk';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -102,13 +103,19 @@ export class WeixinService {
   }
 
   //////////////////////////////// 微信支付
-  unifiedOrder(openid: string, orderId: string, amount: number, paymentTitle: string) {
+  unifiedOrder(openid: string, orderId: string, amount: number, paymentTitle: string, attach: string) {
     return this.api.post<WeixinPayResponse>('wechat/pay-unified-order', {
       out_trade_no: orderId,
       body: paymentTitle,
+      attach,
       total_fee: amount,
       openid
     });
+  }
+
+  getJsapiConfig() {
+    const url = environment.wechatServer + 'consult';
+    return this.api.get<WxJsapiResponse>('wechat/jsapi?url=' + url);
   }
 
 }

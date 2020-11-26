@@ -22,3 +22,9 @@ export interface WeixinPayResponse {
   err_code?: string;
   err_code_des?: string;
 }
+
+export interface WxJsapiResponse {
+  nonceStr: string;
+  timestamp: string;
+  signature: string;
+}
