@@ -10,11 +10,10 @@ import { SocketioService } from 'src/app/core/services/soketio.service';
 import { UploadService } from 'src/app/core/services/upload.service';
 import { Consult } from 'src/app/models/consult/consult.model';
 import { DoctorConsult } from 'src/app/models/consult/doctor-consult.model';
-import { Order } from 'src/app/models/consult/order.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { User } from 'src/app/models/user.model';
 import { ConsultService } from 'src/app/services/consult.service';
-import { OrderService } from 'src/app/services/order.service';
+import { WeixinService } from 'src/app/services/weixin.service';
 import weui from 'weui.js';
 import { WeixinPayComponent } from './weixin-pay/weixin-pay.component'
 
@@ -36,7 +35,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
 
   avatar: any;
   upload: string; // img path
-  hideBtns = false;
+  isPaid = false;
   consultAmount: number;
 
   constructor(
@@ -49,6 +48,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
     private socketio: SocketioService,
     public dialog: MatDialog,
     private message: MessageService,
+    private wxService: WeixinService,
     private cd: ChangeDetectorRef,
   ) {
     this.route.data.pipe(
@@ -139,7 +139,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.hideBtns = true;
+    this.isPaid = true;
     this.dialog.open(WeixinPayComponent, {
       maxWidth: '100vw',
       panelClass: 'full-width-dialog',
@@ -153,7 +153,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
       .subscribe((result) => {
         if (!result) {
           // this.message.error('支付失败或取消');
-          this.hideBtns = false;
+          this.isPaid = false;
           this.cd.markForCheck();
           return;
         }
@@ -220,5 +220,9 @@ export class ConsultComponent implements OnInit, OnDestroy {
         }
       });
     });
+  }
+
+  close() {
+    this.wxService.closeWindow();
   }
 }
