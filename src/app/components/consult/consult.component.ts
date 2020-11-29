@@ -45,7 +45,6 @@ export class ConsultComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private core: CoreService,
     private consultService: ConsultService,
-    private orderService: OrderService,
     private uploadService: UploadService,
     private socketio: SocketioService,
     public dialog: MatDialog,
@@ -148,7 +147,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
         doctor: this.doctor,
         user: this.user,
         type: this.type,
-        amount: this.consultAmount * 100
+        amount: this.consultAmount * 100,
       }
     }).afterClosed()
       .subscribe((result) => {
@@ -159,7 +158,6 @@ export class ConsultComponent implements OnInit, OnDestroy {
           return;
         }
 
-        const order = result as Order;
         this.message.success('支付成功');
         // this.core.setTitle(currentTitle);
 
@@ -179,10 +177,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
               this.socketio.sendConsult(this.room, result);
               // 删除药师pending consult （type=null, finished: false）
               this.consultService.deletePendingByDoctorIdAndUserId(this.doctor._id, this.user._id).subscribe();
-              this.message.success();
-
-              // save to order db
-              this.orderService.update({...order, consultId: result._id, status: 'completed'}).subscribe();
+              // this.message.success();
 
               // redirect to confirm page
               this.goConsultConfirmed(result._id);
