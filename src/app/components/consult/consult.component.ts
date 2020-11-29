@@ -8,12 +8,14 @@ import { CoreService } from 'src/app/core/services/core.service';
 import { MessageService } from 'src/app/core/services/message.service';
 import { SocketioService } from 'src/app/core/services/soketio.service';
 import { UploadService } from 'src/app/core/services/upload.service';
+import { AppStoreService } from 'src/app/core/store/app-store.service';
 import { Consult } from 'src/app/models/consult/consult.model';
 import { DoctorConsult } from 'src/app/models/consult/doctor-consult.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { User } from 'src/app/models/user.model';
 import { ConsultService } from 'src/app/services/consult.service';
 import { WeixinService } from 'src/app/services/weixin.service';
+import { environment } from 'src/environments/environment';
 import weui from 'weui.js';
 import { WeixinPayComponent } from './weixin-pay/weixin-pay.component'
 
@@ -49,6 +51,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private message: MessageService,
     private wxService: WeixinService,
+    private appStore: AppStoreService,
     private cd: ChangeDetectorRef,
   ) {
     this.route.data.pipe(
@@ -178,7 +181,17 @@ export class ConsultComponent implements OnInit, OnDestroy {
               this.socketio.sendConsult(this.room, result);
               // 删除药师pending consult （type=null, finished: false）
               this.consultService.deletePendingByDoctorIdAndUserId(this.doctor._id, this.user._id).subscribe();
-
+              // 发送病患消息
+              const serviceName = this.type === 1 ? '付费电话咨询' : '付费图文咨询';
+              this.wxService.sendUserMsg(this.user.link_id,
+                `${serviceName}消息已经发送`,
+                `请等候${this.doctor.name}${this.doctor.title}回复。或点击查看您的咨询。`,
+                `${environment.wechatServer}consult-reply?doctorid=${this.doctor._id}&openid=${this.user.link_id}&state=${this.appStore.hid}&id=${result._id}`,
+                '',
+                this.doctor._id,
+                this.user.name
+              ).subscribe();
+              this.cd.markForCheck();
             }
           })
         ).subscribe(rsp => {
@@ -189,7 +202,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
             // close window, 一定要等发送socket消息后关闭
             setTimeout(() => {
               this.close();              
-            }, 100);
+            });
           }
         });
       });
