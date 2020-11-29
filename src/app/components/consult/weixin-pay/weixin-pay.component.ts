@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, Optional, SkipSelf } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { forkJoin, interval } from 'rxjs';
+import { interval } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CoreService } from 'src/app/core/services/core.service';
 import { MessageService } from 'src/app/core/services/message.service';
@@ -20,7 +20,6 @@ import { AppStoreService } from 'src/app/core/store/app-store.service';
 })
 export class WeixinPayComponent implements OnInit {
   form: FormGroup;
-  // countdown timer
   totalSecond: number;
   remainMinute: number;
   orderId: string;
@@ -74,7 +73,7 @@ export class WeixinPayComponent implements OnInit {
           amount: this.data.amount,
 
           prepay_id: payParams.package,
-          status: 'pending', // unifiedOrder.result_code, // res.
+          status: 'pending', // initial status, replaced by unifiedOrder.result_code
         }).subscribe();
 
         // Weixin Pay
@@ -109,17 +108,19 @@ export class WeixinPayComponent implements OnInit {
         if (res.err_msg == 'get_brand_wcpay_request:ok') {
           // 使用以上方式判断前端返回,微信团队郑重提示：
           //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-          this.success();
+          this.success(this.orderId);
+          this.cd.markForCheck();
         } else if (res.err_msg == 'get_brand_wcpay_request:fail') {
           this.message.success('支付失败：' + res.err_msg);
         } else if (res.err_msg == 'get_brand_wcpay_request:cancel') {
           this.message.success('用户取消支付');
-        } else {          
+        } else {
           this.message.success('支付失败，请稍后再试');
         }
       });
 
-    this.startCountdownTimer();
+    this.wxpayReady = true;
+    // this.startCountdownTimer();
   }
 
   onBridgeReady() {
@@ -127,8 +128,6 @@ export class WeixinPayComponent implements OnInit {
   }
 
   startCountdownTimer() {
-    this.wxpayReady = true;
-
     this.totalSecond = 300; // 5 minutes
     this.remainMinute = Math.floor(this.totalSecond / 60);
     const timer$ = interval(1000).pipe(
@@ -137,6 +136,8 @@ export class WeixinPayComponent implements OnInit {
         this.remainMinute = Math.floor(this.totalSecond / 60);
         if (this.totalSecond <= 0) {
           timer$.unsubscribe();
+          // @ts-ignore
+          window.WeixinJSBridge.call('closeWindow');
           this.back();
         }
         this.cd.markForCheck();
@@ -144,14 +145,13 @@ export class WeixinPayComponent implements OnInit {
     ).subscribe()
   }
 
-
   back() {
     this.wxpayReady = false;
     this.dialogRef.close(false);
   }
 
-  success() {
+  success(out_trade_no: string) {
     this.wxpayReady = false;
-    this.dialogRef.close(true);
+    this.dialogRef.close(out_trade_no);
   }
 }

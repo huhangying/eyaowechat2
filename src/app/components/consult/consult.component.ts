@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { distinctUntilChanged, filter, tap, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, tap, takeUntil } from 'rxjs/operators';
 import { CoreService } from 'src/app/core/services/core.service';
 import { MessageService } from 'src/app/core/services/message.service';
 import { SocketioService } from 'src/app/core/services/soketio.service';
@@ -35,7 +35,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
 
   avatar: any;
   upload: string; // img path
-  isPaid = false;
+  hideBtns = false;
   consultAmount: number;
 
   constructor(
@@ -139,7 +139,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.isPaid = true;
+    this.hideBtns = true;
     this.dialog.open(WeixinPayComponent, {
       maxWidth: '100vw',
       panelClass: 'full-width-dialog',
@@ -153,7 +153,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
       .subscribe((result) => {
         if (!result) {
           // this.message.error('支付失败或取消');
-          this.isPaid = false;
+          this.hideBtns = false;
           this.cd.markForCheck();
           return;
         }
@@ -161,8 +161,9 @@ export class ConsultComponent implements OnInit, OnDestroy {
         this.message.success('支付成功');
         // this.core.setTitle(currentTitle);
 
-        const consult = {
+        const consult: Consult = {
           ...this.form.value,
+          out_trade_no: result,
           disease_types: [this.diseaseTypeCtrl.value],
           doctor: this.doctor._id,
           user: this.user._id,
@@ -177,13 +178,20 @@ export class ConsultComponent implements OnInit, OnDestroy {
               this.socketio.sendConsult(this.room, result);
               // 删除药师pending consult （type=null, finished: false）
               this.consultService.deletePendingByDoctorIdAndUserId(this.doctor._id, this.user._id).subscribe();
-              // this.message.success();
 
-              // redirect to confirm page
-              this.goConsultConfirmed(result._id);
             }
           })
-        ).subscribe();
+        ).subscribe(rsp => {
+          if (rsp) {
+            // redirect to confirm page
+            // this.goConsultConfirmed(result._id);
+
+            // close window, 一定要等发送socket消息后关闭
+            setTimeout(() => {
+              this.close();              
+            }, 100);
+          }
+        });
       });
 
   }

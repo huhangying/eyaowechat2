@@ -73,14 +73,14 @@
     </li>
   </ul>
 </div>
-<div class="fixed-bottom px-4 py-2 bg-white" style="opacity: 0.9;">
+<div class="fixed-bottom px-4 py-2 bg-white" style="opacity: 0.9;" [class.d-none]="hideBtns">
   <div class="w-100">
-    <button type="button" *ngIf="!isPaid" class="btn btn-block" [ngClass]="form.invalid ? 'btn-light': 'btn-primary'"
+    <button type="button" class="btn btn-block" [ngClass]="form.invalid ? 'btn-light': 'btn-primary'"
       [disabled]="form.invalid" (click)="submit()">
       确认并支付{{getTypePrice() | currency: 'CNY':'symbol-narrow'}}元
     </button>
-    <button type="button" *ngIf="!isPaid" class="btn btn-block primary" (click)="close()">
+    <!-- <button type="button" *ngIf="isPaid" class="btn btn-block btn-primary" (click)="close()">
       支付完成！药师会尽快联系您。
-    </button>
+    </button> -->
   </div>
 </div>

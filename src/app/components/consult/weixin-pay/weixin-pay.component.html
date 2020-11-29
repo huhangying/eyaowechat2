@@ -1,6 +1,7 @@
 <ng-container *ngIf="wxpayReady">
   <div class="card w-100 p-3 text-danger">
-    支付订单创建成功，{{remainMinute | number: '1.0-0'}}:{{(totalSecond % 60) | number: '2.0'}} 内支付有效！
+    <!-- 支付订单创建成功，{{remainMinute | number: '1.0-0'}}:{{(totalSecond % 60) | number: '2.0'}} 内支付有效！ -->
+    支付订单创建成功，请在支付有效期内支付！
   </div>
 </ng-container>
 

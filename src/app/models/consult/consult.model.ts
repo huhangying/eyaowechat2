@@ -4,6 +4,7 @@ export interface Consult {
   userName?: string;
   doctor: string; // id
 
+  out_trade_no?: string; // 商户订单号
   disease_types?: string[];
   content?: string;
   cell?: string; // 电话咨询时必选
