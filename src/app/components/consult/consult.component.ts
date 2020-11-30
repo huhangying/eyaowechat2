@@ -155,7 +155,6 @@ export class ConsultComponent implements OnInit, OnDestroy {
     }).afterClosed()
       .subscribe((result) => {
         if (!result) {
-          // this.message.error('支付失败或取消');
           this.hideBtns = false;
           this.cd.markForCheck();
           return;
@@ -184,14 +183,13 @@ export class ConsultComponent implements OnInit, OnDestroy {
               // 发送病患消息
               const serviceName = this.type === 1 ? '付费电话咨询' : '付费图文咨询';
               this.wxService.sendUserMsg(this.user.link_id,
-                `${serviceName}消息已经发送`,
+                `${serviceName}已经发送`,
                 `请等候${this.doctor.name}${this.doctor.title}回复。或点击查看您的咨询。`,
                 `${environment.wechatServer}consult-reply?doctorid=${this.doctor._id}&openid=${this.user.link_id}&state=${this.appStore.hid}&id=${result._id}`,
                 '',
                 this.doctor._id,
                 this.user.name
               ).subscribe();
-              this.cd.markForCheck();
             }
           })
         ).subscribe(rsp => {
@@ -201,12 +199,11 @@ export class ConsultComponent implements OnInit, OnDestroy {
 
             // close window, 一定要等发送socket消息后关闭
             setTimeout(() => {
-              this.close();              
+              this.close();
             });
           }
         });
       });
-
   }
 
   removeUploaded() {
@@ -245,5 +242,6 @@ export class ConsultComponent implements OnInit, OnDestroy {
 
   close() {
     this.wxService.closeWindow();
+    this.cd.markForCheck();
   }
 }
