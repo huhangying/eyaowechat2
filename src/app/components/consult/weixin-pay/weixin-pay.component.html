@@ -11,6 +11,9 @@
       <button type="button" class="btn btn-light btn-block" (click)="back()">
         返回
       </button>
+      <button type="button" id="successTrigger" [class.d-none]="true" (click)="success()">
+        成功后自动返回
+      </button>
     </div>
     <div class="w-50">
       <button type="button" class="btn btn-light btn-block" (click)="invokeWeixinPay()">
