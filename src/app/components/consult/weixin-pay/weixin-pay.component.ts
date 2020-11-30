@@ -11,7 +11,6 @@ import { WeixinPayParams } from 'src/app/models/weixin-pay-response.model';
 import { WeixinService } from 'src/app/services/weixin.service';
 import { OrderService } from 'src/app/services/order.service';
 import { AppStoreService } from 'src/app/core/store/app-store.service';
-import weui from 'weui.js';
 
 @Component({
   selector: 'app-weixin-pay',
@@ -27,7 +26,6 @@ export class WeixinPayComponent implements OnInit {
   orderStartTime: string;
   wxpayReady: boolean;
   payParams: WeixinPayParams;
-  loading: any;
 
   constructor(
     private core: CoreService,
@@ -106,9 +104,6 @@ export class WeixinPayComponent implements OnInit {
     window.WeixinJSBridge?.invoke(
       'getBrandWCPayRequest', this.payParams,
       (res) => {
-        if (this.loading) {
-          this.loading.hide();
-        }
         this.wxpayReady = false;
         if (res.err_msg == 'get_brand_wcpay_request:ok') {
           // 使用以上方式判断前端返回,微信团队郑重提示：
@@ -126,7 +121,6 @@ export class WeixinPayComponent implements OnInit {
 
     this.wxpayReady = true;
     // this.startCountdownTimer();
-    this.loading = weui.loading('支付中...');
   }
 
   onBridgeReady() {

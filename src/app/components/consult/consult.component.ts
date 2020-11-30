@@ -161,11 +161,12 @@ export class ConsultComponent implements OnInit, OnDestroy {
         }
 
         this.message.success('支付成功');
-        // this.core.setTitle(currentTitle);
+        this.cd.markForCheck();
 
         const consult: Consult = {
           ...this.form.value,
           out_trade_no: result,
+          total_fee: this.consultAmount * 100,
           disease_types: [this.diseaseTypeCtrl.value],
           doctor: this.doctor._id,
           user: this.user._id,
@@ -197,10 +198,8 @@ export class ConsultComponent implements OnInit, OnDestroy {
             // redirect to confirm page
             // this.goConsultConfirmed(result._id);
 
-            // close window, 一定要等发送socket消息后关闭
-            setTimeout(() => {
-              this.close();
-            });
+            // close window
+            this.close();
           }
         });
       });
