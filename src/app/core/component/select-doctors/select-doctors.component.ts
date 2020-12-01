@@ -7,7 +7,6 @@ import { User } from 'src/app/models/user.model';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { AppStoreService } from '../../store/app-store.service';
 import { tap } from 'rxjs/operators';
-import { ConsultServicePrice } from '../../../models/consult/doctor-consult.model';
 
 @Component({
   selector: 'app-select-doctors',

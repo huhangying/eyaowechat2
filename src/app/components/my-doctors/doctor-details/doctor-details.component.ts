@@ -19,6 +19,7 @@ export class DoctorDetailsComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   doctor: Doctor;
   userid: string;
+  userRole: number;
   relationExisted: boolean;
   openid: string;
   state: string;
@@ -38,6 +39,7 @@ export class DoctorDetailsComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       tap(data => {
         this.userid = data.user?._id;
+        this.userRole = data.user?.role;
         this.doctor = data.doctor;
       }),
       takeUntil(this.destroy$)

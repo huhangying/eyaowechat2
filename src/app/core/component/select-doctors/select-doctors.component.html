@@ -31,7 +31,7 @@
                   {{doctor.department?.name}}
                 </div>
                 <div style="width: 6rem" class="text-right" *ngIf="pageType <= 5">
-                  <button *ngIf="pageType === 1 && !doctor.prices?.length" class="btn-round-small weui-btn weui-btn_mini weui-btn_warn bg-light px-2"
+                  <button *ngIf="user.role && pageType === 1 && !doctor.prices?.length" class="btn-round-small weui-btn weui-btn_mini weui-btn_warn bg-light px-2"
                     (click)="goDetails(doctor)"> 在线咨询 </button>
                   <button *ngIf="pageType === 2" class="btn-round-small weui-btn weui-btn_mini weui-btn_warn bg-light px-2"
                     (click)="goDetails(doctor)"> 预约门诊 </button>
@@ -46,7 +46,7 @@
               </div>
             </div>
           </div>
-          <app-consult-services [doctor]="doctor" [openid]="openid" [state]="state"></app-consult-services>
+          <app-consult-services *ngIf="user?.role" [doctor]="doctor" [openid]="openid" [state]="state"></app-consult-services>
 
         </ng-container>
       </div>
@@ -54,7 +54,10 @@
 
     <ng-container *ngIf="!doctorList?.length">
       <div class="alert alert-warning px-3 py-3">
-        <ng-container *ngIf="pageType === 1 || pageType === 3">
+        <ng-container *ngIf="!user?.role && pageType === 1">
+            您没有通过用户审核，暂未开通咨询功能。
+        </ng-container>
+        <ng-container *ngIf="(user?.role && pageType === 1) || pageType === 3">
           没有关注的药师。请先关注新药师后选择。
         </ng-container>
         <ng-container *ngIf="pageType === 2">
@@ -68,5 +71,6 @@
         </ng-container>
       </div>
     </ng-container>
+
   </ng-container>
 </div>

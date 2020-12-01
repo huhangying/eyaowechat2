@@ -31,7 +31,7 @@
     </mat-chip-list>
   </div>
 
-  <div class="pt-2 mt-3">
+  <div class="pt-2 mt-3" *ngIf="userRole">
     <app-consult-services [doctor]="doctor" [openid]="openid" [state]="state" ></app-consult-services>
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, of } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,19 +31,23 @@ export class ChatSelectComponent implements OnInit, OnDestroy {
       tap(data => {
         this.user = data.user;
         this.csDoctor = data.csDoctor;
-        
-        if (this.user) {
-          this.doctors$ = this.doctorService.getDoctorsByUser(this.user._id).pipe(
-            map(doctors => {
-              // doctors = doctors || [];
-              // 总是把客服药师放到首位
-              if (this.csDoctor?._id && this.csDoctor?.isCustomerService) {
-                doctors.unshift(this.csDoctor);
-              }
-              return doctors;
-            })
-          );
-        }
+
+
+        this.doctors$ = (this.user && this.user.role) ? 
+          this.doctorService.getDoctorsByUser(this.user._id) :
+          of([]); // 如果审核未通过，则禁用咨询功能！
+
+        this.doctors$.pipe(
+          map(doctors => {
+            // doctors = doctors || [];
+            // 总是把客服药师放到首位
+            if (this.csDoctor?._id && this.csDoctor?.isCustomerService) {
+              doctors.unshift(this.csDoctor);
+            }
+            return doctors;
+          })
+        );
+
       }),
       takeUntil(this.destroy$)
     ).subscribe();

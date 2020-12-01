@@ -1,6 +1,6 @@
 <div class="fixed-top weui-flex bg-white pl-4 pr-2 py-2">
   <div class="weui-flex__item pt-2">我的药师团队</div>
-  <div class="weui-flex__item text-right">
+  <div class="weui-flex__item text-right" *ngIf="user?.role">
       <button mat-button (click)="addDoctor()"> 关注新药师
           <mat-icon class="text-warning">person_add_outline</mat-icon>
       </button>
