@@ -31,7 +31,7 @@
 <div *ngIf="!consult.userName" class="mb-1 text-break" [innerHTML]="translateEmoji(consult.content)">
 </div>
 <div *ngIf="consult.upload">
-  <img [src]="consult.upload | imgPath" ngxImgClickView onerror="this.src='assets/images/no-image.png';this.onerror='';"
+  <img [src]="consult.upload | imgPath" appImgClickView onerror="this.src='assets/images/no-image.png';this.onerror='';"
     class="img-fluid img-thumbnail">
 </div>
 
