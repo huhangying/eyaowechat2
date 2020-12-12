@@ -17,10 +17,11 @@ export class CustomerServiceDoctorResolver implements Resolve<Doctor> {
         // 获取客服药师
         return this.doctorService.getCustomerServiceInfo().pipe(
             map(result => {
-                return {
+
+                return result?.csdoctor ? {
                     ...result.csdoctor,
                     isCustomerService: true
-                };
+                } : null;
             })
         )
     }
