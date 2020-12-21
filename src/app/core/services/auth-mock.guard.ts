@@ -33,8 +33,8 @@ export class AuthMockGuard implements CanActivate {
       this.appStore.udpateHid(1);
     } else {
       this.appStore.updateToken({
-        openid: 'oEMw9s_QeV2wdIxf2G7R59Kwu09s', // maggie
-        // openid: 'oEMw9sx4qgx5ygtJuN2MoJ9jQ4eg', // harry
+        // openid: 'oEMw9s_QeV2wdIxf2G7R59Kwu09s', // maggie
+        openid: 'oEMw9sx4qgx5ygtJuN2MoJ9jQ4eg', // harry
         expires_in: 7200,
         access_token: 'access_token',
         scope: 'SCOPE',

@@ -34,11 +34,6 @@ export class FeedbackComponent implements OnInit, OnDestroy {
     private feedbackServcie: FeedbackService,
   ) {
     this.socketio.setupSocketConnection();
-
-    this.socketio.onFeedback((msg) => {
-      this.feedbacks.push(msg);
-      this.scrollBottom();
-    });
   }
 
   ngOnInit(): void {
@@ -52,8 +47,15 @@ export class FeedbackComponent implements OnInit, OnDestroy {
 
     this.room = this.doctor?._id;
     this.socketio.joinRoom(this.room);
+
+    this.socketio.onFeedback((msg: UserFeedback) => {
+      if (msg?.user === this.user?._id && msg.doctor === this.doctor?._id) {
+        this.feedbacks.push(msg);
+        this.scrollBottom();
+      }
+    });
   }
-  
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();

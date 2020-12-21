@@ -4,7 +4,6 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestro
 import { AppStoreService } from '../../core/store/app-store.service';
 import { tap, catchError, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { EMPTY, Subject } from 'rxjs';
-import { WeixinService } from 'src/app/services/weixin.service';
 import { Chat, ChatCommandType, ChatCommandTypeMap, ChatType } from 'src/app/models/chat.model';
 import { Doctor } from 'src/app/models/doctor.model';
 import { SocketioService } from 'src/app/core/services/soketio.service';
@@ -43,7 +42,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private appStore: AppStoreService,
-    // private wxService: WeixinService,
     private socketio: SocketioService,
     private cd: ChangeDetectorRef,
     private chat: ChatService,
@@ -78,8 +76,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.socketio.joinRoom(this.room);
 
     this.socketio.onChat((msg: Chat) => {
-      // filter by the doctor
-      if (msg.sender === this.room) {
+      // filter by the doctor and pid
+      if (msg.sender === this.room && msg.sender === this.doctor._id && msg.to === this.user._id) {
         this.checkCommand(msg);
         this.chats.push(msg);
         this.scrollBottom();
