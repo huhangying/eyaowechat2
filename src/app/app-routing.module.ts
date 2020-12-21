@@ -176,7 +176,7 @@ const routes: Routes = [
     path: 'today-reminder',    // <-
     component: TodayReminderComponent,
     canActivate: [AuthGuard],
-    resolve: { user: UserResolver }
+    resolve: { user: UserResolver, medicinePeriods: MedicinePeriodsResolver }
   },
 
   // shared
