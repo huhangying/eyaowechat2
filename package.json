@@ -30,7 +30,7 @@
     "rater-js": "^1.0.1",
     "rxjs": "~6.5.5",
     "socket.io-client": "^2.3.0",
-    "tslib": "^2.0.0",
+    "tslib": "^2.0.3",
     "weixin-js-sdk": "^1.6.0",
     "weui": "^2.3.0",
     "weui.js": "^1.2.1",
