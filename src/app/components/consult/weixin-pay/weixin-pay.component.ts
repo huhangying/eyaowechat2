@@ -11,6 +11,7 @@ import { WeixinPayParams } from 'src/app/models/weixin-pay-response.model';
 import { WeixinService } from 'src/app/services/weixin.service';
 import { OrderService } from 'src/app/services/order.service';
 import { AppStoreService } from 'src/app/core/store/app-store.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-weixin-pay',
@@ -51,6 +52,12 @@ export class WeixinPayComponent implements OnInit {
   ngOnInit(): void {
     this.dialogRef.updateSize('100%', '100%');
     this.core.setTitle('微信支付');
+
+    // TEST ONLY!!!
+    if (!!environment.bypassPayment) {
+      document.getElementById('successTrigger').click();
+      return;
+    }
 
     this.wxService.unifiedOrder(
       this.data.user.link_id,
