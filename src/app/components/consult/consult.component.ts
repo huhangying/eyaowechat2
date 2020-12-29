@@ -172,6 +172,7 @@ export class ConsultComponent implements OnInit, OnDestroy {
           user: this.user._id,
           type: this.type, //
           upload: this.upload,
+          status: 0,
           setCharged: true, // 付费标记
         };
 
