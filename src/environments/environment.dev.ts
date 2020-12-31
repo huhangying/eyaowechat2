@@ -5,5 +5,6 @@ export const environment = {
   socketUrl: 'http://timebox.i234.me:3000',
   // socketUrl: 'http://timebox.i234.me:3000',
   imageServer: 'http://timebox.i234.me/images/',
-  wechatServer: 'http://timebox.i234.me/wechat/'
+  wechatServer: 'http://timebox.i234.me/wechat/',
+  bypassPayment: true,
 };
