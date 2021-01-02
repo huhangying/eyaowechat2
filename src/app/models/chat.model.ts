@@ -2,6 +2,7 @@
 export interface Chat {
   _id?: string;
   hid?: string;
+  room?: string; // doc id
   sender: string; // id
   senderName: string;
   to: string; // id
