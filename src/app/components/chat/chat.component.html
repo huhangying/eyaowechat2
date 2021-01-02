@@ -78,10 +78,12 @@
 
     <div *ngIf="showEmoji">
         <div class="qqface">
-            <ng-container *ngFor="let code of qqfaces">
-                <button mat-icon-button (click)="addEmoji(code)">
-                    <img [src]="'assets/qqface/' + code + '.gif'" />
-                </button>
+            <ng-container *ngFor="let code of qqfaces; let i=index">
+                <ng-container *ngIf="i<90">
+                    <button mat-icon-button (click)="addEmoji(code)">
+                        <img [src]="'assets/qqface/' + code + '.gif'" />
+                    </button>
+                </ng-container>
             </ng-container>
         </div>
     </div>
