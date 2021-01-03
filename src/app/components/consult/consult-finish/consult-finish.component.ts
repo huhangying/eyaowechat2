@@ -125,7 +125,7 @@ export class ConsultFinishComponent implements OnInit {
         if (result?._id) {
           this.message.toast('谢谢您的反馈！');
           // disable
-          this.readonly = false;
+          this.readonly = true;
         }
       })
     ).subscribe();
