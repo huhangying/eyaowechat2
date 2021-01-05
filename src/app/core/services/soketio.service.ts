@@ -17,7 +17,7 @@ export class SocketioService {
 
   setupSocketConnection() {
     if (!this.socket) {
-      this.socket = io(environment.socketUrl);
+      this.socket = io(environment.socketUrl, { autoConnect: true });
     }
   }
 
@@ -27,6 +27,7 @@ export class SocketioService {
 
   leaveRoom(room: string) {
     this.socket.emit('leaveRoom', room);
+    this.disconnect();
   }
 
   disconnect() {
