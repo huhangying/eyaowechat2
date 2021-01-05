@@ -17,7 +17,7 @@ export class SocketioService {
 
   setupSocketConnection() {
     if (!this.socket) {
-      this.socket = io(environment.socketUrl, { autoConnect: true });
+      this.socket = io(environment.socketUrl, { reconnection: true });
     }
   }
 
