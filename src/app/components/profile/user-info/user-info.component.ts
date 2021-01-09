@@ -71,6 +71,11 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     });
   }
 
+  
+  navToUserAgreement() {
+    this.router.navigate(['/user-agreement']);
+  }
+
   save() {
     this.userService.updateById(this.user._id, {
       ...this.form.value,
