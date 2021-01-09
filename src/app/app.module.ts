@@ -45,6 +45,7 @@ import { ConsultRequestContentComponent } from './components/consult/consult-req
 import { ConsultReplyComponent } from './components/consult/consult-reply/consult-reply.component';
 import { ConsultFinishComponent } from './components/consult/consult-finish/consult-finish.component';
 import { TodayReminderComponent } from './components/diagnose/today-reminder/today-reminder.component';
+import { UserAgreementComponent } from './components/user/user-agreement/user-agreement.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { TodayReminderComponent } from './components/diagnose/today-reminder/tod
     ConsultReplyComponent,
     ConsultFinishComponent,
     TodayReminderComponent,
+    UserAgreementComponent,
   ],
   imports: [
     CommonModule,

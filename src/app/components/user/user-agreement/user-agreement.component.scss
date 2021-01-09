@@ -1,0 +1,12 @@
+:host {
+  p {
+    line-height: 1.4rem;
+    &::before {
+      content: "";
+      padding-left: 2rem;
+    }
+  }
+  li {
+    padding-bottom: 0.3rem;
+  }
+}

@@ -33,6 +33,7 @@ import { ConsultConfirmedComponent } from './components/consult/consult-confirme
 import { ConsultReplyComponent } from './components/consult/consult-reply/consult-reply.component';
 import { ConsultFinishComponent } from './components/consult/consult-finish/consult-finish.component';
 import { TodayReminderComponent } from './components/diagnose/today-reminder/today-reminder.component';
+import { UserAgreementComponent } from './components/user/user-agreement/user-agreement.component';
 
 
 const routes: Routes = [
@@ -209,6 +210,11 @@ const routes: Routes = [
     canActivate: [AuthMockGuard], // disable later
     resolve: { user: UserResolver }
   },
+  {
+    path: 'user-agreement',
+    component: UserAgreementComponent,
+  },
+
   { path: '', redirectTo: 'entry', pathMatch: 'full' },
   { path: '**', redirectTo: 'entry' },
 ];
