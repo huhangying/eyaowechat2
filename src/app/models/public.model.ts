@@ -6,13 +6,15 @@ export interface Faq {
 export interface WxMaterial {
   total_count: number;
   item_count: number;
-  item: [{
-    media_id: string;
-    content: {
-      news_item: WxMaterialNewsItem[];
-    };
-    update_time: Date;
-  }];
+  item: WxMaterialItem[];
+}
+
+export interface WxMaterialItem {
+  media_id: string;
+  content: {
+    news_item: WxMaterialNewsItem[];
+  };
+  update_time: Date;
 }
 
 export interface WxMaterialNewsItem {
