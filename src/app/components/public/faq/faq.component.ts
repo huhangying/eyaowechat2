@@ -17,7 +17,6 @@ export class FaqComponent implements OnInit {
     private core: CoreService,
     private publicService: PublicService,
   ) {
-    this.faqs = [];
   }
 
   ngOnInit(): void {
