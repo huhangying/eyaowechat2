@@ -1,0 +1,20 @@
+<ng-container *ngIf="faqs?.length<1">
+  <div class="alert alert-warning mt-3" role="alert">
+    暂无常问问题。
+  </div>
+</ng-container>
+
+<ng-container *ngIf="faqs?.length">
+  <div class="px-2 pt-3" *ngFor="let faq of faqs; let i=index">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          问题 {{i+1}}：{{faq.question}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="answer">
+        {{faq.answer}}
+      </div>
+    </mat-expansion-panel>
+  </div>
+</ng-container>

@@ -34,6 +34,7 @@ import { ConsultReplyComponent } from './components/consult/consult-reply/consul
 import { ConsultFinishComponent } from './components/consult/consult-finish/consult-finish.component';
 import { TodayReminderComponent } from './components/diagnose/today-reminder/today-reminder.component';
 import { UserAgreementComponent } from './components/user/user-agreement/user-agreement.component';
+import { FaqComponent } from './components/public/faq/faq.component';
 
 
 const routes: Routes = [
@@ -213,6 +214,10 @@ const routes: Routes = [
   {
     path: 'user-agreement',
     component: UserAgreementComponent,
+  },
+  {
+    path: 'faq',
+    component: FaqComponent,
   },
 
   { path: '', redirectTo: 'entry', pathMatch: 'full' },
