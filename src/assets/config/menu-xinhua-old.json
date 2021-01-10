@@ -1,0 +1,83 @@
+{
+  "is_menu_open": 1,
+  "selfmenu_info": {
+      "button": [
+          {
+              "name": "联系药师",
+              "sub_button": {
+                  "list": [
+                      {
+                          "type": "view",
+                          "name": "在线咨询",
+                          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http://yyl.rostensoft.com/zhaoys/web/myexclusivePharmacistAll?gzhId=gh_c5a67a5ebca7&response_type=code&scope=snsapi_base&state=123456abcdef#wechat_redirect"
+                      },
+                      {
+                          "type": "view",
+                          "name": "预约门诊",
+                          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http://yyl.rostensoft.com/zhaoys/web/reservations?gzhId=gh_c5a67a5ebca7&response_type=code&scope=snsapi_base&state=123456abcdef#wechat_redirect"
+                      }
+                  ]
+              }
+          },
+          {
+              "name": "个人中心",
+              "sub_button": {
+                  "list": [
+                      {
+                          "type": "view",
+                          "name": "我的药师团队",
+                          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http://yyl.rostensoft.com/zhaoys/web/exclusivePharmacistAll?gzhId=gh_c5a67a5ebca7&response_type=code&scope=snsapi_base&state=123456abcdef#wechat_redirect"
+                      },
+                      {
+                          "type": "view",
+                          "name": "我的预约",
+                          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http://yyl.rostensoft.com/zhaoys/web/myReservation?gzhId=gh_c5a67a5ebca7&response_type=code&scope=snsapi_base&state=123456abcdef#wechat_redirect"
+                      },
+                      {
+                          "type": "view",
+                          "name": "个人中心",
+                          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http://yyl.rostensoft.com/zhaoys/web/personalCenter?gzhId=gh_c5a67a5ebca7&response_type=code&scope=snsapi_base&state=123456abcdef#wechat_redirect"
+                      },
+                      {
+                          "type": "view",
+                          "name": "当前门诊",
+                          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http://yyl.rostensoft.com/zhaoys/web/currentClinic?gzhId=gh_c5a67a5ebca7&response_type=code&scope=snsapi_base&state=123456abcdef#wechat_redirect"
+                      }
+                  ]
+              }
+          },
+          {
+              "name": "更多",
+              "sub_button": {
+                  "list": [
+                      {
+                          "type": "view",
+                          "name": "功能介绍",
+                          "url": "http://mp.weixin.qq.com/s/Ow5uxjMKLb3fw-btga6HPQ"
+                      },
+                      {
+                          "type": "view",
+                          "name": "药学部简介",
+                          "url": "http://mp.weixin.qq.com/s/Whz6TdISUxv9uc_uhjWsIQ"
+                      },
+                      {
+                          "type": "view",
+                          "name": "专科门诊介绍",
+                          "url": "http://mp.weixin.qq.com/mp/homepage?__biz=MzIzNDU1MDAyNQ==&hid=3&sn=8f0163f6e78fbf121770c50ff57ee11d#wechat_redirect"
+                      },
+                      {
+                          "type": "view",
+                          "name": "热门文章",
+                          "url": "http://mp.weixin.qq.com/mp/homepage?__biz=MzIzNDU1MDAyNQ==&hid=2&sn=5f6de8d56d93390f047c7d76a3c40e8b#wechat_redirect"
+                      },
+                      {
+                          "type": "view",
+                          "name": "常见问题",
+                          "url": "http://yyl.rostensoft.com/zhaoys/web/commonProblemView"
+                      }
+                  ]
+              }
+          }
+      ]
+  }
+}
