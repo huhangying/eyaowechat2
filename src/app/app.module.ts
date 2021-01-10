@@ -47,6 +47,7 @@ import { ConsultFinishComponent } from './components/consult/consult-finish/cons
 import { TodayReminderComponent } from './components/diagnose/today-reminder/today-reminder.component';
 import { UserAgreementComponent } from './components/user/user-agreement/user-agreement.component';
 import { FaqComponent } from './components/public/faq/faq.component';
+import { HotNewsComponent } from './components/public/hot-news/hot-news.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { FaqComponent } from './components/public/faq/faq.component';
     TodayReminderComponent,
     UserAgreementComponent,
     FaqComponent,
+    HotNewsComponent,
   ],
   imports: [
     CommonModule,

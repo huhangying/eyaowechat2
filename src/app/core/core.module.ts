@@ -1,6 +1,6 @@
 import { Injectable, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HammerGestureConfig, Title } from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 import { LocalDatePipe } from './pipe/local-date.pipe';
 import { GenderPipe } from './pipe/gender.pipe';
 import { SelectDoctorsComponent } from './component/select-doctors/select-doctors.component';
@@ -21,20 +21,10 @@ import { ImgClickViewDirective } from './directive/img-click-view.directive';
 import { ImageComponent } from './component/image/image.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MouseWheelDirective } from './directive/mouse-wheel.directive';
-import { HammerModule} from '@angular/platform-browser';
+import { HammerModule } from '@angular/platform-browser';
 import { CustomerServiceComponent } from './component/select-doctors/customer-service/customer-service.component';
 import { ConsultServicesComponent } from './component/select-doctors/consult-services/consult-services.component';
-
-// @Injectable()
-// export class HammerConfig extends HammerGestureConfig {
-//   overrides = <any> {
-//       // I will only use the swap gesture so 
-//       // I will deactivate the others to avoid overlaps
-//       'pinch': { enable: false },
-//       'pan': { enable: true },
-//       'rotate': { enable: false }
-//   }
-// }
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -62,6 +52,7 @@ import { ConsultServicesComponent } from './component/select-doctors/consult-ser
     MatDatepickerModule,
     MatSnackBarModule,
     MatChipsModule,
+    MatProgressSpinnerModule,
     HammerModule,
   ],
   exports: [
@@ -76,6 +67,7 @@ import { ConsultServicesComponent } from './component/select-doctors/consult-ser
     MatDatepickerModule,
     MatSnackBarModule,
     MatChipsModule,
+    MatProgressSpinnerModule,
     HammerModule,
 
     LocalDatePipe,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ApiService } from '../core/services/api.service';
 import { Faq, WxMaterial } from '../models/public.model';
 
@@ -15,12 +15,12 @@ export class PublicService {
   getFaqs(hid: number): Observable<Faq[]> {
     return this.api.get<Faq[]>('faqs/wechat/auth/' + hid);
   }
-  
-  getMaterialCount() {
-    return this.api.get<{news_count: number}>('wechat/material-count');
+
+  getMaterialCount(hid: number) {
+    return this.api.get<{ news_count: number }>('wechat/material-count/auth/' + hid);
   }
 
-  getWxMaterialList(page=0) {
-    return this.api.get<WxMaterial>('wechat/material-list/' + page)
+  getWxMaterialList(hid: number, page = 0) {
+    return this.api.get<WxMaterial>(`wechat/material-list/auth/${hid}/${page}`);
   }
 }
