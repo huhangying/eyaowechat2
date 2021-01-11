@@ -103,7 +103,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       // get 付费咨询 flag
       this.consultService.getPendingConsultByDoctorIdAndUserId(this.doctor._id, this.user._id).pipe(
         tap(result => {
-          this.setCharged = result?.setCharged;
+          this.setCharged = result?.setCharged && (this.doctor.prices?.length > 0);
           this.cd.markForCheck();
         }),
         takeUntil(this.destroy$),
@@ -249,6 +249,10 @@ export class ChatComponent implements OnInit, OnDestroy {
         type
       }
     });
+  }
+
+  checkConsultServiceExist(type: number) {
+    return this.doctor.prices?.findIndex(_ => _.type === type) > -1;
   }
 
   checkCommand(msg: Chat) {
