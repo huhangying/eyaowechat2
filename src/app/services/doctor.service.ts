@@ -30,14 +30,14 @@ export class DoctorService {
 
   getDoctorsByUser(userid: string) {
     return this.api.get<{ doctor: Doctor }[]>('relationships/get-doctors/user/' + userid).pipe(
-      map(docs => docs.map(_ => _.doctor)),
+      map(docs => docs.map(_ => _.doctor).filter(_doc => _doc.apply && _doc.role < 3)),
       map(docs => this.uniqify(docs, '_id'))
     );
   }
 
   getScheduleDoctorsByUser(userid: string) {
     return this.api.get<{ doctor: Doctor, apply: boolean }[]>('relationships/get-schedule-doctors/user/' + userid).pipe(
-      map(doc => doc.filter(_ => _.apply).map(_ => _.doctor)),
+      map(doc => doc.filter(_ => _.apply).map(_ => _.doctor).filter(_doc => _doc.apply && _doc.role < 3)),
       map(docs => this.uniqify(docs, '_id'))
     );
   }

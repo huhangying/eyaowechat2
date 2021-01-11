@@ -20,5 +20,6 @@ export interface Doctor {
   prices?: ConsultServicePrice[];
   
   isCustomerService?: boolean; // 微信端专用!
+  apply?: boolean;
 }
 
