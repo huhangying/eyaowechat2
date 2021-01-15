@@ -23,17 +23,18 @@ export class SocketioService {
 
   joinRoom(room: string) {
     this.socket.emit('joinRoom', room);
+    this.socket?.on('disconnect', (reason: string) => {
+      if (reason === 'io server disconnect') {
+        // the disconnection was initiated by the server, you need to reconnect manually
+        this.socket.connect();
+      }
+      // else the socket will automatically try to reconnect
+    });
   }
 
   leaveRoom(room: string) {
     this.socket.emit('leaveRoom', room);
-    this.disconnect();
-  }
-
-  disconnect() {
-    if (this.socket?.connected) {
-      this.socket.emit('disconnect');
-    }
+    this.socket?.disconnect();
   }
 
   // Chat
