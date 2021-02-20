@@ -1,0 +1,45 @@
+<div class="spinner-item" *ngIf="loading">
+  <mat-progress-spinner [mode]="'indeterminate'" [diameter]="20">
+  </mat-progress-spinner>
+</div>
+<ng-container *ngIf="!loading">
+  <ng-container *ngIf="articleList?.length">
+    <div class="text-center text-success mt-3">
+      <h3 class="font-weight-bold">公众号文章搜索结果</h3>
+    </div>
+  
+    <div class="msg_card_body px-1 mt-n3 mb-5 pb-5">
+    
+      <mat-selection-list #articles [multiple]="false">
+        <mat-list-item *ngFor="let article of articleList" 
+          class="mt-2 bg-light"
+          (click)="navToArticle(article.targetUrl)">
+          <!-- <img matListAvatar [src]="article.title_image" alt="..."> -->
+          <h4 matLine> {{article.name}} </h4>
+          <p matLine class="text-muted">
+            <span> {{article.title}} </span>
+          </p>
+          <p matLine class="text-muted text-right">
+            <span *ngIf="article.author" class="demo-2"> {{article.author}} </span>
+            <span class="font-weight-lighter"> {{article.updatedAt | localDate}} </span>
+          </p>
+        </mat-list-item>
+      </mat-selection-list>
+    </div>
+  </ng-container>
+  
+  <ng-container *ngIf="!articleList?.length">
+    <div class="px-3 mx-1 my-2 alert alert-warning" role="alert">
+      没有搜索到公众号文章。请用别的关键字再试。
+    </div>
+  </ng-container>
+  
+  <div class="fixed-bottom text-muted bg-light">
+    <div class="d-flex">
+      <input matInput class="weui-input pl-2 align-self-center" autocomplete="off" placeholder="请输入..." cdkFocusInitial
+        (keyup.enter)="search()" [(ngModel)]="keyword">
+      <button mat-flat-button *ngIf="keyword" class="weui-btn weui-btn_mini weui-btn_primary"
+        (click)="search()"><mat-icon aria-hidden="false">search</mat-icon></button>
+    </div>
+  </div>
+</ng-container>

@@ -36,6 +36,7 @@ import { TodayReminderComponent } from './components/diagnose/today-reminder/tod
 import { UserAgreementComponent } from './components/user/user-agreement/user-agreement.component';
 import { FaqComponent } from './components/public/faq/faq.component';
 import { HotNewsComponent } from './components/public/hot-news/hot-news.component';
+import { NewsSearchComponent } from './components/public/hot-news/news-search/news-search.component';
 
 
 const routes: Routes = [
@@ -223,6 +224,10 @@ const routes: Routes = [
   {
     path: 'hot-news',
     component: HotNewsComponent,
+  },
+  {
+    path: 'news-search',
+    component: NewsSearchComponent,
   },
 
   { path: '', redirectTo: 'entry', pathMatch: 'full' },
