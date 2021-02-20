@@ -68,7 +68,7 @@ export class DoctorService {
   }
 
   getCsDoctorIcon(gender?: string) {
-    return 'assets/' + (gender === '男' ? 'male-cs.jpg' : (gender === '女' ? 'famale-cs.jpg' : 'cs.jpg'));
+    return 'assets/' + (gender === '男' ? 'male-cs.jpg' : (gender === '女' ? 'female-cs.jpg' : 'cs.jpg'));
   }
 
   
