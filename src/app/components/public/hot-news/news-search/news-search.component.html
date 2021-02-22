@@ -5,7 +5,7 @@
 <ng-container *ngIf="!loading">
   <ng-container *ngIf="articleList?.length">
     <div class="text-center text-success mt-3">
-      <h3 class="font-weight-bold">公众号文章搜索结果</h3>
+      <h4>找到 {{articleList.length}} 篇公众号文章</h4>
     </div>
   
     <div class="msg_card_body px-1 mt-n3 mb-5 pb-5">
@@ -36,7 +36,7 @@
   
   <div class="fixed-bottom text-muted bg-light">
     <div class="d-flex">
-      <input matInput class="weui-input pl-2 align-self-center" autocomplete="off" placeholder="请输入..." cdkFocusInitial
+      <input matInput class="weui-input pl-3 align-self-center" autocomplete="off" placeholder="请输入..." cdkFocusInitial
         (keyup.enter)="search()" [(ngModel)]="keyword">
       <button mat-flat-button *ngIf="keyword" class="weui-btn weui-btn_mini weui-btn_primary"
         (click)="search()"><mat-icon aria-hidden="false">search</mat-icon></button>

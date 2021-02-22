@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize, tap } from 'rxjs/operators';
+import { CoreService } from 'src/app/core/services/core.service';
 import { ArticleSearch } from 'src/app/models/article.model';
 import { ArticleService } from 'src/app/services/article.service';
 
@@ -17,6 +18,7 @@ export class NewsSearchComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private core: CoreService,
     private articleService: ArticleService,
   ) { 
     this.keyword = route.snapshot.queryParams.k; // keyword
@@ -24,6 +26,8 @@ export class NewsSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.core.setTitle('公众号文章搜索结果');
+    
     if (this.keyword) {
       this.search();
     }
