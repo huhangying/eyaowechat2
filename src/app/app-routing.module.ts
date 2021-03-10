@@ -37,6 +37,7 @@ import { UserAgreementComponent } from './components/user/user-agreement/user-ag
 import { FaqComponent } from './components/public/faq/faq.component';
 import { HotNewsComponent } from './components/public/hot-news/hot-news.component';
 import { NewsSearchComponent } from './components/public/hot-news/news-search/news-search.component';
+import { PartyNewsComponent } from './components/public/hot-news/party-news/party-news.component';
 
 
 const routes: Routes = [
@@ -228,6 +229,10 @@ const routes: Routes = [
   {
     path: 'news-search',
     component: NewsSearchComponent,
+  },
+  {
+    path: 'party-news',
+    component: PartyNewsComponent,
   },
 
   { path: '', redirectTo: 'entry', pathMatch: 'full' },

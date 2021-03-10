@@ -38,4 +38,8 @@ export interface WxMaterialNewsItem {
   thumb_url: string;
   need_open_comment?: number;
   only_fans_can_comment?: number;
+
+  // update_time: number; // weixin second
+  createdAt?: Date;
+  updatedAt?: Date;
 }

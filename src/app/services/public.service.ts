@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ApiService } from '../core/services/api.service';
-import { Faq, WxMaterial } from '../models/public.model';
+import { Faq, WxMaterial, WxMaterialNewsItem } from '../models/public.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,4 +23,9 @@ export class PublicService {
   getWxMaterialList(hid: number, page = 0) {
     return this.api.get<WxMaterial>(`wechat/material-list/auth/${hid}/${page}`);
   }
+
+  searchWxArticles(hid: number, keyword: string) {
+    return this.api.get<WxMaterialNewsItem[]>(`auth/keywordsearchs/${hid}/${keyword}`);
+  }
 }
+

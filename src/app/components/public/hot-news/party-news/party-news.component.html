@@ -1,0 +1,30 @@
+<img [src]="'assets/party-building.jpg' | imgPath" onerror="this.src='assets/images/no-image.png';this.onerror='';"
+  class="img-fluid img-thumbnail">
+
+<ng-container *ngIf="newsItems?.length === 0 && !loading">
+  <div class="alert alert-warning mt-3" role="alert">
+    暂无党建园地文章。
+  </div>
+</ng-container>
+
+<ng-container *ngIf="newsItems?.length">
+  <div class="list-group">
+    <div *ngFor="let item of newsItems">
+      <a [href]="item.url" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h3 class="mb-1" style="line-height: 1.3rem;">{{ item.name }}</h3>
+          <small class="text-right text-muted" style="min-width: 90px; padding-top: 1px">{{item.createdAt | localDate}}</small>
+        </div>
+        <p class="mb-1 text-muted">{{ item.title }}&nbsp;...</p>
+      </a>
+    </div>
+  </div>
+</ng-container>
+
+
+<div class="text-center pt-3 pb-4">
+  <div class="spinner-item" *ngIf="loading">
+    <mat-progress-spinner [mode]="'indeterminate'" [diameter]="20">
+    </mat-progress-spinner>
+  </div>
+</div>
