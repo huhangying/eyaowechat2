@@ -50,6 +50,10 @@ import { FaqComponent } from './components/public/faq/faq.component';
 import { HotNewsComponent } from './components/public/hot-news/hot-news.component';
 import { NewsSearchComponent } from './components/public/hot-news/news-search/news-search.component';
 import { PartyNewsComponent } from './components/public/hot-news/party-news/party-news.component';
+import { MyAdvisesComponent } from './components/my-advises/my-advises.component';
+import { AdviseDetailsComponent } from './components/my-advises/advise-details/advise-details.component';
+import { MyAdviseComponent } from './components/my-advises/my-advise/my-advise.component';
+import { ViewAdviseComponent } from './components/my-advises/view-advise/view-advise.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +99,10 @@ import { PartyNewsComponent } from './components/public/hot-news/party-news/part
     HotNewsComponent,
     NewsSearchComponent,
     PartyNewsComponent,
+    MyAdvisesComponent,
+    AdviseDetailsComponent,
+    MyAdviseComponent,
+    ViewAdviseComponent,
   ],
   imports: [
     CommonModule,

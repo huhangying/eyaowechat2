@@ -38,6 +38,8 @@ import { FaqComponent } from './components/public/faq/faq.component';
 import { HotNewsComponent } from './components/public/hot-news/hot-news.component';
 import { NewsSearchComponent } from './components/public/hot-news/news-search/news-search.component';
 import { PartyNewsComponent } from './components/public/hot-news/party-news/party-news.component';
+import { MyAdvisesComponent } from './components/my-advises/my-advises.component';
+import { ViewAdviseComponent } from './components/my-advises/view-advise/view-advise.component';
 
 
 const routes: Routes = [
@@ -182,6 +184,20 @@ const routes: Routes = [
     component: TodayReminderComponent,
     canActivate: [AuthGuard],
     resolve: { user: UserResolver, medicinePeriods: MedicinePeriodsResolver }
+  },
+
+
+  {
+    path: 'my-advises',    // <-
+    component: MyAdvisesComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
+  },
+  {
+    path: 'advise',    // advise details
+    component: ViewAdviseComponent,
+    canActivate: [AuthGuard],
+    resolve: { user: UserResolver }
   },
 
   // shared

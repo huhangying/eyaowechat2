@@ -1,0 +1,6 @@
+<p>view-advise works!</p>
+
+<ng-container *ngIf="advise && !advise.feedbackDone">
+  用户评分
+</ng-container>
+<app-advise-details [advise]="advise"></app-advise-details>
