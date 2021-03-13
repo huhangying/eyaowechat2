@@ -4,6 +4,7 @@ import { tap } from 'rxjs/operators';
 import { CoreService } from 'src/app/core/services/core.service';
 import { Advise } from 'src/app/models/survey/advise.model';
 import { AdviseService } from 'src/app/services/advise.service';
+import { WeixinService } from 'src/app/services/weixin.service';
 
 @Component({
   selector: 'app-view-advise',
@@ -17,6 +18,7 @@ export class ViewAdviseComponent implements OnInit {
     private route: ActivatedRoute,
     private core: CoreService,
     private adviseService: AdviseService,
+    private wxService: WeixinService,
   ) { 
     const id = this.route.snapshot.queryParams?.id || '';
     if (id) {
@@ -30,6 +32,10 @@ export class ViewAdviseComponent implements OnInit {
 
   ngOnInit(): void {
     this.core.setTitle('线下咨询记录');
+  }
+
+  close() {
+    this.wxService.closeWindow();
   }
 
 }

@@ -5,13 +5,13 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item pr-0" *ngFor="let advise of advises">
           <div class="d-flex justify-content-between">
-            <span class="">{{ advise.doctor?.department?.name}}</span>
+            <span class="">{{ advise?.doctorDepartment}}</span>
             <span class="text-muted px-3">{{ advise.updatedAt | localDate }}</span>
           </div>
           <div class="d-flex justify-content-between">
             <div class="pt-2">
-              <span class="h6">{{ advise.doctor?.name}}</span>
-              <span class="text-muted pl-3">{{ advise.doctor?.title}}</span>
+              <span class="h6">{{ advise?.doctorName}}</span>
+              <span class="text-muted pl-3">{{ advise?.doctorTitle}}</span>
             </div>
             <button mat-button class="text-warning" (click)="goDetails(advise)">
               查看详情 <mat-icon>keyboard_arrow_right</mat-icon>

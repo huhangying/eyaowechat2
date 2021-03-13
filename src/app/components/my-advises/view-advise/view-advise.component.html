@@ -1,6 +1,27 @@
-<p>view-advise works!</p>
+<ng-container *ngIf="advise">
+  <div class="pb-5">
+    <app-advise-details [advise]="advise"></app-advise-details>
 
-<ng-container *ngIf="advise && !advise.feedbackDone">
-  用户评分
+    <ng-container *ngIf="!advise.feedbackDone">
+      <div class="pt-3">
+        <app-advise-comment [advise]="advise"></app-advise-comment>
+      </div>
+    </ng-container>
+  </div>
 </ng-container>
-<app-advise-details [advise]="advise"></app-advise-details>
+
+
+<ng-container *ngIf="!advise">
+  <div class="mx-2 my-3">
+    <div class="alert alert-warning">
+      该线下咨询已经无效。
+    </div>
+  </div>
+
+</ng-container>
+
+<div class="fixed-bottom bg-light px-3 py-2">
+  <button type="button" class="btn btn-primary btn-block" (click)="close()">
+    返回
+  </button>
+</div>

@@ -1,0 +1,45 @@
+<p>advise-comment works!</p>
+用户评分
+
+<div class="weui-flex bg-white px-3">
+  <div class="d-flex align-items-center py-3">
+    <span class="text-success pr-3">
+      <mat-icon>verified</mat-icon>
+    </span>
+    感谢您对{{advise.doctorName}}{{advise.doctorTitle}}的线下咨询！为了提供更好的服务，请为我们的药师评分和评价。
+  </div>
+</div>
+
+<div>
+  <div class="card mx-2 my-3 p-3">
+    <div class="card-title h6 pt-1">请对本次服务评分: </div>
+    <div class="d-flex align-items-center">
+      <div class="ml-5" id="rater"></div>
+      <div class="pl-4" *ngIf="advise.score > 0">{{advise.score}} / 5</div>
+    </div>
+  </div>
+
+  <div class="card m-2">
+    <div class="px-3 py-2 mb-3">
+      <div class="card-title h6 pt-3">
+        药师评价或建议:
+      </div>
+      <mat-divider></mat-divider>
+      <div class="mx-2 my-3">
+        <label for="comment" class="text-secondary">您的评价:</label>
+        <textarea id="comment" class="weui-textarea" rows="7" formControlName="comment"
+          placeholder="请输入对药师服务评价或建议。"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="fixed-bottom px-2 py-2" *ngIf="!readonly">
+  <div class="d-flex">
+    <div class="w-100 px-2">
+      <button type="button" class="btn btn-primary btn-block" (click)="submit()">
+        提交
+      </button>
+    </div>
+  </div>
+</div>

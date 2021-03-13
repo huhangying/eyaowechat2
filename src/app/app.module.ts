@@ -54,6 +54,7 @@ import { MyAdvisesComponent } from './components/my-advises/my-advises.component
 import { AdviseDetailsComponent } from './components/my-advises/advise-details/advise-details.component';
 import { MyAdviseComponent } from './components/my-advises/my-advise/my-advise.component';
 import { ViewAdviseComponent } from './components/my-advises/view-advise/view-advise.component';
+import { AdviseCommentComponent } from './components/my-advises/view-advise/advise-comment/advise-comment.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { ViewAdviseComponent } from './components/my-advises/view-advise/view-ad
     AdviseDetailsComponent,
     MyAdviseComponent,
     ViewAdviseComponent,
+    AdviseCommentComponent,
   ],
   imports: [
     CommonModule,
