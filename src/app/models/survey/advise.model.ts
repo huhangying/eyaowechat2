@@ -24,6 +24,7 @@ export interface Advise {
   finished?: boolean;
 
   createdAt?: Date;
+  updatedAt?: Date;
 
   // user feedback
   score?: number,

@@ -9,6 +9,7 @@ import { Advise } from 'src/app/models/survey/advise.model';
 })
 export class AdviseDetailsComponent implements OnInit {
   @Input() advise: Advise;
+  readonly=true;
 
   constructor(
 

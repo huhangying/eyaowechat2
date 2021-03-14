@@ -1,60 +1,59 @@
-<!-- <div class="card mx-2 my-3 p-2">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-      <span class="h5">门诊信息</span>
-    </li>
-    <li class="list-group-item">
-      <span class="item-label">药师:</span>
-      {{ diagnose.doctor?.name}}
-      {{ diagnose.doctor?.title}}
-    </li>
-    <li class="list-group-item">
-      <span class="item-label">专科:</span>
-      {{ diagnose.doctor?.department?.name}}
-    </li>
-    <li class="list-group-item">
-      <span class="item-label">门诊时间:</span>
-      {{ diagnose.updatedAt | localDate: 'full' }}
-    </li>
-  </ul>
-</div>
-
-<div class="mx-2 my-1" *ngIf="mode === 2 || mode === 3">
+<div class="mx-2 my-2">
   <mat-accordion>
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
-        <span class="h6 pt-1">处方信息</span>
+        <span class="h6 pt-1">线下咨询详细</span>
       </mat-expansion-panel-header>
 
       <ul class="list-group list-group-flush border-top">
-        <li class="list-group-item px-0" *ngFor="let med of diagnose.prescription">
-          <span class="text-warning">{{ med.name }}</span>
-          <span class="text-muted pl-3">({{ med.capacity}}{{med.unit}}*{{med.quantity}})</span>
-          <div class="pt-2">
-            <span class="text-muted">服用方式: </span>{{ med.usage}}, {{ showDosageInstruction(med.dosage, med.unit)}}
-          </div>
+        <li class="list-group-item px-0">
+          <label>药师：</label>
+          <span>{{advise.doctorName}}{{advise.doctorTitle}}</span>
+        </li>
+        <li class="list-group-item px-0">
+          <label>科室：</label>
+          <span>{{advise.doctorDepartment}}</span>
+        </li>
+        <li class="list-group-item px-0">
+          <label>时间：</label>
+          <span>{{advise.updatedAt | localDate}}</span>
+        </li>
+        <li class="list-group-item px-0">
+          <label>咨询内容：</label>
+          <ng-container *ngFor="let question of advise.questions; let qIndex=index">
+            <h4 class="text-info px-2 pt-3 pb-1">{{qIndex + 1}}. {{question.question}}</h4>
+            <ng-container *ngIf="question.answer_type === 0 || question.answer_type === 1">
+              <mat-radio-group name="question-{{qIndex}}" [disabled]="readonly">
+                <ng-container *ngFor="let option of question.options; let oIndex=index">
+                  <mat-radio-button name="question-{{qIndex}}" 
+                    [value]="oIndex" [checked]="option.selected" class="question-option" [disabled]="readonly">
+                    {{option.answer}}
+                  </mat-radio-button>
+                  <input type="text" nbInput [(ngModel)]="option.input" placeholder="请输入..." class="ml-5 w-75"
+                    [readonly]="readonly" *ngIf="option.input_required && option.selected">
+                </ng-container>
+              </mat-radio-group>
+            </ng-container>
+            <ng-container *ngIf="question.answer_type === 2">
+              <ng-container *ngFor="let option of question.options">
+                <mat-checkbox [(ngModel)]="option.selected" class="question-option" [disabled]="readonly">
+                  {{option.answer}}
+                </mat-checkbox>
+                <input type="text" nbInput [(ngModel)]="option.input" placeholder="请输入..." class="ml-5 w-75"
+                  [readonly]="readonly" *ngIf="option.input_required && option.selected">
+              </ng-container>
+            </ng-container>
+          
+            <ng-container *ngIf="question.answer_type === 3">
+              <div class="pl-3 pr-5">
+                <textarea nbInput fullWidth placeholder="请输入..." [(ngModel)]="question.options[0].answer"
+                   [disabled]="readonly"></textarea>
+              </div>
+            </ng-container>
+          
+          </ng-container>
         </li>
       </ul>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
-
-<div class="mx-2 mt-3 mb-5" *ngIf="mode === 1 || mode === 3">
-  <mat-accordion>
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <span class="h6 pt-1">门诊结论</span>
-      </mat-expansion-panel-header>
-
-      <ul class="list-group list-group-flush border-top">
-        <li class="list-group-item px-0" *ngFor="let surveyId of getSurveyList()">
-          <app-survey-view [surveyId]="surveyId"></app-survey-view>
-        </li>
-      </ul>
-    </mat-expansion-panel>
-  </mat-accordion>
-</div>
-
- -->
-
- <pre>{{advise | json}}</pre>

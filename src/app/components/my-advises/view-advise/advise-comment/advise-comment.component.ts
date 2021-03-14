@@ -3,6 +3,7 @@ import { tap } from 'rxjs/operators';
 import { MessageService } from 'src/app/core/services/message.service';
 import { Advise } from 'src/app/models/survey/advise.model';
 import { AdviseService } from 'src/app/services/advise.service';
+import * as rater from 'rater-js';
 
 @Component({
   selector: 'app-advise-comment',
@@ -14,16 +15,26 @@ export class AdviseCommentComponent implements OnInit {
   score: number;
   comment: string;
   readonly: boolean;
+  doctorRater: any;
   
   constructor(
     private message: MessageService,
     private adviseService: AdviseService,
   ) {
-    this.score = this.advise.score || 0;
-    this.comment = this.advise.comment || '';
+    this.score = this.advise?.score || 0;
+    this.comment = this.advise?.comment || '';
    }
 
   ngOnInit(): void {
+    this.doctorRater = rater.default({
+      element: document.querySelector("#rater"),
+      starSize: 25,
+      showToolTip: true,
+      rateCallback: (rating, done) => {
+        this.score = (rating > 0) ? rating : 0;
+        done();
+      }
+    });
   }
 
   submit() {
@@ -36,7 +47,7 @@ export class AdviseCommentComponent implements OnInit {
       _id: this.advise._id,
       name: this.advise.name,
       doctor: this.advise.doctor,
-      user: this.advise.user,
+      // user: this.advise.user,
       score: this.advise.score,
       comment: this.comment,
       feedbackDone: true,
@@ -49,6 +60,7 @@ export class AdviseCommentComponent implements OnInit {
           this.message.toast('谢谢您的反馈！');
           // disable
           this.readonly = true;
+          this.doctorRater.disable();
         }
       })
     ).subscribe();
