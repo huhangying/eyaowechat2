@@ -48,7 +48,7 @@ export class AdviseCommentComponent implements OnInit {
       name: this.advise.name,
       doctor: this.advise.doctor,
       // user: this.advise.user,
-      score: this.advise.score,
+      score: this.score,
       comment: this.comment,
       feedbackDone: true,
     }
