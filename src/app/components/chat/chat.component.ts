@@ -106,6 +106,10 @@ export class ChatComponent implements OnInit, OnDestroy {
           this.consult = result;
           this.setCharged = this.consult?.setCharged;
           this.cd.markForCheck();
+          // 
+          if (this.existsConsult) {
+            this.simulateInConsultMsg();
+          }
         }),
         takeUntil(this.destroy$),
       ).subscribe();
@@ -115,10 +119,15 @@ export class ChatComponent implements OnInit, OnDestroy {
   //是否付费咨询中
   get existsConsult() { return this.consult?.setCharged && !!this.consult.out_trade_no; }
 
+  // setConsultCharged(value: boolean) {
+  //   this.setCharged = this.consult?.setCharged;
+  //   this.cd.markForCheck();
+  // }
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
-    this.socketio.leaveRoom(this.room);
+    // this.socketio.leaveRoom(this.room);
   }
 
   scrollBottom() {
@@ -186,6 +195,19 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   translateCommand(cmd: ChatCommandType) {
     return ChatCommandTypeMap[cmd];
+  }
+
+  // 模拟发送‘付费咨询中’消息
+  simulateInConsultMsg() {
+    this.chats.push({
+      room: this.room,
+      sender: this.doctor._id,
+      senderName: this.doctor.name,
+      to: this.user._id,
+      type: ChatType.command,
+      data: ChatCommandType.inConsult
+    });
+    this.scrollBottom();
   }
 
   imageUpload(event) {

@@ -86,20 +86,23 @@ export class ConsultComponent implements OnInit, OnDestroy {
 
     this.socketio.setupSocketConnection(); // it would be created later for performance
   }
-
+  
   get diseaseTypeCtrl() { return this.form.get('diseaseType'); }
-
+  
   ngOnInit(): void {
     this.core.setTitle(this.type === 0 ? '药师图文咨询' : (this.type === 1 ? '药师电话咨询' : '药师咨询详情'));
 
     this.room = this.doctor?._id;
+    // if (!this.socketio?.socket?.connected) {
+    //   this.socketio.setupSocketConnection();
+    // }
     this.socketio.joinRoom(this.room);
   }
-
+  
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
-    this.socketio.leaveRoom(this.room);
+    // this.socketio.leaveRoom(this.room);
   }
 
   hasErrors(id: string) {

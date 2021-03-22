@@ -98,7 +98,7 @@ export class ConsultReplyComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
-    this.socketio.leaveRoom(this.room);
+    // this.socketio.leaveRoom(this.room);
   }
 
   scrollTo(consultid: string) {

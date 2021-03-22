@@ -62,7 +62,7 @@
         </ng-container>
     </div>
 
-    <ng-container *ngIf="!setCharged || existsConsult">
+    <ng-container *ngIf="!setCharged || !!existsConsult">
         <div class="d-flex">
             <input matInput class="weui-input pl-2 align-self-center" autocomplete="off" placeholder="请输入..."
                 cdkFocusInitial (keyup.enter)="send()" [(ngModel)]="myInput">
@@ -81,11 +81,11 @@
             <button mat-flat-button *ngIf="myInput" class="weui-btn weui-btn_mini weui-btn_primary"
                 (click)="send()">发送</button>
         </div>
-        <div *ngIf="existsConsult" class="bg-light px-2 pb-1">
+        <!-- <div *ngIf="existsConsult" class="bg-light px-2 pb-1">
             <button mat-stroked-button class="text-success" matTooltip="回到病患付费咨询页面" (click)="goBackConsult()">
                 <mat-icon>arrow_back</mat-icon> 返回付费咨询
             </button>
-        </div>
+        </div> -->
     </ng-container>
 
     <div *ngIf="showEmoji">
