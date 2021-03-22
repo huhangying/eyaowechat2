@@ -39,6 +39,11 @@ export class ConsultService {
     return this.api.get<Consult[]>(`consults/get/${doctorId}/${userId}`);
   }
 
+
+  getAllConsultsByGroup(consultId: string) {
+    return this.api.get<Consult[]>(`consults/get-group/${consultId}`);
+  }
+
   getConsultById(id: string) {
     return this.api.get<Consult>('consult/' + id);
   }

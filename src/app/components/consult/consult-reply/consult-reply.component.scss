@@ -72,4 +72,15 @@
       left: 30px;
     }
   }
+  ::ng-deep {
+    .qqface {
+        padding: 0.25rem 0;
+        text-align: center;
+        max-height: 10rem;
+        overflow: auto!important;
+    }
+    .chat-emoji-adjust {
+        margin-top: 10rem;
+    }
+}
 }

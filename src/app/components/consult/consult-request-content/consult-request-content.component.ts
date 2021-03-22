@@ -9,7 +9,6 @@ import { Consult } from '../../../models/consult/consult.model';
 })
 export class ConsultRequestContentComponent implements OnInit {
   @Input() consult: Consult;
-  @Input() showType?: boolean;
 
   constructor() { }
 

@@ -32,8 +32,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   chats: Chat[];
   myInput = '';
-  errorMessage: string;
-  returnMessage: string;
   showEmoji = false;
   qqfaces: string[] = qqface.codeMap;
   dataType = ChatType;
