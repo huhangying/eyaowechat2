@@ -81,6 +81,10 @@ export class SocketioService {
   }
 
   // Consult
+  onConsult(next) {
+    this.socket.on('consult', next);
+  }
+
   sendConsult(room: string, consult: Consult) {
     this.socket.emit('consult', room, {
       ...consult,

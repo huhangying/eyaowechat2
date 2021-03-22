@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CoreService } from 'src/app/core/services/core.service';
 import { SocketioService } from 'src/app/core/services/soketio.service';
@@ -17,7 +18,9 @@ import *  as qqface from 'wx-qqface';
   styleUrls: ['./consult-reply.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConsultReplyComponent implements OnInit {
+export class ConsultReplyComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject<void>();
+  room: string;
   consults: Consult[];
   consultId: string;
   doctor: Doctor;
@@ -70,6 +73,8 @@ export class ConsultReplyComponent implements OnInit {
         ).subscribe();
       }),
     ).subscribe();
+    
+    this.socketio.setupSocketConnection();
   }
 
   ngOnInit(): void {
@@ -78,6 +83,23 @@ export class ConsultReplyComponent implements OnInit {
     } else {
       this.core.setTitle('药师不能完成咨询');
     }
+
+    this.room = this.doctor?._id;
+    this.socketio.joinRoom(this.room);
+
+    this.socketio.onConsult((msg: Consult) => {
+      // filter by the doctor and pid
+      if (msg.doctor === this.doctor._id && msg.user === this.user._id) {
+        this.consults.push(msg);
+        this.scrollBottom();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
+    this.socketio.leaveRoom(this.room);
   }
 
   scrollTo(consultid: string) {
