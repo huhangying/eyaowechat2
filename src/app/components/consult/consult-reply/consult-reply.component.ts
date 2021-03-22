@@ -58,19 +58,6 @@ export class ConsultReplyComponent implements OnInit, OnDestroy {
       tap(data => {
         this.user = data.user;
         this.doctor = data.doctor;
-
-        this.consultService.getAllConsultsByGroup(this.consultId).pipe(
-          tap(results => {
-            this.consults = results;
-            if (results?.length) {
-              // check if consult finished or not.
-              const consult = results.find(_ => _._id === this.consultId && !_.parent);              
-              this.isUnfinishedConsult = consult ? !consult.finished : false;
-              this.cd.markForCheck();
-              this.scrollTo(this.consultId);
-            }
-          })
-        ).subscribe();
       }),
     ).subscribe();
     
@@ -78,11 +65,23 @@ export class ConsultReplyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.isRejected) {
-      this.core.setTitle('药师咨询回复');
-    } else {
-      this.core.setTitle('药师不能完成咨询');
-    }
+    this.consultService.getAllConsultsByGroup(this.consultId).pipe(
+      tap(results => {
+        this.consults = results;
+        if (results?.length) {
+          // check if consult finished or not.
+          const consult = results.find(_ => _._id === this.consultId && !_.parent);              
+          this.isUnfinishedConsult = consult ? !consult.finished : false;
+          this.cd.markForCheck();
+          this.scrollTo(this.consultId);
+        }
+        let title = !this.isRejected ? '药师咨询回复' : '药师不能完成咨询';
+        if (!this.isUnfinishedConsult) {
+          title += ' (已完成)'
+        }
+        this.core.setTitle(title);
+      })
+    ).subscribe();
 
     this.room = this.doctor?._id;
     this.socketio.joinRoom(this.room);

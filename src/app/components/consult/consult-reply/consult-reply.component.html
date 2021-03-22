@@ -33,9 +33,7 @@
       </ng-container>
     </div>
   </ng-container>
-  <!-- <div id="_bottom" class="position-relative pb-5">
-  </div> -->
-  <div id="_bottom" class="position-relative pb-5" [class.chat-emoji-adjust]="showEmoji"></div>
+  <div id="_bottom" class="pb-5" [class.chat-emoji-adjust]="showEmoji"></div>
 
   <ng-container *ngIf="!consults?.length">
     <div class="px-3 py-2">
@@ -44,34 +42,34 @@
   </ng-container>
 </div>
 
-<ng-container *ngIf="!isUnfinishedConsult">
-  <div class="fixed-bottom px-2 py-2">
-    <div class="d-flex">
+<div class="fixed-bottom px-2 py-2 bg-light">
+  <ng-container *ngIf="!isUnfinishedConsult">
+    <div class="d-flex pb-2">
       <div class="w-50 px-2">
-        <button type="button" class="btn btn-light btn-block" (click)="back()">
+        <button type="button" class="btn btn-outline-secondary btn-block" (click)="back()">
           返回
         </button>
       </div>
       <div class="w-50 px-2">
-        <button type="button" class="btn btn-light btn-block" (click)="goChat()">
-          在线咨询
+        <button type="button" class="btn btn-outline-secondary btn-block" (click)="goChat()">
+          免费新咨询
         </button>
       </div>
     </div>
-  </div>
-</ng-container>
-<!-- 如果存在未完成的consult，允许病患继续反馈 -->
-<ng-container *ngIf="isUnfinishedConsult">
-  <div class="fixed-bottom text-muted bg-light">
-    <div class="d-flex">
+
+  </ng-container>
+  <!-- 如果存在未完成的consult，允许病患继续反馈 -->
+  <ng-container *ngIf="isUnfinishedConsult">
+    <div class="d-flex text-muted  pb-2">
       <input matInput class="weui-input pl-2 align-self-center" autocomplete="off" placeholder="请输入..." cdkFocusInitial
         (keyup.enter)="send()" [(ngModel)]="myInput">
       <button mat-icon-button (click)="toggleEmoji()">
         <mat-icon>mood</mat-icon>
       </button>
-      <button mat-flat-button *ngIf="myInput" class="weui-btn weui-btn_mini weui-btn_primary" (click)="send()">发送</button>
+      <button mat-flat-button *ngIf="myInput" class="weui-btn weui-btn_mini weui-btn_primary"
+        (click)="send()">发送</button>
     </div>
-  
+
     <div *ngIf="showEmoji">
       <div class="qqface">
         <ng-container *ngFor="let code of qqfaces; let i=index">
@@ -83,5 +81,5 @@
         </ng-container>
       </div>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
+</div>
