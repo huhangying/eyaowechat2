@@ -15,6 +15,7 @@ import *  as qqface from 'wx-qqface';
 import { UploadService } from 'src/app/core/services/upload.service';
 import { ConsultService } from 'src/app/services/consult.service';
 import { DoctorService } from 'src/app/services/doctor.service';
+import { Consult } from 'src/app/models/consult/consult.model';
 
 @Component({
   selector: 'app-chat',
@@ -28,6 +29,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   doctor: Doctor;
   user: User;
   isCs: boolean;
+  consult: Consult;
   setCharged: boolean; // 药师设置收费flag
 
   chats: Chat[];
@@ -97,17 +99,21 @@ export class ChatComponent implements OnInit, OnDestroy {
       })
     ).subscribe();
 
-    if (!this.isCs) {
+    if (!this.isCs && this.doctor.prices?.length) {
       // get 付费咨询 flag
       this.consultService.getPendingConsultByDoctorIdAndUserId(this.doctor._id, this.user._id).pipe(
         tap(result => {
-          this.setCharged = result?.setCharged && (this.doctor.prices?.length > 0);
+          this.consult = result;
+          this.setCharged = this.consult?.setCharged;
           this.cd.markForCheck();
         }),
         takeUntil(this.destroy$),
       ).subscribe();
     }
   }
+  
+  //是否付费咨询中
+  get existsConsult() { return this.consult?.setCharged && !!this.consult.out_trade_no; }
 
   ngOnDestroy() {
     this.destroy$.next();
@@ -123,40 +129,6 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.cd.markForCheck();
     }, 200);
   }
-
-  // buildWechatObj() {
-  //   this.wxService.getSignature(this.appStore.token.openid).pipe(
-  //     tap(result => {
-  //       if (result) {
-  //         this.returnMessage = JSON.stringify(result);
-  //         this.cd.markForCheck();
-
-  //         wx.config({
-  //           debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-  //           appId: result.appid, // 必填，公众号的唯一标识
-  //           timestamp: result.timestamp, // 必填，生成签名的时间戳
-  //           nonceStr: result.nonce, // 必填，生成签名的随机串
-  //           signature: result.signature,// 必填，签名
-  //           jsApiList: ['checkJsApi'] // 必填，需要使用的JS接口列表
-  //         });
-  //         wx.ready((w) => {
-  //           // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
-  //           weui.alert('Ready:' + JSON.stringify(w));
-  //         });
-  //         wx.error(function (res) {
-  //           // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-  //           // 更新签名
-  //           // weui.alert('Error:' + JSON.stringify(res));
-  //         });
-  //       }
-  //     }),
-  //     catchError(err => {
-  //       this.errorMessage = JSON.stringify(err);
-  //       this.cd.markForCheck();
-  //       return EMPTY;
-  //     })
-  //   ).subscribe();
-  // }
 
   send(imgPath?: string) {
     this.showEmoji = false;
@@ -248,6 +220,20 @@ export class ChatComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  // 回到付费咨询
+  goBackConsult() {
+    this.router.navigate(['/consult-reply'], {
+      queryParams: {
+        doctorid: this.doctor._id,
+        openid: this.appStore.token?.openid || this.route.snapshot.queryParams?.openid,
+        state: this.appStore.hid || this.route.snapshot.queryParams?.state,
+        type: this.consult.type,
+        id: this.consult._id,
+      }
+    });
+  }
+
 
   checkConsultServiceExist(type: number) {
     return this.doctor.prices?.findIndex(_ => _.type === type) > -1;
