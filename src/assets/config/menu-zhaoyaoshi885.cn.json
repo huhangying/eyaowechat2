@@ -1,0 +1,79 @@
+{
+  "button": [
+    {
+      "name": "联系药师",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "在线咨询",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fchat-select&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "预约门诊",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fbook-select&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        }
+      ]
+    },
+    {
+      "name": "个人中心",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "我的药师团队",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fmy-doctors&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "我的预约",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fmy-reservation&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "个人中心",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fprofile&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "当前门诊",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Fcurrent-diagnose&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "今日用药提醒",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx38a428cdb5f43690&redirect_uri=http%3A%2F%2Fwww.zhaoyaoshi885.cn%2Fwechat%2Ftoday-reminder&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+        }
+      ]
+    },
+    {
+      "name": "更多",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "功能介绍",
+          "url": "http://mp.weixin.qq.com/s/Ow5uxjMKLb3fw-btga6HPQ"
+        },
+        {
+          "type": "view",
+          "name": "药学部简介",
+          "url": "http://mp.weixin.qq.com/s/Whz6TdISUxv9uc_uhjWsIQ"
+        },
+        {
+          "type": "view",
+          "name": "专科门诊介绍",
+          "url": "http://mp.weixin.qq.com/mp/homepage?__biz=MzIzNDU1MDAyNQ==&hid=3&sn=8f0163f6e78fbf121770c50ff57ee11d#wechat_redirect"
+        },
+        {
+          "type": "view",
+          "name": "党建园地",
+          "url": "http://www.zhaoyaoshi885.cn/wechat/party-news?state=1"
+        },
+        {
+          "type": "view",
+          "name": "常见问题",
+          "url": "http://www.zhaoyaoshi885.cn/wechat/faq?state=1"
+        }
+      ]
+    }
+  ]
+}
