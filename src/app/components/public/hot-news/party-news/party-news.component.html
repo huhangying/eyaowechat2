@@ -13,7 +13,10 @@
       <a [href]="item.targetUrl" class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
           <h3 class="mb-1" style="line-height: 1.3rem;">{{ item.name }}</h3>
-          <small class="text-right text-muted" style="min-width: 90px; padding-top: 1px">{{item.createdAt | localDate}}</small>
+          <small class="text-right text-muted" style="min-width: 90px; padding-top: 1px">
+            <ng-container *ngIf="item.update_time">{{item.update_time | localDate: 'wx'}}</ng-container>
+            <ng-container *ngIf="!item.update_time">{{item.createdAt | localDate}}</ng-container>
+          </small>
         </div>
         <p class="mb-1 text-muted">{{ item.title }}&nbsp;...</p>
       </a>

@@ -13,6 +13,9 @@ export class LocalDatePipe implements PipeTransform {
     if (!arg) {
       return date ? moment(date).format('LL') : '';
     }
+    if (arg === 'wx') {
+      return date ? moment.unix(date).format('LL') : '';
+    }
     if (arg === 'time') {
       return date ? moment(date).format('a h:mm'): '';
     }
@@ -32,6 +35,7 @@ export class LocalDatePipe implements PipeTransform {
     if (arg === 'age') {
       return date ? moment().diff(moment(date), 'years').toString(): '';
     }
+
   }
 
 }
