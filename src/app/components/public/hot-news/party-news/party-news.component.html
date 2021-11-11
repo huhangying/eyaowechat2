@@ -13,12 +13,17 @@
       <a [href]="item.targetUrl" class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
           <h3 class="mb-1" style="line-height: 1.3rem;">{{ item.name }}</h3>
-          <small class="text-right text-muted" style="min-width: 90px; padding-top: 1px">
-            <ng-container *ngIf="item.update_time">{{item.update_time | localDate: 'wx'}}</ng-container>
-            <ng-container *ngIf="!item.update_time">{{item.createdAt | localDate}}</ng-container>
-          </small>
+          <div class='pl-2 text-center'>
+            <div class="text-right text-muted" style="padding-top: 1px">
+              <img class="rounded" style='width: 80px'  [src]="item.title_image + '&mode=widthFix'" alt="...">
+            </div>
+            <small class="text-nowrap text-muted" style="padding-top: 2px">
+              <ng-container *ngIf="item.update_time">{{item.update_time | localDate: 'wx'}}</ng-container>
+              <ng-container *ngIf="!item.update_time">{{item.createdAt | localDate}}</ng-container>
+            </small>
+          </div>
         </div>
-        <p class="mb-1 text-muted">{{ item.title }}&nbsp;...</p>
+        <!-- <p class="mb-1 text-muted">{{ item.title }}&nbsp;...</p> -->
       </a>
     </div>
   </div>
